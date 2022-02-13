@@ -3,7 +3,7 @@ import { format, formatDistanceToNow, parseISO } from 'date-fns';
 import { Flex } from '../GlobalComponents';
 import Trash from '@geist-ui/icons/trash';
 import { useAuth } from '@/lib/auth';
-import { deleteFeedbackorSite } from '@/lib/db';
+import { deleteFeedback } from '@/lib/db';
 import { mutate } from 'swr';
 
 export const Feedback = ({
@@ -22,7 +22,7 @@ export const Feedback = ({
   const isAdmin = authorId === siteAuthorId;
   const superUser = user && user.uid === siteAuthorId;
   const onDelete = () => {
-    deleteFeedbackorSite(id,'feedback');
+    deleteFeedback(id);
     mutate(
       `${feedbackApi}`,
       async (data) => {
