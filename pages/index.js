@@ -6,8 +6,10 @@ import { styled } from '@/stitches.config';
 import { Text, Link, Code } from '@geist-ui/core';
 import Head from 'next/head';
 import Icons from '@/Icons';
+import { useAuth } from '@/lib/auth';
 
 export default function Home() {
+  const { user } = useAuth();
   return (
     <>
       <Head>
@@ -40,7 +42,13 @@ export default function Home() {
               <li>
                 Log-in using Github or Google{' '}
                 <div style={{ padding: '1rem 0' }}>
-                  <LoginButtons />
+                  {!user ? (
+                    <LoginButtons />
+                  ) : (
+                    <Text p b margin={0}>
+                      You're already logged-in!
+                    </Text>
+                  )}
                 </div>
               </li>
               <li>

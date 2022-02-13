@@ -11,7 +11,6 @@ export default function LoginButtons() {
       <Button
         loading={auth.loading}
         width='100%'
-        scale={0.75}
         type="secondary"
         icon={<Github />}
         onClick={() => auth.signinWithGithub()}
@@ -23,8 +22,6 @@ export default function LoginButtons() {
       <Button
         loading={auth.loading}
         width='100%'
-        
-        scale={0.75}
         type="secondary"
         ghost
         icon={<SiGoogle />}

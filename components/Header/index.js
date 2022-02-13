@@ -28,12 +28,16 @@ export default function Header() {
       <MenuWrapper>
         <MobileMenuItems isOpen={isOpen}>
           <Menu user={user} />
-          <NextLink href="/user/settings" passHref>
-            <MenuLink>Settings</MenuLink>
-          </NextLink>
-          <NextLink href="/">
-            <MenuLink onClick={() => signout()}>Log Out</MenuLink>
-          </NextLink>
+          {user && (
+            <>
+              <NextLink href="/user/settings" passHref>
+                <MenuLink>Settings</MenuLink>
+              </NextLink>
+              <NextLink href="/">
+                <MenuLink onClick={() => signout()}>Log Out</MenuLink>
+              </NextLink>
+            </>
+          )}
         </MobileMenuItems>
       </MenuWrapper>
     </Navbar>
