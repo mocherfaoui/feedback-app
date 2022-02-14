@@ -86,7 +86,7 @@ export default function Home() {
             <IframeResizer
               checkOrigin={false}
               title="Comments"
-              src="//localhost:3000/embed/ke1irGZRqUrgXa7eqAXL"
+              src="https://feedback-app0.vercel.app/embed/ke1irGZRqUrgXa7eqAXL"
               style={{
                 width: '1px',
                 minWidth: '100%',
