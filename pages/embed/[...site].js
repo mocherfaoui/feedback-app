@@ -8,7 +8,7 @@ import { useAuth } from '@/lib/auth';
 import { useRef } from 'react';
 import { createFeedback } from '@/lib/db';
 import { useRouter } from 'next/router';
-import useSWR, { mutate } from 'swr';
+import useSWR from 'swr';
 import fetcher from '@/utils/fetcher';
 import Head from 'next/head';
 
@@ -26,7 +26,7 @@ export default function EmbeddedPage({ feedbackPage }) {
   const { data: feedbackData, mutate } = useSWR(feedbackApi, fetcher);
   const site = siteData?.site;
   const allFeedback = feedbackData?.feedback;
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
     const newFeedback = {
       siteId,
@@ -45,15 +45,8 @@ export default function EmbeddedPage({ feedbackPage }) {
     };
     inputEl.current.value = '';
 
-    createFeedback(newFeedback);
-    newFeedback.status !== 'pending' &&
-      mutate(
-        feedbackApi,
-        async (data) => ({
-          feedback: [newFeedback, ...data.feedback],
-        }),
-        false
-      );
+    await createFeedback(newFeedback);
+    newFeedback.status !== 'pending' && await mutate();
   };
   if (!allFeedback) {
     return <SkeletonFeedback />;

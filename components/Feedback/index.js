@@ -35,17 +35,9 @@ export const Feedback = ({
   const isUser = user && user.uid === authorId;
   const isAdmin = authorId === siteAuthorId;
   const superUser = user && user.uid === siteAuthorId;
-  const onDelete = () => {
-    deleteFeedback(id);
-    mutate(
-      `${feedbackApi}`,
-      async (data) => {
-        return {
-          feedback: data.feedback.filter((feedback) => feedback.id !== id),
-        };
-      },
-      false
-    );
+  const onDelete = async () => {
+    await deleteFeedback(id);
+    await mutate();
   };
   const onUpdate = async (e) => {
     e.preventDefault();
