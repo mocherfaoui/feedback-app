@@ -7,6 +7,7 @@ import { Text, Link, Code } from '@geist-ui/core';
 import Head from 'next/head';
 import Icons from '@/Icons';
 import { useAuth } from '@/lib/auth';
+import IframeResizer from 'iframe-resizer-react';
 
 export default function Home() {
   const { user } = useAuth();
@@ -63,7 +64,7 @@ export default function Home() {
                 <br />
                 <Code block width="auto">
                   {
-                    '<iframe src="https://feedback-app0.vercel.app//embed/SITE_ID" />'
+                    '<iframe src="https://feedback-app0.vercel.app/embed/SITE_ID" />'
                   }
                 </Code>
                 <Text span>
@@ -76,6 +77,21 @@ export default function Home() {
                 </Text>
               </li>
             </ol>
+            <Text h3>Demo</Text>
+            <Text span>This is how the embed will look like.</Text>
+            <Text span>
+              Give it a try! If you have any suggestion on what should be added
+              or removed just write it away.
+            </Text>
+            <IframeResizer
+              checkOrigin={false}
+              title="Comments"
+              src="//localhost:3000/embed/ke1irGZRqUrgXa7eqAXL"
+              style={{
+                width: '1px',
+                minWidth: '100%',
+              }}
+            />
           </Flex>
         </Container>
       </Layout>

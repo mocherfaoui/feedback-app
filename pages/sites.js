@@ -43,13 +43,9 @@ function Sites() {
       url,
     };
     const { id } = createSite(newSite);
-    mutate(
-      ['/api/sites', user.token],
-      async (data) => ({
-        sites: [{ id, ...newSite }, ...data.sites],
-      }),
-      false
-    );
+    mutate(['/api/sites', user.token], async (data) => ({
+      sites: [{ id, ...newSite }, ...data.sites],
+    }));
     setToast({
       text: 'The site was added successfully',
       type: 'success',
@@ -106,7 +102,8 @@ function Sites() {
                     {...register('url', {
                       required: 'The link field is required',
                       pattern: {
-                        value: /[a-z0-9]{1,10}\.[a-z]{3,10}\.[a-z]{2,}/,
+                        value:
+                          /^[a-z]{1,10}[a-z-0-9][a-z0-9]{1,10}\.[a-z]{3,10}\.[a-z]{2,6}$/,
                         message:
                           'site url must match this pattern: www.example.com',
                       },

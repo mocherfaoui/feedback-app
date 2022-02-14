@@ -1,23 +1,37 @@
-import { Badge, Button, Card, Text, Tooltip, User } from '@geist-ui/core';
+import {
+  Badge,
+  Button,
+  Card,
+  Text,
+  User,
+  ButtonDropdown,
+  Textarea,
+} from '@geist-ui/core';
 import { format, formatDistanceToNow, parseISO } from 'date-fns';
 import { Flex } from '../GlobalComponents';
 import Trash from '@geist-ui/icons/trash';
+import Edit2 from '@geist-ui/icons/edit2';
+import MoreVertical from '@geist-ui/icons/moreVertical';
 import { useAuth } from '@/lib/auth';
-import { deleteFeedback } from '@/lib/db';
-import { mutate } from 'swr';
+import { deleteFeedback, updateFeedback } from '@/lib/db';
+import { useRef, useState } from 'react';
 
 export const Feedback = ({
   author,
   avatar,
   text,
   createdAt,
-  isLast,
+  updatedAt,
   authorId,
   siteAuthorId,
   id,
   feedbackApi,
+  mutate,
 }) => {
   const { user } = useAuth();
+  const [visible, setVisible] = useState(false);
+  const [editing, setEditing] = useState(false);
+  const inputEl = useRef();
   const isUser = user && user.uid === authorId;
   const isAdmin = authorId === siteAuthorId;
   const superUser = user && user.uid === siteAuthorId;
@@ -33,22 +47,25 @@ export const Feedback = ({
       false
     );
   };
+  const onUpdate = async (e) => {
+    e.preventDefault();
+    try {
+      const newValues = {
+        text: inputEl.current.value.replace('\n', '\n\n'),
+        updatedAt: new Date().toISOString(),
+      };
+      await updateFeedback(id, newValues);
+      await mutate();
+    } catch {
+    } finally {
+      setVisible(false);
+    }
+  };
   return (
     <>
-      <style>
-        {`
-      #feedback_del-btn-${id}{
-        opacity:0;
-      }
-      #comment_card-${id}:hover #feedback_del-btn-${id}{
-        opacity:1;
-        transition: opacity 0.5s 0s ease;
-      }
-      `}
-      </style>
-      <Card mb={0} hoverable id={`comment_card-${id}`}>
+      <Card mb={0} hoverable id={id} key={id}>
         <Flex css={{ flexDirection: 'column' }}>
-          <Flex>
+          <Flex css={{ justifyContent: 'space-between' }}>
             <User
               src={avatar}
               name={
@@ -71,28 +88,51 @@ export const Feedback = ({
                 {createdAt &&
                   formatDistanceToNow(parseISO(createdAt), { addSuffix: true })}
               </Text>
+              {updatedAt && (
+                <Text
+                  small
+                  title={
+                    updatedAt &&
+                    format(parseISO(updatedAt), "'updated at' E, PPP p O")
+                  }
+                >
+                  <sup>(updated)</sup>
+                </Text>
+              )}
             </User>
             {(isUser || superUser) && (
-              <Tooltip
-                style={{ marginLeft: 'auto' }}
-                text="Delete Feedback?"
-                hideArrow
-                placement="topEnd"
-              >
-                <Button
-                  id={`feedback_del-btn-${id}`}
-                  scale={0.75}
-                  auto
-                  type="error"
-                  icon={<Trash />}
-                  onClick={onDelete}
-                ></Button>
-              </Tooltip>
+              <ButtonDropdown scale={2 / 3} auto icon={<MoreVertical />}>
+                {isUser && (
+                  <ButtonDropdown.Item
+                    type="warning"
+                    onClick={() => setVisible(true)}
+                  >
+                    <Edit2 size={15} />
+                  </ButtonDropdown.Item>
+                )}
+                <ButtonDropdown.Item type="error" onClick={onDelete}>
+                  <Trash size={15} />
+                </ButtonDropdown.Item>
+              </ButtonDropdown>
             )}
           </Flex>
-          <Text p mb={0}>
-            {text}
-          </Text>
+          {visible ? (
+            <form onSubmit={onUpdate}>
+              <Textarea width="100%" initialValue={text} mt={1} ref={inputEl} />
+              <Flex css={{ marginTop: '1rem', gap: '1rem' }}>
+                <Button type="warning" htmlType="submit">
+                  Update
+                </Button>
+                <Button type="default" onClick={() => setVisible(false)}>
+                  Cancel
+                </Button>
+              </Flex>
+            </form>
+          ) : (
+            <Text p mb={0}>
+              {text}
+            </Text>
+          )}
         </Flex>
       </Card>
     </>

@@ -25,4 +25,7 @@ export const globalStyles = globalCss({
     flexDirection: 'column',
     minHeight: '100vh',
   },
+  iframe: {
+    border: 0,
+  },
 });

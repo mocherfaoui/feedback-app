@@ -23,7 +23,7 @@ export default function EmbeddedPage({ feedbackPage }) {
     ? `/api/feedback/${siteId}/${route}`
     : `/api/feedback/${siteId}`;
   const { data: siteData } = useSWR(`/api/site/${siteId}`, fetcher);
-  const { data: feedbackData } = useSWR(feedbackApi, fetcher);
+  const { data: feedbackData, mutate } = useSWR(feedbackApi, fetcher);
   const site = siteData?.site;
   const allFeedback = feedbackData?.feedback;
   const onSubmit = (e) => {
@@ -38,7 +38,10 @@ export default function EmbeddedPage({ feedbackPage }) {
       avatar: user.photoURL,
       text: inputEl.current.value.replace('\n', '\n\n'),
       createdAt: new Date().toISOString(),
-      status: user.uid === site.authorId ? 'active' : 'pending',
+      status:
+        user.uid === site.authorId || siteId === 'ke1irGZRqUrgXa7eqAXL'
+          ? 'active'
+          : 'pending',
     };
     inputEl.current.value = '';
 
@@ -55,15 +58,16 @@ export default function EmbeddedPage({ feedbackPage }) {
   if (!allFeedback) {
     return <SkeletonFeedback />;
   }
-  console.log(site?.length);
   return (
     <>
       <Head>
         <title>
-          {site?.length!==0 ? site && site.name + ' Feedbacks' : '404 Not Found'}
+          {site?.length !== 0
+            ? site && site.name + ' Feedbacks'
+            : '404 Not Found'}
         </title>
       </Head>
-      {site?.length===0 ? (
+      {site?.length === 0 ? (
         <Text h3>This website was not found. Please reverify the ID.</Text>
       ) : (
         <Card>
@@ -86,7 +90,9 @@ export default function EmbeddedPage({ feedbackPage }) {
                       <Text span ml={1}>
                         Logged-in as{' '}
                         <Link underline href="/user/settings" target="_blank">
-                          {user?.name}
+                          <Text b span>
+                            {user?.name}
+                          </Text>
                         </Link>
                       </Text>
                     )}
@@ -105,11 +111,12 @@ export default function EmbeddedPage({ feedbackPage }) {
                   key={_feedback.id}
                   {..._feedback}
                   feedbackApi={feedbackApi}
+                  mutate={mutate}
                 />
               ))}
             </Flex>
           ) : (
-            <Text h5 margin={0} mt={1} style={{ textAlign: 'center' }}>
+            <Text h5 margin={0} mt={2} style={{ textAlign: 'center' }}>
               There are no feedbacks for this website.
               <br />
               Be the first to add one!

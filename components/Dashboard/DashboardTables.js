@@ -1,8 +1,17 @@
 import { useAuth } from '@/lib/auth';
-import { Table, Text, Popover, Toggle, Tag, Code } from '@geist-ui/core';
+import {
+  Table,
+  Text,
+  Popover,
+  Toggle,
+  Code,
+  Dot,
+  Button,
+} from '@geist-ui/core';
+import Check from '@geist-ui/icons/check'
 import { format, parseISO } from 'date-fns';
 import { FBActionsArea, STActionsArea } from '../ActionsArea';
-import { updateFeedback } from '@/lib/db';
+import { updateFeedbackStatus } from '@/lib/db';
 import { mutate } from 'swr';
 
 export function SitesDashboard({ sites }) {
@@ -29,7 +38,7 @@ export function FeedbackDashboard({ feedback }) {
   const toggleButton = (rowData, rowIndex) => {
     const isChecked = rowData === 'active';
     const toggleFeedback = async () => {
-      await updateFeedback(rowIndex.id, {
+      await updateFeedbackStatus(rowIndex.id, {
         status: isChecked ? 'pending' : 'active',
       });
       mutate(['/api/feedback', auth.user.token]);
@@ -42,6 +51,7 @@ export function FeedbackDashboard({ feedback }) {
     const type = rowData === 'pending' ? 'warning' : 'success';
     return (
       <>
+        <Dot type={type}>{rowData}</Dot>
         {!(auth.user.uid !== rowIndex.siteAuthorId) ? (
           <Popover
             content={!isChecked && popOver}
@@ -49,18 +59,10 @@ export function FeedbackDashboard({ feedback }) {
             placement="top"
           >
             {rowData === 'pending' && (
-              <Toggle
-                onChange={toggleFeedback}
-                checked={isChecked}
-                disabled={isChecked}
-                mr={1}
-              />
+              <Button type='success' onClick={toggleFeedback} ml={1} auto icon={<Check/>}></Button>
             )}
           </Popover>
         ) : null}
-        <Tag type={type} invert>
-          {rowData}
-        </Tag>
       </>
     );
   };
