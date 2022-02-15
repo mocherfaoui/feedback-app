@@ -1,6 +1,8 @@
-import { Card } from '@geist-ui/core';
 import Skeleton from 'react-loading-skeleton';
+import { Card } from '@geist-ui/core';
+
 import 'react-loading-skeleton/dist/skeleton.css';
+
 import { Flex } from '../GlobalComponents';
 
 export default function SkeletonFeedback() {

@@ -1,13 +1,16 @@
+import { Display } from '@geist-ui/core';
+import useSWR from 'swr';
+
+import { useAuth } from '@/lib/auth';
+import { withProtected } from '@/hooks/routes';
+
 import DashboardShell from '@/components/Dashboard/DashboardShell';
 import { FeedbackDashboard } from '@/components/Dashboard/DashboardTables';
 import { FeedbackEmptyState } from '@/components/EmptyState';
 import Layout from '@/components/Layout';
 import { SkeletonTable } from '@/components/SkeletonElements';
-import { withProtected } from '@/hooks/routes';
-import { useAuth } from '@/lib/auth';
+
 import fetcher from '@/utils/fetcher';
-import { Display } from '@geist-ui/core';
-import useSWR from 'swr';
 
 function FeedbackPage() {
   const { user } = useAuth();

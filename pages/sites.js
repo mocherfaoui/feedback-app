@@ -1,10 +1,4 @@
-import { useAuth } from '@/lib/auth';
-import Layout from '@/components/Layout';
-import { SitesEmptyState } from '@/components/EmptyState';
-import useSWR, { mutate } from 'swr';
-import fetcher from '@/utils/fetcher';
-import DashboardShell from '@/components/Dashboard/DashboardShell';
-import { SkeletonTable } from '@/components/SkeletonElements';
+import { useForm } from 'react-hook-form';
 import {
   Display,
   Input,
@@ -14,13 +8,22 @@ import {
   useModal,
   useToasts,
 } from '@geist-ui/core';
-import { useForm } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
+import useSWR, { mutate } from 'swr';
+
+import { useAuth } from '@/lib/auth';
 import { createSite } from '@/lib/db';
-import { SitesDashboard } from '@/components/Dashboard/DashboardTables';
-import { styled } from '@/stitches.config';
-import { FormError } from '@/components/GlobalComponents';
 import { withProtected } from '@/hooks/routes';
+
+import DashboardShell from '@/components/Dashboard/DashboardShell';
+import { SitesDashboard } from '@/components/Dashboard/DashboardTables';
+import { SitesEmptyState } from '@/components/EmptyState';
+import { FormError } from '@/components/GlobalComponents';
+import Layout from '@/components/Layout';
+import { SkeletonTable } from '@/components/SkeletonElements';
+
+import { styled } from '@/stitches.config';
+import fetcher from '@/utils/fetcher';
 
 function Sites() {
   const { user } = useAuth();

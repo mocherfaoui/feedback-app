@@ -1,9 +1,11 @@
-import { Container, Flex } from '@/components/GlobalComponents';
-import { Avatar, Text, Grid, Toggle, Note } from '@geist-ui/core';
-import Layout from '@/components/Layout';
-import { useAuth } from '@/lib/auth';
 import Head from 'next/head';
+import { Avatar, Grid, Note,Text, Toggle } from '@geist-ui/core';
+
+import { useAuth } from '@/lib/auth';
 import { withProtected } from '@/hooks/routes';
+
+import { Container, Flex } from '@/components/GlobalComponents';
+import Layout from '@/components/Layout';
 
 function UserSettings() {
   const { user, loading, linkOrUnlinkGoogle, linkOrUnlinkGithub } = useAuth();

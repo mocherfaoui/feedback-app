@@ -1,6 +1,7 @@
 import { Link, Text } from '@geist-ui/core';
-import { Container, Flex } from '../GlobalComponents';
+
 import { FooterContainer } from './FooterStyles';
+import { Container, Flex } from '../GlobalComponents';
 
 export default function Footer() {
   return (

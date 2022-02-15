@@ -1,7 +1,8 @@
-import { Flex } from './components/GlobalComponents';
 import { IconContext } from 'react-icons/lib';
-import { SiNextdotjs, SiFirebase, SiReact, SiVercel } from 'react-icons/si';
-import { styled } from './stitches.config';
+import { SiFirebase, SiNextdotjs, SiReact, SiVercel } from 'react-icons/si';
+
+import { Flex } from './GlobalComponents';
+import { styled } from '../stitches.config';
 
 export default function Icons() {
   return (

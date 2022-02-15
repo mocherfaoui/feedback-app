@@ -1,5 +1,6 @@
-import { styled } from '@/stitches.config';
 import { Note } from '@geist-ui/core';
+
+import { styled } from '@/stitches.config';
 
 export const Container = styled('div', {
   maxWidth: '56rem',

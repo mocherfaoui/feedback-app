@@ -1,18 +1,20 @@
-import {
-  MenuLink,
-  Navbar,
-  MenuWrapper,
-  DesktopMenuItems,
-  MobileMenuItems,
-} from './HeaderStyle';
-import { Avatar, Link, Popover } from '@geist-ui/core';
-import { Container, Flex } from '../GlobalComponents';
-import NextLink from 'next/link';
-import { useAuth } from '@/lib/auth';
-import Settings from '@geist-ui/icons/settings';
-import LogOut from '@geist-ui/icons/logOut';
-import { Cross as Hamburger } from 'hamburger-react';
 import { useState } from 'react';
+import NextLink from 'next/link';
+import { Avatar, Link, Popover } from '@geist-ui/core';
+import LogOut from '@geist-ui/icons/logOut';
+import Settings from '@geist-ui/icons/settings';
+import { Cross as Hamburger } from 'hamburger-react';
+
+import { useAuth } from '@/lib/auth';
+
+import {
+  DesktopMenuItems,
+  MenuLink,
+  MenuWrapper,
+  MobileMenuItems,
+  Navbar,
+} from './HeaderStyle';
+import { Container, Flex } from '../GlobalComponents';
 
 export default function Header() {
   const { user, signout } = useAuth();

@@ -1,5 +1,6 @@
-import Layout from '@/components/Layout';
 import { Container } from '@/components/GlobalComponents';
+import Layout from '@/components/Layout';
+
 import EmbeddedPage from '../embed/[...site]';
 
 export default function FeedbackPage() {

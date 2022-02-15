@@ -1,4 +1,5 @@
 import { getSite } from '@/lib/db-admin';
+
 export default async function handler(req, res){
   try {
     const { siteId } = req.query;

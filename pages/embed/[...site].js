@@ -1,16 +1,19 @@
-import { Feedback } from '@/components/Feedback';
-import { Text, Card, Textarea, Button, Spacer, Link } from '@geist-ui/core';
+import { useRef } from 'react';
+import Head from 'next/head';
+import { useRouter } from 'next/router';
+import { Button, Card, Link,Spacer, Text, Textarea } from '@geist-ui/core';
+import useSWR from 'swr';
 import 'iframe-resizer/js/iframeResizer.contentWindow';
+
+import { useAuth } from '@/lib/auth';
+import { createFeedback } from '@/lib/db';
+
+import { Feedback } from '@/components/Feedback';
 import { Flex } from '@/components/GlobalComponents';
 import LoginButtons from '@/components/LoginButtons';
 import SkeletonFeedback from '@/components/SkeletonElements/SkeletonFeedback';
-import { useAuth } from '@/lib/auth';
-import { useRef } from 'react';
-import { createFeedback } from '@/lib/db';
-import { useRouter } from 'next/router';
-import useSWR from 'swr';
+
 import fetcher from '@/utils/fetcher';
-import Head from 'next/head';
 
 export default function EmbeddedPage({ feedbackPage }) {
   const { user, loading } = useAuth();

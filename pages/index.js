@@ -1,13 +1,16 @@
-import { Container, Flex } from '@/components/GlobalComponents';
+import Head from 'next/head';
 import NextLink from 'next/link';
+import { Code,Link, Text } from '@geist-ui/core';
+import IframeResizer from 'iframe-resizer-react';
+
+import { useAuth } from '@/lib/auth';
+
+import { Container, Flex } from '@/components/GlobalComponents';
+import Icons from '@/components/Icons';
 import Layout from '@/components/Layout';
 import LoginButtons from '@/components/LoginButtons';
+
 import { styled } from '@/stitches.config';
-import { Text, Link, Code } from '@geist-ui/core';
-import Head from 'next/head';
-import Icons from '@/Icons';
-import { useAuth } from '@/lib/auth';
-import IframeResizer from 'iframe-resizer-react';
 
 export default function Home() {
   const { user } = useAuth();

@@ -1,6 +1,8 @@
 import Skeleton from 'react-loading-skeleton';
-import 'react-loading-skeleton/dist/skeleton.css';
 import { Card } from '@geist-ui/core';
+
+import 'react-loading-skeleton/dist/skeleton.css';
+
 import { Flex } from '../GlobalComponents';
 
 const SkeletonRow = ({ width }) => (

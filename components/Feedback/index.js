@@ -1,20 +1,22 @@
+import { useRef, useState } from 'react';
 import {
   Badge,
   Button,
+  ButtonDropdown,
   Card,
   Text,
-  User,
-  ButtonDropdown,
   Textarea,
+  User,
 } from '@geist-ui/core';
-import { format, formatDistanceToNow, parseISO } from 'date-fns';
-import { Flex } from '../GlobalComponents';
-import Trash from '@geist-ui/icons/trash';
 import Edit2 from '@geist-ui/icons/edit2';
 import MoreVertical from '@geist-ui/icons/moreVertical';
+import Trash from '@geist-ui/icons/trash';
+import { format, formatDistanceToNow, parseISO } from 'date-fns';
+
 import { useAuth } from '@/lib/auth';
 import { deleteFeedback, updateFeedback } from '@/lib/db';
-import { useRef, useState } from 'react';
+
+import { Flex } from '../GlobalComponents';
 
 export const Feedback = ({
   author,

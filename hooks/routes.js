@@ -1,7 +1,8 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { useAuth } from '@/lib/auth';
 import Cookies from 'js-cookie';
+
+import { useAuth } from '@/lib/auth';
 
 export function withPublic(Component) {
   return function WithPublic(props) {

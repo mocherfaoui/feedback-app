@@ -1,6 +1,7 @@
-import { Button, Card, Link, Text } from '@geist-ui/core';
-import { Flex } from '../GlobalComponents';
 import NextLink from 'next/link';
+import { Button, Card, Link, Text } from '@geist-ui/core';
+
+import { Flex } from '../GlobalComponents';
 
 export function SitesEmptyState({ visible }) {
   return (

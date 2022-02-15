@@ -1,7 +1,8 @@
 import Head from 'next/head';
+import { Code, Link, Note,Text } from '@geist-ui/core';
+
 import { Container } from '@/components/GlobalComponents';
 import Layout from '@/components/Layout';
-import { Code, Text, Link, Note } from '@geist-ui/core';
 
 export default function DocsPage() {
   return (

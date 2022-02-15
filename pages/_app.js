@@ -1,7 +1,10 @@
 import { CssBaseline, GeistProvider } from '@geist-ui/core';
-import { AuthProvider } from '../lib/auth';
+
 import 'inter-ui/inter.css';
+
 import { globalStyles } from '@/stitches.config';
+
+import { AuthProvider } from '../lib/auth';
 
 function MyApp({ Component, pageProps }) {
   globalStyles();

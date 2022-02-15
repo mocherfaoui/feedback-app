@@ -1,6 +1,7 @@
 import Head from 'next/head';
-import { Container, Flex } from '@/components/GlobalComponents';
 import { Button, Text } from '@geist-ui/core';
+
+import { Container, Flex } from '@/components/GlobalComponents';
 
 export default function DashboardShell({ children, pageName, visible }) {
   return (

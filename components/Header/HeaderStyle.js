@@ -1,5 +1,6 @@
-import { styled } from '@/stitches.config';
 import { Link } from '@geist-ui/core';
+
+import { styled } from '@/stitches.config';
 
 export const Navbar = styled('header', {
   display: 'block',

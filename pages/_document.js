@@ -1,5 +1,6 @@
-import Document, { Html, Head, Main, NextScript } from 'next/document';
+import Document, { Head, Html, Main, NextScript } from 'next/document';
 import { CssBaseline } from '@geist-ui/core';
+
 import { getCssText } from '../stitches.config.js';
 
 class MyDocument extends Document {

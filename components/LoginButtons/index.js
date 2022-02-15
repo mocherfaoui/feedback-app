@@ -1,6 +1,7 @@
+import { SiGoogle } from 'react-icons/si';
 import { Button, Grid } from '@geist-ui/core';
 import Github from '@geist-ui/icons/github';
-import { SiGoogle } from 'react-icons/si';
+
 import { useAuth } from '@/lib/auth';
 
 export default function LoginButtons() {

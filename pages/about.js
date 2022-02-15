@@ -1,8 +1,9 @@
 import Head from 'next/head';
-import { Container } from '@/components/GlobalComponents';
-import Layout from '@/components/Layout';
-import Icons from '@/Icons';
 import { Text } from '@geist-ui/core';
+
+import { Container } from '@/components/GlobalComponents';
+import Icons from '@/components/Icons';
+import Layout from '@/components/Layout';
 
 export default function AboutPage() {
   return (
