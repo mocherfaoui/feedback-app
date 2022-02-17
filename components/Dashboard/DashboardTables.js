@@ -24,8 +24,8 @@ export function SitesDashboard({ sites }) {
     </Table>
   );
 }
-export function FeedbackDashboard({ feedback}) {
-  const ActionsArea = (rowData,rowIndex) => {
+export function FeedbackDashboard({ feedback }) {
+  const ActionsArea = (rowData, rowIndex) => {
     return <FBActionsArea feedbackId={rowData} rowIndex={rowIndex} />;
   };
   const auth = useAuth();
@@ -76,17 +76,29 @@ export function FeedbackDashboard({ feedback}) {
     return <Text b>{rowData}</Text>;
   };
   return (
-    <Table data={feedback} emptyText="N/A">
-      <Table.Column prop="author" label="author" render={renderAuthor} />
-      <Table.Column prop="text" label="feedback" />
-      <Table.Column prop="siteURL" label="site name" render={renderURL} />
-      <Table.Column prop="route" label="route" render={renderRoute} />
-      <Table.Column
-        prop="status"
-        render={toggleButton}
-        label="Feedback Status"
-      />
-      <Table.Column prop="id" render={ActionsArea} label="actions" />
-    </Table>
+    <>
+      <style>{`
+    .no-wrap .cell{
+      flex-flow:row nowrap!important;
+    }
+    `}</style>
+      <Table data={feedback} emptyText="N/A">
+        <Table.Column prop="author" label="author" render={renderAuthor} />
+        <Table.Column prop="text" label="feedback" />
+        <Table.Column prop="siteURL" label="site name" render={renderURL} />
+        <Table.Column prop="route" label="route" render={renderRoute} />
+        <Table.Column
+          prop="status"
+          render={toggleButton}
+          label="Feedback Status"
+        />
+        <Table.Column
+          prop="id"
+          render={ActionsArea}
+          label="actions"
+          className="no-wrap"
+        />
+      </Table>
+    </>
   );
 }

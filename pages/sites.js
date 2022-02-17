@@ -9,7 +9,7 @@ import {
   useToasts,
 } from '@geist-ui/core';
 import { ErrorMessage } from '@hookform/error-message';
-import useSWR, { mutate } from 'swr';
+import useSWR from 'swr';
 
 import { useAuth } from '@/lib/auth';
 import { createSite } from '@/lib/db';
@@ -27,7 +27,10 @@ import fetcher from '@/utils/fetcher';
 
 function Sites() {
   const { user } = useAuth();
-  const { data } = useSWR(user ? ['/api/sites', user.token] : null, fetcher);
+  const { data, mutate } = useSWR(
+    user ? ['/api/sites', user.token] : null,
+    fetcher
+  );
   const sites = data?.sites;
   const { setVisible, bindings } = useModal();
   const {
@@ -38,21 +41,20 @@ function Sites() {
   } = useForm();
   const { setToast } = useToasts();
 
-  const onCreateSite = ({ name, url }) => {
+  const onCreateSite = async ({ name, url }) => {
     const newSite = {
       authorId: user.uid,
       createdAt: new Date().toISOString(),
       name,
       url,
     };
-    const { id } = createSite(newSite);
-    mutate(['/api/sites', user.token], async (data) => ({
-      sites: [{ id, ...newSite }, ...data.sites],
-    }));
+    await createSite(newSite);
+    await mutate();
     setToast({
       text: 'The site was added successfully',
       type: 'success',
     });
+    setVisible(false);
     reset({ name: '', url: '' });
   };
   return (

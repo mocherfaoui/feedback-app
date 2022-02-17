@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import NextLink from 'next/link';
-import { Code,Link, Text } from '@geist-ui/core';
+import { Code, Link, Text } from '@geist-ui/core';
 import IframeResizer from 'iframe-resizer-react';
 
 import { useAuth } from '@/lib/auth';
@@ -14,6 +14,10 @@ import { styled } from '@/stitches.config';
 
 export default function Home() {
   const { user } = useAuth();
+  const HOST =
+    process.env.NODE_ENV === 'development'
+      ? ''
+      : 'https://feedback-app0.vercel.app';
   return (
     <>
       <Head>
@@ -58,7 +62,9 @@ export default function Home() {
               <li>
                 Add a site{' '}
                 <NextLink href="/sites" passHref>
-                  <Link underline color>here</Link>
+                  <Link underline color>
+                    here
+                  </Link>
                 </NextLink>{' '}
                 and get your site ID
               </li>
@@ -74,7 +80,9 @@ export default function Home() {
                   If you want to add the iframe to multiple routes or make it
                   resizable see the full docs{' '}
                   <NextLink href="/docs" passHref>
-                    <Link underline color>here</Link>
+                    <Link underline color>
+                      here
+                    </Link>
                   </NextLink>
                   .
                 </Text>
@@ -89,7 +97,7 @@ export default function Home() {
             <IframeResizer
               checkOrigin={false}
               title="Comments"
-              src="https://feedback-app0.vercel.app/embed/ke1irGZRqUrgXa7eqAXL"
+              src={`${HOST}/embed/ke1irGZRqUrgXa7eqAXL`}
               style={{
                 width: '1px',
                 minWidth: '100%',

@@ -4,6 +4,7 @@ import {
   Button,
   ButtonDropdown,
   Card,
+  Rating,
   Text,
   Textarea,
   User,
@@ -24,15 +25,14 @@ export const Feedback = ({
   text,
   createdAt,
   updatedAt,
+  rating,
   authorId,
   siteAuthorId,
   id,
-  feedbackApi,
   mutate,
 }) => {
   const { user } = useAuth();
   const [visible, setVisible] = useState(false);
-  const [editing, setEditing] = useState(false);
   const inputEl = useRef();
   const isUser = user && user.uid === authorId;
   const isAdmin = authorId === siteAuthorId;
@@ -61,6 +61,7 @@ export const Feedback = ({
         <Flex css={{ flexDirection: 'column' }}>
           <Flex css={{ justifyContent: 'space-between' }}>
             <User
+              className="w-100"
               src={avatar}
               name={
                 <Flex css={{ display: 'flex', alignItems: 'center' }}>
@@ -70,6 +71,14 @@ export const Feedback = ({
                       Owner
                     </Badge>
                   )}
+                  {rating &&
+                    <>
+                      <Text span px={0.5}>
+                        &bull;
+                      </Text>
+                      <Rating locked value={rating}/>
+                    </>
+                  }
                 </Flex>
               }
               px={0}
@@ -87,7 +96,8 @@ export const Feedback = ({
                   small
                   title={updatedAt && format(parseISO(updatedAt), 'E, PPP p O')}
                 >
-                  {' '}&bull; updated {' '}
+                  {' '}
+                  &bull; updated{' '}
                   {formatDistanceToNow(parseISO(createdAt), {
                     addSuffix: true,
                   })}
@@ -95,7 +105,12 @@ export const Feedback = ({
               )}
             </User>
             {(isUser || superUser) && (
-              <ButtonDropdown scale={2 / 3} auto icon={<MoreVertical />}>
+              <ButtonDropdown
+                scale={2 / 3}
+                auto
+                icon={<MoreVertical />}
+                style={{ height: 'max-content' }}
+              >
                 {isUser && (
                   <ButtonDropdown.Item
                     type="warning"

@@ -34,7 +34,7 @@ export function FBActionsArea({ feedbackId, rowIndex }) {
         as={`/site/${rowIndex.siteId}#${feedbackId}`}
         passHref
       >
-        <Link color block mr="1rem" padding=".5rem" target="_blank" icon>
+        <Link color block mr="1rem" target="_blank" icon>
           View Feedback
         </Link>
       </NextLink>

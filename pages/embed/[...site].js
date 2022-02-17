@@ -1,7 +1,15 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
-import { Button, Card, Link,Spacer, Text, Textarea } from '@geist-ui/core';
+import {
+  Button,
+  Card,
+  Link,
+  Rating,
+  Spacer,
+  Text,
+  Textarea,
+} from '@geist-ui/core';
 import useSWR from 'swr';
 import 'iframe-resizer/js/iframeResizer.contentWindow';
 
@@ -29,6 +37,8 @@ export default function EmbeddedPage({ feedbackPage }) {
   const { data: feedbackData, mutate } = useSWR(feedbackApi, fetcher);
   const site = siteData?.site;
   const allFeedback = feedbackData?.feedback;
+  const [, setLocked] = useState(false);
+  const [value, setValue] = useState(null);
   const onSubmit = async (e) => {
     e.preventDefault();
     const newFeedback = {
@@ -40,6 +50,7 @@ export default function EmbeddedPage({ feedbackPage }) {
       authorId: user.uid,
       avatar: user.photoURL,
       text: inputEl.current.value.replace('\n', '\n\n'),
+      rating: value,
       createdAt: new Date().toISOString(),
       status:
         user.uid === site.authorId || siteId === 'ke1irGZRqUrgXa7eqAXL'
@@ -47,9 +58,9 @@ export default function EmbeddedPage({ feedbackPage }) {
           : 'pending',
     };
     inputEl.current.value = '';
-
+    setValue(null);
     await createFeedback(newFeedback);
-    newFeedback.status !== 'pending' && await mutate();
+    newFeedback.status !== 'pending' && (await mutate());
   };
   if (!allFeedback) {
     return <SkeletonFeedback />;
@@ -82,15 +93,29 @@ export default function EmbeddedPage({ feedbackPage }) {
                     <Button scale={0.75} htmlType="submit" type="secondary">
                       Add Feedback
                     </Button>
+                    <Text ml={1} span>
+                      Your Rating:
+                    </Text>
+                    <Rating
+                      ml={1}
+                      value={value}
+                      onLockedChange={setLocked}
+                      onValueChange={setValue}
+                    />
                     {!feedbackPage && (
-                      <Text span ml={1}>
-                        Logged-in as{' '}
-                        <Link underline href="/user/settings" target="_blank">
-                          <Text b span>
-                            {user?.name}
-                          </Text>
-                        </Link>
-                      </Text>
+                      <>
+                        <Text span px={.7}>
+                          &bull;
+                        </Text>
+                        <Text span>
+                          Logged-in as{' '}
+                          <Link underline href="/user/settings" target="_blank">
+                            <Text b span>
+                              {user?.name}
+                            </Text>
+                          </Link>
+                        </Text>
+                      </>
                     )}
                   </Flex>
                 ) : (
@@ -102,6 +127,11 @@ export default function EmbeddedPage({ feedbackPage }) {
           }
           {allFeedback?.length ? (
             <Flex css={{ flexDirection: 'column', gap: '1rem' }}>
+              <style>{`
+                .user.w-100 .names .name{
+                  max-width:100%!important;
+                }
+                `}</style>
               {allFeedback.map((_feedback) => (
                 <Feedback
                   key={_feedback.id}
@@ -113,7 +143,7 @@ export default function EmbeddedPage({ feedbackPage }) {
             </Flex>
           ) : (
             <Text h5 margin={0} mt={2} style={{ textAlign: 'center' }}>
-              There are no feedbacks for this website.
+              There are no feedbacks to show.
               <br />
               Be the first to add one!
             </Text>
