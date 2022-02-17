@@ -4,12 +4,13 @@ import { useRouter } from 'next/router';
 import {
   Button,
   Card,
+  Grid,
   Link,
   Rating,
   Spacer,
   Text,
   Textarea,
-} from '@geist-ui/core';
+ useMediaQuery } from '@geist-ui/core';
 import useSWR from 'swr';
 import 'iframe-resizer/js/iframeResizer.contentWindow';
 
@@ -39,6 +40,7 @@ export default function EmbeddedPage({ feedbackPage }) {
   const allFeedback = feedbackData?.feedback;
   const [, setLocked] = useState(false);
   const [value, setValue] = useState(null);
+  const isXS = useMediaQuery('xs')
   const onSubmit = async (e) => {
     e.preventDefault();
     const newFeedback = {
@@ -90,33 +92,48 @@ export default function EmbeddedPage({ feedbackPage }) {
                 />
                 {user ? (
                   <Flex css={{ alignItems: 'center' }}>
-                    <Button scale={0.75} htmlType="submit" type="secondary">
-                      Add Feedback
-                    </Button>
-                    <Text ml={1} span>
-                      Your Rating:
-                    </Text>
-                    <Rating
-                      ml={1}
-                      value={value}
-                      onLockedChange={setLocked}
-                      onValueChange={setValue}
-                    />
-                    {!feedbackPage && (
-                      <>
-                        <Text span px={.7}>
-                          &bull;
-                        </Text>
-                        <Text span>
-                          Logged-in as{' '}
-                          <Link underline href="/user/settings" target="_blank">
-                            <Text b span>
-                              {user?.name}
+                    <Grid.Container direction="row" alignItems="center">
+                      <Grid xs={9} sm={4}>
+                        <Button
+                          auto
+                          scale={0.75}
+                          htmlType="submit"
+                          type="secondary"
+                        >
+                          Add Feedback
+                        </Button>
+                      </Grid>
+                      <Grid ml={1} xs={13} sm={5.5} font="1rem">
+                        <Text span>Rate:</Text>
+                        <Rating
+                          ml={0.5}
+                          value={value}
+                          onLockedChange={setLocked}
+                          onValueChange={setValue}
+                        />
+                      </Grid>
+                      {!feedbackPage && (
+                        <Grid xs sm ml='auto' pt={isXS && 1}>
+                          <Grid xs={0} sm={2}>
+                            <Text span px={0.7}>
+                              &bull;
                             </Text>
-                          </Link>
-                        </Text>
-                      </>
-                    )}
+                          </Grid>
+                          <Text span>
+                            Logged-in as{' '}
+                            <Link
+                              underline
+                              href="/user/settings"
+                              target="_blank"
+                            >
+                              <Text b span>
+                                {user?.name}
+                              </Text>
+                            </Link>
+                          </Text>
+                        </Grid>
+                      )}
+                    </Grid.Container>
                   </Flex>
                 ) : (
                   <LoginButtons />

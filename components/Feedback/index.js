@@ -1,10 +1,10 @@
 import { useRef, useState } from 'react';
+import { AiFillStar } from 'react-icons/ai';
 import {
   Badge,
   Button,
   ButtonDropdown,
   Card,
-  Rating,
   Text,
   Textarea,
   User,
@@ -71,14 +71,16 @@ export const Feedback = ({
                       Owner
                     </Badge>
                   )}
-                  {rating &&
+                  {rating && (
                     <>
                       <Text span px={0.5}>
                         &bull;
                       </Text>
-                      <Rating locked value={rating}/>
+                      <Text span style={{display:'flex',gap:'.3rem',alignItems:'center'}}>
+                        {rating}/5 <AiFillStar size='1.3rem'/>
+                      </Text>
                     </>
-                  }
+                  )}
                 </Flex>
               }
               px={0}
@@ -93,12 +95,13 @@ export const Feedback = ({
               </Text>
               {updatedAt && (
                 <Text
+                  type="secondary"
                   small
                   title={updatedAt && format(parseISO(updatedAt), 'E, PPP p O')}
                 >
                   {' '}
                   &bull; updated{' '}
-                  {formatDistanceToNow(parseISO(createdAt), {
+                  {formatDistanceToNow(parseISO(updatedAt), {
                     addSuffix: true,
                   })}
                 </Text>
