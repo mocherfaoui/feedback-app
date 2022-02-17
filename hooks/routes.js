@@ -1,8 +1,13 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect } from 'react';
+import Head from 'next/head';
 import { useRouter } from 'next/router';
+import { Loading } from '@geist-ui/core';
 import Cookies from 'js-cookie';
 
 import { useAuth } from '@/lib/auth';
+
+import { Flex } from '@/components/GlobalComponents';
 
 export function withPublic(Component) {
   return function WithPublic(props) {
@@ -36,7 +41,16 @@ export function withProtected(Component) {
     }, [cookie]);
 
     if (!auth.user) {
-      return null;
+      return (
+        <>
+          <Head>
+            <title>redirecting...</title>
+          </Head>
+          <Flex css={{ height: '100vh' }}>
+            <Loading>Redirecting</Loading>
+          </Flex>
+        </>
+      );
     }
     return <Component cookie={cookie} {...props} />;
   };

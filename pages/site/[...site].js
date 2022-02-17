@@ -6,8 +6,8 @@ import EmbeddedPage from '../embed/[...site]';
 export default function FeedbackPage() {
   return (
     <Layout>
-      <Container css={{marginTop:'1rem'}}>
-        <EmbeddedPage feedbackPage/>
+      <Container css={{ marginTop: '1rem' }}>
+        <EmbeddedPage feedbackPage />
       </Container>
     </Layout>
   );
