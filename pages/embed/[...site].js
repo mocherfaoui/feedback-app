@@ -16,7 +16,7 @@ import SkeletonFeedback from '@/components/SkeletonElements/SkeletonFeedback';
 import fetcher from '@/utils/fetcher';
 
 export default function EmbeddedPage({ feedbackPage }) {
-  const { user, loading } = useAuth();
+  const { user } = useAuth();
   const inputEl = useRef();
   const router = useRouter();
   const siteAndRoute = router.query?.site;

@@ -1,5 +1,5 @@
 import NextLink from 'next/link';
-import { Button, Link, Snippet,Tooltip, useToasts } from '@geist-ui/core';
+import { Button, Link, Snippet, Tooltip, useToasts } from '@geist-ui/core';
 import Trash from '@geist-ui/icons/trash';
 import { mutate } from 'swr';
 
@@ -16,14 +16,28 @@ export function STActionsArea({ siteId }) {
           View Feedbacks
         </Link>
       </NextLink>
-      <Snippet symbol="" text={`${siteId}`} type="lite" />
+      <Snippet
+        symbol=""
+        text={`${siteId}`}
+        type="lite"
+        toastText="Site ID copied to clipboard!"
+      />
       <DeleteButton siteId={siteId} name="site" />
     </Flex>
   );
 }
-export function FBActionsArea({ feedbackId }) {
+export function FBActionsArea({ feedbackId, rowIndex }) {
   return (
     <>
+      <NextLink
+        href="/site/[rowIndex.siteId]#[feedbackId]"
+        as={`/site/${rowIndex.siteId}#${feedbackId}`}
+        passHref
+      >
+        <Link color block mr="1rem" padding=".5rem" target="_blank" icon>
+          View Feedback
+        </Link>
+      </NextLink>
       <DeleteButton feedbackId={feedbackId} name="feedback" />
     </>
   );
@@ -60,12 +74,7 @@ function DeleteButton({ siteId, feedbackId, name }) {
   return (
     <>
       <Tooltip text={`Delete ${name}?`} hideArrow placement="top">
-        <Button
-          auto
-          type="error"
-          icon={<Trash />}
-          onClick={onDelete}
-        ></Button>
+        <Button auto type="error" icon={<Trash />} onClick={onDelete}></Button>
       </Tooltip>
     </>
   );

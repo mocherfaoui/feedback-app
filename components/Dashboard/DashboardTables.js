@@ -1,13 +1,5 @@
-import {
-  Button,
-  Code,
-  Dot,
-  Popover,
-  Table,
-  Text,
-  Toggle,
-} from '@geist-ui/core';
-import Check from '@geist-ui/icons/check'
+import { Button, Code, Dot, Link, Popover, Table, Text } from '@geist-ui/core';
+import Check from '@geist-ui/icons/check';
 import { format, parseISO } from 'date-fns';
 import { mutate } from 'swr';
 
@@ -32,9 +24,9 @@ export function SitesDashboard({ sites }) {
     </Table>
   );
 }
-export function FeedbackDashboard({ feedback }) {
-  const ActionsArea = (rowData) => {
-    return <FBActionsArea feedbackId={rowData} />;
+export function FeedbackDashboard({ feedback}) {
+  const ActionsArea = (rowData,rowIndex) => {
+    return <FBActionsArea feedbackId={rowData} rowIndex={rowIndex} />;
   };
   const auth = useAuth();
   const toggleButton = (rowData, rowIndex) => {
@@ -61,7 +53,13 @@ export function FeedbackDashboard({ feedback }) {
             placement="top"
           >
             {rowData === 'pending' && (
-              <Button type='success' onClick={toggleFeedback} ml={1} auto icon={<Check/>}></Button>
+              <Button
+                type="success"
+                onClick={toggleFeedback}
+                ml={1}
+                auto
+                icon={<Check />}
+              ></Button>
             )}
           </Popover>
         ) : null}
@@ -71,6 +69,9 @@ export function FeedbackDashboard({ feedback }) {
   const renderRoute = (rowData) => {
     return <Code>{rowData}</Code>;
   };
+  const renderURL = (rowData) => {
+    return <Text span>{rowData}</Text>;
+  };
   const renderAuthor = (rowData) => {
     return <Text b>{rowData}</Text>;
   };
@@ -78,6 +79,7 @@ export function FeedbackDashboard({ feedback }) {
     <Table data={feedback} emptyText="N/A">
       <Table.Column prop="author" label="author" render={renderAuthor} />
       <Table.Column prop="text" label="feedback" />
+      <Table.Column prop="siteURL" label="site name" render={renderURL} />
       <Table.Column prop="route" label="route" render={renderRoute} />
       <Table.Column
         prop="status"

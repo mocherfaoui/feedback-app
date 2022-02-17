@@ -85,12 +85,12 @@ export const Feedback = ({
               {updatedAt && (
                 <Text
                   small
-                  title={
-                    updatedAt &&
-                    format(parseISO(updatedAt), "'updated at' E, PPP p O")
-                  }
+                  title={updatedAt && format(parseISO(updatedAt), 'E, PPP p O')}
                 >
-                  <sup>(updated)</sup>
+                  {' '}&bull; updated {' '}
+                  {formatDistanceToNow(parseISO(createdAt), {
+                    addSuffix: true,
+                  })}
                 </Text>
               )}
             </User>

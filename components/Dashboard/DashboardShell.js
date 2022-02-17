@@ -18,7 +18,7 @@ export default function DashboardShell({ children, pageName, visible }) {
           }}
         >
           <Text h2 style={{ margin: 0 }}>
-            My {pageName}s
+            Manage {pageName}s
           </Text>
           {
             (pageName === 'Site' ? (

@@ -58,7 +58,7 @@ export default function Home() {
               <li>
                 Add a site{' '}
                 <NextLink href="/sites" passHref>
-                  <Link underline>here</Link>
+                  <Link underline color>here</Link>
                 </NextLink>{' '}
                 and get your site ID
               </li>
@@ -74,7 +74,7 @@ export default function Home() {
                   If you want to add the iframe to multiple routes or make it
                   resizable see the full docs{' '}
                   <NextLink href="/docs" passHref>
-                    <Link underline>here</Link>
+                    <Link underline color>here</Link>
                   </NextLink>
                   .
                 </Text>
