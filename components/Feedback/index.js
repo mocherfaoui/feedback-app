@@ -12,10 +12,17 @@ import {
 import Edit2 from '@geist-ui/icons/edit2';
 import MoreVertical from '@geist-ui/icons/moreVertical';
 import Trash from '@geist-ui/icons/trash';
-import { format, formatDistanceToNow, parseISO } from 'date-fns';
+import {
+  format,
+  formatDistanceToNowStrict,
+  parseISO,
+} from 'date-fns';
+import locale from 'date-fns/locale/en-US';
 
 import { useAuth } from '@/lib/auth';
 import { deleteFeedback, updateFeedback } from '@/lib/db';
+
+import { formatDistance } from '@/utils/date-format';
 
 import { Flex } from '../GlobalComponents';
 
@@ -76,8 +83,15 @@ export const Feedback = ({
                       <Text span px={0.5}>
                         &bull;
                       </Text>
-                      <Text span style={{display:'flex',gap:'.3rem',alignItems:'center'}}>
-                        {rating}/5 <AiFillStar size='1.3rem'/>
+                      <Text
+                        span
+                        style={{
+                          display: 'flex',
+                          gap: '.3rem',
+                          alignItems: 'center',
+                        }}
+                      >
+                        <Text b font={0.9} my='auto' span>{rating}/5</Text><AiFillStar size="1.1rem" />
                       </Text>
                     </>
                   )}
@@ -91,7 +105,13 @@ export const Feedback = ({
                 type="secondary"
               >
                 {createdAt &&
-                  formatDistanceToNow(parseISO(createdAt), { addSuffix: true })}
+                  formatDistanceToNowStrict(parseISO(createdAt), {
+                    addSuffix: true,
+                    locale: {
+                      ...locale,
+                      formatDistance,
+                    },
+                  })}
               </Text>
               {updatedAt && (
                 <Text
@@ -101,8 +121,12 @@ export const Feedback = ({
                 >
                   {' '}
                   &bull; updated{' '}
-                  {formatDistanceToNow(parseISO(updatedAt), {
+                  {formatDistanceToNowStrict(parseISO(updatedAt), {
                     addSuffix: true,
+                    locale: {
+                      ...locale,
+                      formatDistance,
+                    },
                   })}
                 </Text>
               )}

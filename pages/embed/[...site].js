@@ -10,7 +10,8 @@ import {
   Spacer,
   Text,
   Textarea,
- useMediaQuery } from '@geist-ui/core';
+  useMediaQuery,
+} from '@geist-ui/core';
 import useSWR from 'swr';
 import 'iframe-resizer/js/iframeResizer.contentWindow';
 
@@ -40,7 +41,7 @@ export default function EmbeddedPage({ feedbackPage }) {
   const allFeedback = feedbackData?.feedback;
   const [, setLocked] = useState(false);
   const [value, setValue] = useState(null);
-  const isXS = useMediaQuery('xs')
+  const isXS = useMediaQuery('xs');
   const onSubmit = async (e) => {
     e.preventDefault();
     const newFeedback = {
@@ -103,7 +104,7 @@ export default function EmbeddedPage({ feedbackPage }) {
                           Add Feedback
                         </Button>
                       </Grid>
-                      <Grid ml={1} xs={13} sm={5.5} font="1rem">
+                      <Grid xs={13} sm={5.5} font="1rem">
                         <Text span>Rate:</Text>
                         <Rating
                           ml={0.5}
@@ -113,25 +114,25 @@ export default function EmbeddedPage({ feedbackPage }) {
                         />
                       </Grid>
                       {!feedbackPage && (
-                        <Grid xs sm ml='auto' pt={isXS && 1}>
-                          <Grid xs={0} sm={2}>
-                            <Text span px={0.7}>
-                              &bull;
+                        <>
+                          <Grid xs={0} sm={.7}>
+                            <Text span>&bull;</Text>
+                          </Grid>
+                          <Grid xs sm pt={isXS && 1}>
+                            <Text span ml={isXS && 'auto'}>
+                              Logged-in as{' '}
+                              <Link
+                                underline
+                                href="/user/settings"
+                                target="_blank"
+                              >
+                                <Text b span>
+                                  {user?.name}
+                                </Text>
+                              </Link>
                             </Text>
                           </Grid>
-                          <Text span>
-                            Logged-in as{' '}
-                            <Link
-                              underline
-                              href="/user/settings"
-                              target="_blank"
-                            >
-                              <Text b span>
-                                {user?.name}
-                              </Text>
-                            </Link>
-                          </Text>
-                        </Grid>
+                        </>
                       )}
                     </Grid.Container>
                   </Flex>
