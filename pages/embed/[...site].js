@@ -29,6 +29,9 @@ export default function EmbeddedPage({ feedbackPage }) {
   const { user } = useAuth();
   const inputEl = useRef();
   const router = useRouter();
+  const [, setLocked] = useState(false);
+  const [ratingValue, setRatingValue] = useState(null);
+  const [replyInput, setReplyInput] = useState(null);
   const siteAndRoute = router.query?.site;
   const siteId = siteAndRoute ? siteAndRoute[0] : null;
   const route = siteAndRoute ? siteAndRoute[1] : null;
@@ -38,11 +41,19 @@ export default function EmbeddedPage({ feedbackPage }) {
   const { data: siteData } = useSWR(`/api/site/${siteId}`, fetcher);
   const { data: feedbackData, mutate } = useSWR(feedbackApi, fetcher);
   const site = siteData?.site;
-  const allFeedback = feedbackData?.feedback;
-  const [, setLocked] = useState(false);
-  const [value, setValue] = useState(null);
+  const rootFeedbacks = feedbackData?.feedback.filter(
+    (feedback) => feedback.parentId === null
+  );
+  const getReplies = (feeddbackId) =>
+    feedbackData?.feedback
+      .filter((feedback) => feedback.parentId === feeddbackId)
+      .sort(
+        (a, b) =>
+          new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+      );
+
   const isXS = useMediaQuery('xs');
-  const onSubmit = async (e) => {
+  const addFeedback = async (e) => {
     e.preventDefault();
     const newFeedback = {
       siteId,
@@ -53,19 +64,20 @@ export default function EmbeddedPage({ feedbackPage }) {
       authorId: user.uid,
       avatar: user.photoURL,
       text: inputEl.current.value.replace('\n', '\n\n'),
-      rating: value,
+      rating: ratingValue,
       createdAt: new Date().toISOString(),
       status:
         user.uid === site.authorId || siteId === 'ke1irGZRqUrgXa7eqAXL'
           ? 'active'
           : 'pending',
+      parentId: null,
     };
     inputEl.current.value = '';
-    setValue(null);
+    setRatingValue(null);
     await createFeedback(newFeedback);
     newFeedback.status !== 'pending' && (await mutate());
   };
-  if (!allFeedback) {
+  if (!rootFeedbacks) {
     return <SkeletonFeedback />;
   }
   return (
@@ -83,7 +95,7 @@ export default function EmbeddedPage({ feedbackPage }) {
         <Card>
           {
             <>
-              <form onSubmit={onSubmit}>
+              <form onSubmit={addFeedback}>
                 <Textarea
                   width="100%"
                   mb={1}
@@ -108,14 +120,14 @@ export default function EmbeddedPage({ feedbackPage }) {
                         <Text span>Rate:</Text>
                         <Rating
                           ml={0.5}
-                          value={value}
+                          value={ratingValue}
                           onLockedChange={setLocked}
-                          onValueChange={setValue}
+                          onValueChange={setRatingValue}
                         />
                       </Grid>
                       {!feedbackPage && (
                         <>
-                          <Grid xs={0} sm={.7}>
+                          <Grid xs={0} sm={0.7}>
                             <Text span>&bull;</Text>
                           </Grid>
                           <Grid xs sm pt={isXS && 1}>
@@ -140,22 +152,29 @@ export default function EmbeddedPage({ feedbackPage }) {
                   <LoginButtons />
                 )}
               </form>
-              {allFeedback?.length ? <Spacer /> : null}
+              {rootFeedbacks?.length ? <Spacer /> : null}
             </>
           }
-          {allFeedback?.length ? (
+          {rootFeedbacks?.length ? (
             <Flex css={{ flexDirection: 'column', gap: '1rem' }}>
               <style>{`
                 .user.w-100 .names .name{
                   max-width:100%!important;
                 }
                 `}</style>
-              {allFeedback.map((_feedback) => (
+              {rootFeedbacks.map((_feedback) => (
                 <Feedback
                   key={_feedback.id}
                   {..._feedback}
                   feedbackApi={feedbackApi}
                   mutate={mutate}
+                  replies={getReplies(_feedback.id)}
+                  route={route}
+                  siteId={siteId}
+                  siteAuthorId={site.authorId}
+                  siteURL={site.url}
+                  replyInput={replyInput}
+                  setReplyInput={setReplyInput}
                 />
               ))}
             </Flex>

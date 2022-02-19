@@ -44,6 +44,7 @@ export const MobileMenuItems = styled('div', {
         width: 'auto',
         background: '#f7f7f7',
         padding: '1rem',
+        fontSize: '1.1rem',
       },
       false: {
         display: 'none',

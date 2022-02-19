@@ -20,6 +20,7 @@
     "iframe-resizer": "^4.3.2",
     "iframe-resizer-react": "^1.1.0",
     "inter-ui": "^3.19.3",
+    "javascript-time-ago": "^2.3.13",
     "js-cookie": "^3.0.1",
     "next": "^12.1.0",
     "react": "17.0.2",
@@ -27,6 +28,7 @@
     "react-hook-form": "^7.25.1",
     "react-icons": "^4.3.1",
     "react-loading-skeleton": "^3.0.2",
+    "react-textarea-autosize": "^8.3.3",
     "swr": "^1.2.0"
   },
   "devDependencies": {

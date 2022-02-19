@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react';
 import { AiFillStar } from 'react-icons/ai';
+import TextareaAutosize from 'react-textarea-autosize';
 import {
   Badge,
   Button,
@@ -12,17 +13,12 @@ import {
 import Edit2 from '@geist-ui/icons/edit2';
 import MoreVertical from '@geist-ui/icons/moreVertical';
 import Trash from '@geist-ui/icons/trash';
-import {
-  format,
-  formatDistanceToNowStrict,
-  parseISO,
-} from 'date-fns';
-import locale from 'date-fns/locale/en-US';
+import { format, parseISO } from 'date-fns';
+import TimeAgo from 'javascript-time-ago';
+import en from 'javascript-time-ago/locale/en.json';
 
 import { useAuth } from '@/lib/auth';
-import { deleteFeedback, updateFeedback } from '@/lib/db';
-
-import { formatDistance } from '@/utils/date-format';
+import { createFeedback, deleteFeedback, updateFeedback } from '@/lib/db';
 
 import { Flex } from '../GlobalComponents';
 
@@ -34,16 +30,52 @@ export const Feedback = ({
   updatedAt,
   rating,
   authorId,
-  siteAuthorId,
   id,
+  siteId,
+  siteAuthorId,
+  siteURL,
+  route,
   mutate,
+  replies,
+  parentId = null,
+  replyInput,
+  setReplyInput,
 }) => {
   const { user } = useAuth();
-  const [visible, setVisible] = useState(false);
+  const [editFeedback, setEditFeedback] = useState(false);
   const inputEl = useRef();
+  const replyEl = useRef();
   const isUser = user && user.uid === authorId;
   const isAdmin = authorId === siteAuthorId;
   const superUser = user && user.uid === siteAuthorId;
+  const replyId = parentId ? parentId : id;
+  const isReplying = replyInput && replyInput.id === id;
+  TimeAgo.addLocale(en);
+  const timeAgo = new TimeAgo('en-US');
+
+  const onReply = async (e) => {
+    e.preventDefault();
+    const newReply = {
+      siteId,
+      siteAuthorId,
+      route: route || '/',
+      siteURL,
+      author: user.name,
+      authorId: user.uid,
+      avatar: user.photoURL,
+      text: replyEl.current.value.replace('\n', '\n\n'),
+      rating: null,
+      createdAt: new Date().toISOString(),
+      status:
+        user.uid === siteAuthorId || siteId === 'ke1irGZRqUrgXa7eqAXL'
+          ? 'active'
+          : 'pending',
+      parentId: replyId,
+    };
+    await createFeedback(newReply);
+    newReply.status !== 'pending' ? await mutate() : null;
+    setReplyInput(null);
+  };
   const onDelete = async () => {
     await deleteFeedback(id);
     await mutate();
@@ -59,12 +91,12 @@ export const Feedback = ({
       await mutate();
     } catch {
     } finally {
-      setVisible(false);
+      setEditFeedback(false);
     }
   };
   return (
     <>
-      <Card mb={0} hoverable id={id} key={id}>
+      <Card width="100%" mb={0} hoverable id={id} key={id}>
         <Flex css={{ flexDirection: 'column' }}>
           <Flex css={{ justifyContent: 'space-between' }}>
             <User
@@ -91,7 +123,10 @@ export const Feedback = ({
                           alignItems: 'center',
                         }}
                       >
-                        <Text b font={0.9} my='auto' span>{rating}/5</Text><AiFillStar size="1.1rem" />
+                        <Text b font={0.9} my="auto" span>
+                          {rating}/5
+                        </Text>
+                        <AiFillStar size="1.1rem" />
                       </Text>
                     </>
                   )}
@@ -105,13 +140,7 @@ export const Feedback = ({
                 type="secondary"
               >
                 {createdAt &&
-                  formatDistanceToNowStrict(parseISO(createdAt), {
-                    addSuffix: true,
-                    locale: {
-                      ...locale,
-                      formatDistance,
-                    },
-                  })}
+                  timeAgo.format(parseISO(createdAt), 'twitter-minute-now')}
               </Text>
               {updatedAt && (
                 <Text
@@ -120,14 +149,7 @@ export const Feedback = ({
                   title={updatedAt && format(parseISO(updatedAt), 'E, PPP p O')}
                 >
                   {' '}
-                  &bull; updated{' '}
-                  {formatDistanceToNowStrict(parseISO(updatedAt), {
-                    addSuffix: true,
-                    locale: {
-                      ...locale,
-                      formatDistance,
-                    },
-                  })}
+                  &bull; updated {timeAgo.format(parseISO(updatedAt))}
                 </Text>
               )}
             </User>
@@ -141,7 +163,7 @@ export const Feedback = ({
                 {isUser && (
                   <ButtonDropdown.Item
                     type="warning"
-                    onClick={() => setVisible(true)}
+                    onClick={() => setEditFeedback(true)}
                   >
                     <Edit2 size={15} />
                   </ButtonDropdown.Item>
@@ -152,25 +174,95 @@ export const Feedback = ({
               </ButtonDropdown>
             )}
           </Flex>
-          {visible ? (
+          {editFeedback ? (
             <form onSubmit={onUpdate}>
               <Textarea width="100%" initialValue={text} mt={1} ref={inputEl} />
-              <Flex css={{ marginTop: '1rem', gap: '1rem' }}>
-                <Button type="warning" htmlType="submit">
+              <Flex css={{ marginTop: '1rem', gap: '.5rem' }}>
+                <Button auto scale={2 / 3} type="warning" htmlType="submit">
                   Update
                 </Button>
-                <Button type="default" onClick={() => setVisible(false)}>
+                <Button
+                  auto
+                  scale={2 / 3}
+                  type="default"
+                  onClick={() => setEditFeedback(false)}
+                >
                   Cancel
                 </Button>
               </Flex>
             </form>
           ) : (
-            <Text p mb={0}>
-              {text}
-            </Text>
+            <>
+              <Text p font={1} py={0.5}>
+                {text}
+              </Text>
+              {user && <Flex>
+                <Button
+                  type="secondary"
+                  auto
+                  scale={2 / 3}
+                  onClick={() => setReplyInput({ id: id })}
+                >
+                  Reply
+                </Button>
+              </Flex>}
+            </>
           )}
         </Flex>
       </Card>
+      {isReplying && (
+        <Card>
+          <form onSubmit={onReply}>
+            <TextareaAutosize
+              style={{
+                width: '100%',
+                height: '90px',
+                resize: 'none',
+                border: 0,
+              }}
+              placeholder="your reply goes here..."
+              ref={replyEl}
+              defaultValue={`@${author} `}
+            />
+            <Flex
+              css={{
+                flexDirection: 'row-reverse',
+                gap: '.5rem',
+                paddingTop: '1rem',
+              }}
+            >
+              <Button auto htmlType="submit" type="success" scale={2 / 3}>
+                Post
+              </Button>
+              <Button
+                auto
+                type="default"
+                scale={2 / 3}
+                onClick={() => setReplyInput(null)}
+              >
+                Cancel
+              </Button>
+            </Flex>
+          </form>
+        </Card>
+      )}
+      {replies.length > 0 && (
+        <Flex
+          style={{ marginLeft: '2rem', flexDirection: 'column', gap: '1rem' }}
+        >
+          {replies.map((reply) => (
+            <Feedback
+              key={reply.id}
+              replies={[]}
+              {...reply}
+              parentId={id}
+              replyInput={replyInput}
+              setReplyInput={setReplyInput}
+              mutate={mutate}
+            />
+          ))}
+        </Flex>
+      )}
     </>
   );
 };
