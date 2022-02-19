@@ -193,19 +193,21 @@ export const Feedback = ({
             </form>
           ) : (
             <>
-              <Text p font={1} py={0.5}>
+              <Text p font={1} py={0.5} my={user ? 1 : 0.5} margin={0}>
                 {text}
               </Text>
-              {user && <Flex>
-                <Button
-                  type="secondary"
-                  auto
-                  scale={2 / 3}
-                  onClick={() => setReplyInput({ id: id })}
-                >
-                  Reply
-                </Button>
-              </Flex>}
+              {user && (
+                <Flex>
+                  <Button
+                    type="secondary"
+                    auto
+                    scale={2 / 3}
+                    onClick={() => setReplyInput({ id: id })}
+                  >
+                    Reply
+                  </Button>
+                </Flex>
+              )}
             </>
           )}
         </Flex>
@@ -216,10 +218,10 @@ export const Feedback = ({
             <TextareaAutosize
               style={{
                 width: '100%',
-                height: '90px',
                 resize: 'none',
                 border: 0,
               }}
+              minRows={2}
               placeholder="your reply goes here..."
               ref={replyEl}
               defaultValue={`@${author} `}
@@ -248,7 +250,7 @@ export const Feedback = ({
       )}
       {replies.length > 0 && (
         <Flex
-          style={{ marginLeft: '2rem', flexDirection: 'column', gap: '1rem' }}
+          style={{ marginLeft: '4.5rem', flexDirection: 'column', gap: '1rem' }}
         >
           {replies.map((reply) => (
             <Feedback

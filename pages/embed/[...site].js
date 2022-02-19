@@ -52,7 +52,7 @@ export default function EmbeddedPage({ feedbackPage }) {
           new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
       );
 
-  const isXS = useMediaQuery('xs');
+  const isMobile = useMediaQuery('mobile');
   const addFeedback = async (e) => {
     e.preventDefault();
     const newFeedback = {
@@ -116,7 +116,12 @@ export default function EmbeddedPage({ feedbackPage }) {
                           Add Feedback
                         </Button>
                       </Grid>
-                      <Grid xs={13} sm={5.5} font="1rem">
+                      <Grid
+                        ml={isMobile && 'auto'}
+                        xs={13}
+                        sm={5.5}
+                        font="1rem"
+                      >
                         <Text span>Rate:</Text>
                         <Rating
                           ml={0.5}
@@ -130,8 +135,8 @@ export default function EmbeddedPage({ feedbackPage }) {
                           <Grid xs={0} sm={0.7}>
                             <Text span>&bull;</Text>
                           </Grid>
-                          <Grid xs sm pt={isXS && 1}>
-                            <Text span ml={isXS && 'auto'}>
+                          <Grid xs sm pt={isMobile && 1}>
+                            <Text span ml={isMobile && 'auto'}>
                               Logged-in as{' '}
                               <Link
                                 underline
@@ -161,22 +166,26 @@ export default function EmbeddedPage({ feedbackPage }) {
                 .user.w-100 .names .name{
                   max-width:100%!important;
                 }
+                .user.w-100 .names{
+                  gap:.3rem;
+                }
                 `}</style>
-              {rootFeedbacks.map((_feedback) => (
-                <Feedback
-                  key={_feedback.id}
-                  {..._feedback}
-                  feedbackApi={feedbackApi}
-                  mutate={mutate}
-                  replies={getReplies(_feedback.id)}
-                  route={route}
-                  siteId={siteId}
-                  siteAuthorId={site.authorId}
-                  siteURL={site.url}
-                  replyInput={replyInput}
-                  setReplyInput={setReplyInput}
-                />
-              ))}
+              {site &&
+                rootFeedbacks.map((_feedback) => (
+                  <Feedback
+                    key={_feedback.id}
+                    {..._feedback}
+                    feedbackApi={feedbackApi}
+                    mutate={mutate}
+                    replies={getReplies(_feedback.id)}
+                    route={route}
+                    siteId={siteId}
+                    siteAuthorId={site.authorId}
+                    siteURL={site.url}
+                    replyInput={replyInput}
+                    setReplyInput={setReplyInput}
+                  />
+                ))}
             </Flex>
           ) : (
             <Text h5 margin={0} mt={2} style={{ textAlign: 'center' }}>
