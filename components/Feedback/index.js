@@ -7,7 +7,6 @@ import {
   ButtonDropdown,
   Card,
   Text,
-  Textarea,
   User,
 } from '@geist-ui/core';
 import Edit2 from '@geist-ui/icons/edit2';
@@ -21,6 +20,7 @@ import { useAuth } from '@/lib/auth';
 import { createFeedback, deleteFeedback, updateFeedback } from '@/lib/db';
 
 import { Flex } from '../GlobalComponents';
+import { MarkdownRender } from '../MarkdownRender';
 
 export const Feedback = ({
   author,
@@ -43,7 +43,7 @@ export const Feedback = ({
 }) => {
   const { user } = useAuth();
   const [editFeedback, setEditFeedback] = useState(false);
-  const inputEl = useRef();
+  const editInputEl = useRef();
   const replyEl = useRef();
   const isUser = user && user.uid === authorId;
   const isAdmin = authorId === siteAuthorId;
@@ -63,7 +63,7 @@ export const Feedback = ({
       author: user.name,
       authorId: user.uid,
       avatar: user.photoURL,
-      text: replyEl.current.value.replace('\n', '\n\n'),
+      text: replyEl.current.value,
       rating: null,
       createdAt: new Date().toISOString(),
       status:
@@ -84,7 +84,7 @@ export const Feedback = ({
     e.preventDefault();
     try {
       const newValues = {
-        text: inputEl.current.value.replace('\n', '\n\n'),
+        text: editInputEl.current.value,
         updatedAt: new Date().toISOString(),
       };
       await updateFeedback(id, newValues);
@@ -155,10 +155,11 @@ export const Feedback = ({
             </User>
             {(isUser || superUser) && (
               <ButtonDropdown
-                scale={2 / 3}
+                scale={1 / 3}
                 auto
                 icon={<MoreVertical />}
                 style={{ height: 'max-content' }}
+                className="btn-dropdown"
               >
                 {isUser && (
                   <ButtonDropdown.Item
@@ -176,8 +177,17 @@ export const Feedback = ({
           </Flex>
           {editFeedback ? (
             <form onSubmit={onUpdate}>
-              <Textarea width="100%" initialValue={text} mt={1} ref={inputEl} />
-              <Flex css={{ marginTop: '1rem', gap: '.5rem' }}>
+              <TextareaAutosize
+                style={{
+                  width: '100%',
+                  resize: 'none',
+                  border: 0,
+                  margin: '1.5rem 0',
+                }}
+                defaultValue={text}
+                ref={editInputEl}
+              />
+              <Flex css={{ marginTop: '.5rem', gap: '.5rem' }}>
                 <Button auto scale={2 / 3} type="warning" htmlType="submit">
                   Update
                 </Button>
@@ -193,12 +203,11 @@ export const Feedback = ({
             </form>
           ) : (
             <>
-              <Text p font={1} py={0.5} my={user ? 1 : 0.5} margin={0}>
-                {text}
-              </Text>
+              <MarkdownRender source={text} user={user} />
               {user && (
                 <Flex>
                   <Button
+                    mt={2}
                     type="secondary"
                     auto
                     scale={2 / 3}
@@ -224,7 +233,7 @@ export const Feedback = ({
               minRows={2}
               placeholder="your reply goes here..."
               ref={replyEl}
-              defaultValue={`@${author} `}
+              defaultValue={`**@${author}** `}
             />
             <Flex
               css={{
@@ -250,7 +259,7 @@ export const Feedback = ({
       )}
       {replies.length > 0 && (
         <Flex
-          style={{ marginLeft: '4.5rem', flexDirection: 'column', gap: '1rem' }}
+          style={{ marginLeft: '2.5rem', flexDirection: 'column', gap: '1rem' }}
         >
           {replies.map((reply) => (
             <Feedback

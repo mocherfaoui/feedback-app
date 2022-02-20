@@ -1,4 +1,5 @@
 import { useRef, useState } from 'react';
+import TextareaAutosize from 'react-textarea-autosize';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import {
@@ -8,8 +9,8 @@ import {
   Link,
   Rating,
   Spacer,
+  Tabs,
   Text,
-  Textarea,
   useMediaQuery,
 } from '@geist-ui/core';
 import useSWR from 'swr';
@@ -21,6 +22,7 @@ import { createFeedback } from '@/lib/db';
 import { Feedback } from '@/components/Feedback';
 import { Flex } from '@/components/GlobalComponents';
 import LoginButtons from '@/components/LoginButtons';
+import { MarkdownRender } from '@/components/MarkdownRender';
 import SkeletonFeedback from '@/components/SkeletonElements/SkeletonFeedback';
 
 import fetcher from '@/utils/fetcher';
@@ -32,6 +34,7 @@ export default function EmbeddedPage({ feedbackPage }) {
   const [, setLocked] = useState(false);
   const [ratingValue, setRatingValue] = useState(null);
   const [replyInput, setReplyInput] = useState(null);
+  const [markdownPreview, setMarkdownPreview] = useState(null);
   const siteAndRoute = router.query?.site;
   const siteId = siteAndRoute ? siteAndRoute[0] : null;
   const route = siteAndRoute ? siteAndRoute[1] : null;
@@ -63,7 +66,7 @@ export default function EmbeddedPage({ feedbackPage }) {
       author: user.name,
       authorId: user.uid,
       avatar: user.photoURL,
-      text: inputEl.current.value.replace('\n', '\n\n'),
+      text: inputEl.current.value,
       rating: ratingValue,
       createdAt: new Date().toISOString(),
       status:
@@ -95,14 +98,46 @@ export default function EmbeddedPage({ feedbackPage }) {
         <Card>
           {
             <>
+              <style>{`
+            .feedback-editor header .scroll-container{
+              padding:0;
+            }
+            `}</style>
               <form onSubmit={addFeedback}>
-                <Textarea
-                  width="100%"
-                  mb={1}
-                  ref={inputEl}
-                  placeholder="write something..."
-                  disabled={!user}
-                />
+                <Tabs hideDivider initialValue="1" className="feedback-editor">
+                  <Tabs.Item label="Edit" value="1">
+                    <TextareaAutosize
+                      style={{
+                        width: '100%',
+                        resize: 'none',
+                        border: 0,
+                        margin: '1.8rem 0',
+                        padding: 0,
+                      }}
+                      minRows={2}
+                      onChange={(e) => setMarkdownPreview(e.target.value)}
+                      defaultValue={markdownPreview}
+                      ref={inputEl}
+                      placeholder="write something..."
+                    />
+                  </Tabs.Item>
+                  <Tabs.Item label="Preview" value="2">
+                    <MarkdownRender source={markdownPreview} />
+                  </Tabs.Item>
+                </Tabs>
+
+                <Flex css={{ justifyContent: 'end' }}>
+                  <Text mb={1} b small>
+                    <Link
+                      icon
+                      underline
+                      href="https://commonmark.org/help/"
+                      target="_blank"
+                    >
+                      Supports Markdown
+                    </Link>
+                  </Text>
+                </Flex>
                 {user ? (
                   <Flex css={{ alignItems: 'center' }}>
                     <Grid.Container direction="row" alignItems="center">
@@ -169,6 +204,15 @@ export default function EmbeddedPage({ feedbackPage }) {
                 .user.w-100 .names{
                   gap:.3rem;
                 }
+                .img-display .caption{
+                    margin-top:1rem;
+                  }
+                  .btn-dropdown details summary{
+                    border:0;
+                  }
+                  .btn-dropdown details{
+                    border-radius: 6px;
+                  }
                 `}</style>
               {site &&
                 rootFeedbacks.map((_feedback) => (
