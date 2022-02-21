@@ -32,7 +32,7 @@ const MDXComponents = {
     </Text>
   ),
   p: ({ node, ...props }) => (
-    <Text mt={2} mb={0} {...props} style={{ overflowWrap: 'break-word' }}>
+    <Text my={1.8} {...props} style={{ overflowWrap: 'break-word' }}>
       {props.children}
     </Text>
   ),

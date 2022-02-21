@@ -1,5 +1,4 @@
 import { useRef, useState } from 'react';
-import TextareaAutosize from 'react-textarea-autosize';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import {
@@ -9,7 +8,6 @@ import {
   Link,
   Rating,
   Spacer,
-  Tabs,
   Text,
   useMediaQuery,
 } from '@geist-ui/core';
@@ -20,9 +18,9 @@ import { useAuth } from '@/lib/auth';
 import { createFeedback } from '@/lib/db';
 
 import { Feedback } from '@/components/Feedback';
+import FeedbackEditor from '@/components/FeedbackEditor';
 import { Flex } from '@/components/GlobalComponents';
 import LoginButtons from '@/components/LoginButtons';
-import { MarkdownRender } from '@/components/MarkdownRender';
 import SkeletonFeedback from '@/components/SkeletonElements/SkeletonFeedback';
 
 import fetcher from '@/utils/fetcher';
@@ -104,40 +102,13 @@ export default function EmbeddedPage({ feedbackPage }) {
             }
             `}</style>
               <form onSubmit={addFeedback}>
-                <Tabs hideDivider initialValue="1" className="feedback-editor">
-                  <Tabs.Item label="Edit" value="1">
-                    <TextareaAutosize
-                      style={{
-                        width: '100%',
-                        resize: 'none',
-                        border: 0,
-                        margin: '1.8rem 0',
-                        padding: 0,
-                      }}
-                      minRows={2}
-                      onChange={(e) => setMarkdownPreview(e.target.value)}
-                      defaultValue={markdownPreview}
-                      ref={inputEl}
-                      placeholder="write something..."
-                    />
-                  </Tabs.Item>
-                  <Tabs.Item label="Preview" value="2">
-                    <MarkdownRender source={markdownPreview} />
-                  </Tabs.Item>
-                </Tabs>
-
-                <Flex css={{ justifyContent: 'end' }}>
-                  <Text mb={1} b small>
-                    <Link
-                      icon
-                      underline
-                      href="https://commonmark.org/help/"
-                      target="_blank"
-                    >
-                      Supports Markdown
-                    </Link>
-                  </Text>
-                </Flex>
+                <FeedbackEditor
+                  onChange={(e) => setMarkdownPreview(e.target.value)}
+                  ref={inputEl}
+                  defaultValue={markdownPreview}
+                  placeholder="write something..."
+                  previewSource={markdownPreview}
+                />
                 {user ? (
                   <Flex css={{ alignItems: 'center' }}>
                     <Grid.Container direction="row" alignItems="center">

@@ -7,13 +7,13 @@ import { Flex } from '../GlobalComponents';
 
 export default function SkeletonFeedback() {
   return (
-    <Flex css={{ flexDirection: 'column', gap: '1rem',lineHeight:'1' }}>
+    <Flex css={{ flexDirection: 'column', gap: '1rem', lineHeight: '1' }}>
       <Skeleton height="80px" />
       <SkeletonButton />
-      <Flex css={{flexDirection:'column',gap:'1rem'}}>
-        <SkFeedbackCard/>
-        <SkFeedbackCard/>
-        <SkFeedbackCard/>
+      <Flex css={{ flexDirection: 'column', gap: '1rem' }}>
+        <SkFeedbackCard />
+        <SkFeedbackCard />
+        <SkFeedbackCard />
       </Flex>
     </Flex>
   );
@@ -21,9 +21,8 @@ export default function SkeletonFeedback() {
 const SkeletonButton = () => {
   return (
     <Skeleton
-      width="150px"
+      width="100%"
       height="40px"
-      count={2}
       inline
       style={{ marginRight: '1rem' }}
     />
@@ -32,12 +31,12 @@ const SkeletonButton = () => {
 const SkFeedbackCard = () => {
   return (
     <Card width="100%">
-      <Flex css={{ flexDirection: 'column',gap:'.7rem' }}>
-        <Flex css={{gap:'.6rem'}}>
-          <Skeleton circle width="2rem" height='2rem' />
-          <Flex css={{flexDirection:'column',gap:'.3rem'}}>
-            <Skeleton width="5em"/>
-            <Skeleton width="3em"/>
+      <Flex css={{ flexDirection: 'column', gap: '.7rem' }}>
+        <Flex css={{ gap: '.6rem' }}>
+          <Skeleton circle width="2rem" height="2rem" />
+          <Flex css={{ flexDirection: 'column', gap: '.3rem' }}>
+            <Skeleton width="5em" />
+            <Skeleton width="3em" />
           </Flex>
         </Flex>
         <Skeleton height="50px" />

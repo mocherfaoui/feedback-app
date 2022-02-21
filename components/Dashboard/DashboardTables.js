@@ -10,18 +10,30 @@ import { FBActionsArea, STActionsArea } from '../ActionsArea';
 
 export function SitesDashboard({ sites }) {
   const createdAt = (rowData) => {
-    return <Text>{format(parseISO(rowData), 'PPpp')}</Text>;
+    return <Text>{format(parseISO(rowData), 'PP p')}</Text>;
   };
   const ActionsArea = (rowData) => {
     return <STActionsArea siteId={rowData} />;
   };
   return (
-    <Table data={sites}>
-      <Table.Column prop="name" label="Name" />
-      <Table.Column prop="url" label="Site Link" />
-      <Table.Column prop="createdAt" label="Date Added" render={createdAt} />
-      <Table.Column prop="id" render={ActionsArea} label="actions" />
-    </Table>
+    <>
+      <style>{`
+    .created_at-w100 .cell{
+      width:max-content;
+    }
+    `}</style>
+      <Table data={sites}>
+        <Table.Column prop="name" label="Name" />
+        <Table.Column prop="url" label="Site Link" />
+        <Table.Column
+          prop="createdAt"
+          label="Date Added"
+          render={createdAt}
+          className="created_at-w100"
+        />
+        <Table.Column prop="id" render={ActionsArea} label="actions" />
+      </Table>
+    </>
   );
 }
 export function FeedbackDashboard({ feedback }) {

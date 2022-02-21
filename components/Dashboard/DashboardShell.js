@@ -1,5 +1,5 @@
 import Head from 'next/head';
-import { Button, Text } from '@geist-ui/core';
+import { Button, Display, Text } from '@geist-ui/core';
 
 import { Container, Flex } from '@/components/GlobalComponents';
 
@@ -9,6 +9,11 @@ export default function DashboardShell({ children, pageName, visible }) {
       <Head>
         <title>{pageName}s Dashboard</title>
       </Head>
+      <style>{`
+      .resp-table.display .content{
+        overflow-x:auto;
+      }
+      `}</style>
       <Container>
         <Flex
           css={{
@@ -20,15 +25,15 @@ export default function DashboardShell({ children, pageName, visible }) {
           <Text h2 style={{ margin: 0 }}>
             Manage {pageName}s
           </Text>
-          {
-            (pageName === 'Site' ? (
-              <Button auto type="secondary" onClick={visible}>
-                Add {pageName}
-              </Button>
-            ) : null)
-          }
+          {pageName === 'Site' ? (
+            <Button auto type="secondary" onClick={visible}>
+              Add {pageName}
+            </Button>
+          ) : null}
         </Flex>
-        {children}
+        <Display shadow width="100%" className="resp-table">
+          {children}
+        </Display>
       </Container>
     </>
   );

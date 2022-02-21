@@ -19,6 +19,7 @@ import en from 'javascript-time-ago/locale/en.json';
 import { useAuth } from '@/lib/auth';
 import { createFeedback, deleteFeedback, updateFeedback } from '@/lib/db';
 
+import FeedbackEditor from '../FeedbackEditor';
 import { Flex } from '../GlobalComponents';
 import { MarkdownRender } from '../MarkdownRender';
 
@@ -43,6 +44,7 @@ export const Feedback = ({
 }) => {
   const { user } = useAuth();
   const [editFeedback, setEditFeedback] = useState(false);
+  const [markdownPreview, setMarkdownPreview] = useState(`**@${author}** `);
   const editInputEl = useRef();
   const replyEl = useRef();
   const isUser = user && user.uid === authorId;
@@ -207,7 +209,6 @@ export const Feedback = ({
               {user && (
                 <Flex>
                   <Button
-                    mt={2}
                     type="secondary"
                     auto
                     scale={2 / 3}
@@ -224,7 +225,14 @@ export const Feedback = ({
       {isReplying && (
         <Card>
           <form onSubmit={onReply}>
-            <TextareaAutosize
+            <FeedbackEditor
+              onChange={(e) => setMarkdownPreview(e.target.value)}
+              ref={replyEl}
+              placeholder="your reply goes here..."
+              defaultValue={markdownPreview}
+              previewSource={markdownPreview}
+            />
+            {/* <TextareaAutosize
               style={{
                 width: '100%',
                 resize: 'none',
@@ -234,7 +242,7 @@ export const Feedback = ({
               placeholder="your reply goes here..."
               ref={replyEl}
               defaultValue={`**@${author}** `}
-            />
+            /> */}
             <Flex
               css={{
                 flexDirection: 'row-reverse',

@@ -1,5 +1,5 @@
 import Head from 'next/head';
-import { Avatar, Grid, Note,Text, Toggle } from '@geist-ui/core';
+import { Avatar, Grid, Note, Text, Toggle } from '@geist-ui/core';
 
 import { useAuth } from '@/lib/auth';
 import { withProtected } from '@/hooks/routes';
@@ -9,7 +9,6 @@ import Layout from '@/components/Layout';
 
 function UserSettings() {
   const { user, loading, linkOrUnlinkGoogle, linkOrUnlinkGithub } = useAuth();
-
   const oneAuth = user?.providers?.length === 1;
   const isGoogle = user?.providers?.some((el) => el.name === 'google.com');
   const isGithub = user?.providers?.some((el) => el.name === 'github.com');
