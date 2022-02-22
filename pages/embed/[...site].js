@@ -11,6 +11,7 @@ import {
   Text,
   useMediaQuery,
 } from '@geist-ui/core';
+import Plus from '@geist-ui/icons/plus';
 import useSWR from 'swr';
 import 'iframe-resizer/js/iframeResizer.contentWindow';
 
@@ -104,7 +105,7 @@ export default function EmbeddedPage({ feedbackPage }) {
               <form onSubmit={addFeedback}>
                 <FeedbackEditor
                   onChange={(e) => setMarkdownPreview(e.target.value)}
-                  ref={inputEl}
+                  inputRef={inputEl}
                   defaultValue={markdownPreview}
                   placeholder="write something..."
                   previewSource={markdownPreview}
@@ -112,8 +113,9 @@ export default function EmbeddedPage({ feedbackPage }) {
                 {user ? (
                   <Flex css={{ alignItems: 'center' }}>
                     <Grid.Container direction="row" alignItems="center">
-                      <Grid xs={9} sm={4}>
+                      <Grid xs={9} sm={4.5}>
                         <Button
+                          icon={<Plus />}
                           auto
                           scale={0.75}
                           htmlType="submit"

@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react';
 import { AiFillStar } from 'react-icons/ai';
+import { HiReply } from 'react-icons/hi';
 import TextareaAutosize from 'react-textarea-autosize';
 import {
   Badge,
@@ -9,9 +10,7 @@ import {
   Text,
   User,
 } from '@geist-ui/core';
-import Edit2 from '@geist-ui/icons/edit2';
-import MoreVertical from '@geist-ui/icons/moreVertical';
-import Trash from '@geist-ui/icons/trash';
+import { Edit2, MoreVertical, Send, Trash } from '@geist-ui/icons';
 import { format, parseISO } from 'date-fns';
 import TimeAgo from 'javascript-time-ago';
 import en from 'javascript-time-ago/locale/en.json';
@@ -196,7 +195,7 @@ export const Feedback = ({
                 <Button
                   auto
                   scale={2 / 3}
-                  type="default"
+                  type="abort"
                   onClick={() => setEditFeedback(false)}
                 >
                   Cancel
@@ -209,7 +208,8 @@ export const Feedback = ({
               {user && (
                 <Flex>
                   <Button
-                    type="secondary"
+                    icon={<HiReply />}
+                    type="default"
                     auto
                     scale={2 / 3}
                     onClick={() => setReplyInput({ id: id })}
@@ -227,35 +227,30 @@ export const Feedback = ({
           <form onSubmit={onReply}>
             <FeedbackEditor
               onChange={(e) => setMarkdownPreview(e.target.value)}
-              ref={replyEl}
+              inputRef={replyEl}
               placeholder="your reply goes here..."
               defaultValue={markdownPreview}
               previewSource={markdownPreview}
             />
-            {/* <TextareaAutosize
-              style={{
-                width: '100%',
-                resize: 'none',
-                border: 0,
-              }}
-              minRows={2}
-              placeholder="your reply goes here..."
-              ref={replyEl}
-              defaultValue={`**@${author}** `}
-            /> */}
             <Flex
               css={{
                 flexDirection: 'row-reverse',
                 gap: '.5rem',
-                paddingTop: '1rem',
               }}
             >
-              <Button auto htmlType="submit" type="success" scale={2 / 3}>
+              <Button
+                icon={<Send />}
+                iconRight
+                auto
+                htmlType="submit"
+                type="success"
+                scale={2 / 3}
+              >
                 Post
               </Button>
               <Button
                 auto
-                type="default"
+                type="abort"
                 scale={2 / 3}
                 onClick={() => setReplyInput(null)}
               >
