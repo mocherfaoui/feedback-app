@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
 import { AiFillStar } from 'react-icons/ai';
 import { HiReply } from 'react-icons/hi';
-import TextareaAutosize from 'react-textarea-autosize';
+import dynamic from 'next/dynamic';
 import {
   Badge,
   Button,
@@ -18,9 +18,10 @@ import en from 'javascript-time-ago/locale/en.json';
 import { useAuth } from '@/lib/auth';
 import { createFeedback, deleteFeedback, updateFeedback } from '@/lib/db';
 
-import FeedbackEditor from '../FeedbackEditor';
 import { Flex } from '../GlobalComponents';
 import { MarkdownRender } from '../MarkdownRender';
+
+const FeedbackEditor = dynamic(() => import('../FeedbackEditor'));
 
 export const Feedback = ({
   author,
@@ -42,7 +43,10 @@ export const Feedback = ({
   setReplyInput,
 }) => {
   const { user } = useAuth();
-  const [editFeedback, setEditFeedback] = useState(false);
+  const [edit, setEdit] = useState({
+    isEditing: false,
+    editPreview: text,
+  });
   const [markdownPreview, setMarkdownPreview] = useState(`**@${author}** `);
   const editInputEl = useRef();
   const replyEl = useRef();
@@ -92,7 +96,7 @@ export const Feedback = ({
       await mutate();
     } catch {
     } finally {
-      setEditFeedback(false);
+      setEdit({ ...edit, isEditing: false });
     }
   };
   return (
@@ -165,7 +169,7 @@ export const Feedback = ({
                 {isUser && (
                   <ButtonDropdown.Item
                     type="warning"
-                    onClick={() => setEditFeedback(true)}
+                    onClick={() => setEdit({ ...edit, isEditing: true })}
                   >
                     <Edit2 size={15} />
                   </ButtonDropdown.Item>
@@ -176,17 +180,15 @@ export const Feedback = ({
               </ButtonDropdown>
             )}
           </Flex>
-          {editFeedback ? (
+          {edit.isEditing ? (
             <form onSubmit={onUpdate}>
-              <TextareaAutosize
-                style={{
-                  width: '100%',
-                  resize: 'none',
-                  border: 0,
-                  margin: '1.5rem 0',
-                }}
-                defaultValue={text}
-                ref={editInputEl}
+              <FeedbackEditor
+                onChange={(e) =>
+                  setEdit({ ...edit, editPreview: e.target.value })
+                }
+                defaultValue={edit.editPreview}
+                inputRef={editInputEl}
+                previewSource={edit.editPreview}
               />
               <Flex css={{ marginTop: '.5rem', gap: '.5rem' }}>
                 <Button auto scale={2 / 3} type="warning" htmlType="submit">
@@ -196,7 +198,7 @@ export const Feedback = ({
                   auto
                   scale={2 / 3}
                   type="abort"
-                  onClick={() => setEditFeedback(false)}
+                  onClick={() => setEdit({ ...edit, isEditing: false })}
                 >
                   Cancel
                 </Button>

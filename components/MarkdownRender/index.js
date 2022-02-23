@@ -9,6 +9,7 @@ import {
   Spacer,
   Text,
 } from '@geist-ui/core';
+import remarkGfm from 'remark-gfm';
 
 const MDXComponents = {
   h1: ({ node, ...props }) => (
@@ -95,6 +96,7 @@ export function MarkdownRender({ source }) {
         hr: MDXComponents.hr,
         br: MDXComponents.br,
       }}
+      remarkPlugins={[remarkGfm]}
       disallowedElements={['pre']}
       unwrapDisallowed
     />

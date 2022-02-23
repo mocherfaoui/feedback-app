@@ -10,7 +10,7 @@ import Icons from '@/components/Icons';
 import Layout from '@/components/Layout';
 import LoginButtons from '@/components/LoginButtons';
 
-import { styled } from '@/stitches.config';
+import { keyframes, styled } from '@/stitches.config';
 
 export default function Home() {
   const { user } = useAuth();
@@ -110,13 +110,23 @@ export default function Home() {
   );
 }
 
+const animate = keyframes({
+  '0%': {
+    backgroundPosition: '0px 50%',
+  },
+  '50%': {
+    backgroundPosition: '100% 50%',
+  },
+  '100%': {
+    backgroundPosition: '0px 50%',
+  },
+});
 const GradientText = styled('span', {
-  background: '#bdc3c7',
-  background: '-webkit-linear-gradient(to right, #2c3e50, #bdc3c7)',
-  background: 'linear-gradient(to right, #2c3e50, #bdc3c7)',
-  backgroundSize: '100%',
+  background: 'linear-gradient(to right, #536976, #8d9791, #292e49)',
+  backgroundSize: '300%',
   WebkitBackgroundClip: 'text',
   MozBackgroundClip: 'text',
   WebkitTextFillColor: 'transparent',
   MozTextFillColor: 'transparent',
+  animation: `${animate} 9s ease-in-out infinite`,
 });
