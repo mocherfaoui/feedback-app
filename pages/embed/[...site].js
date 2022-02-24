@@ -147,6 +147,7 @@ export default function EmbeddedPage({ feedbackPage }) {
                             <Text span ml={isMobile && 'auto'}>
                               Logged-in as{' '}
                               <Link
+                                icon
                                 underline
                                 href="/user/settings"
                                 target="_blank"

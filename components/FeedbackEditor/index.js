@@ -1,6 +1,6 @@
 import TextareaAutosize from 'react-textarea-autosize';
-import { Link, Tabs, Text } from '@geist-ui/core';
-import Info from '@geist-ui/icons/info'
+import { Link, Popover, Tabs, Text } from '@geist-ui/core';
+import Info from '@geist-ui/icons/info';
 
 import { Flex } from '../GlobalComponents';
 import { MarkdownRender } from '../MarkdownRender';
@@ -43,17 +43,20 @@ export default function FeedbackEditor({
         </Tabs.Item>
       </Tabs>
       <Flex css={{ justifyContent: 'end' }}>
-        <Text mb={1} b small font={.8}>
-          <Link
-            style={{alignItems:'center',gap:'.2rem'}}
-            underline
-            href="https://commonmark.org/help/"
-            target="_blank"
-          >
-            <Info size={16}/>
-            Supports Markdown
+        <Popover
+          trigger="hover"
+          placement="left"
+          hideArrow
+          content={
+            <Text px={0.5} style={{ display: 'flex' }} b span small>
+              Supports Markdown
+            </Text>
+          }
+        >
+          <Link underline href="https://commonmark.org/help/" target="_blank">
+            <Info size={16} />
           </Link>
-        </Text>
+        </Popover>
       </Flex>
     </>
   );

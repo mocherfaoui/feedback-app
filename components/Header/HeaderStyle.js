@@ -25,6 +25,7 @@ export const MenuWrapper = styled('div', {
 export const DesktopMenuItems = styled('div', {
   display: 'flex',
   gap: '1rem',
+  cursor: 'pointer',
   '@sm': { display: 'none' },
 });
 export const MobileMenuItems = styled('div', {

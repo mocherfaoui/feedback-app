@@ -1,12 +1,14 @@
 import { useRef, useState } from 'react';
 import { AiFillStar } from 'react-icons/ai';
 import { HiReply } from 'react-icons/hi';
+import { RiMedalLine } from 'react-icons/ri';
 import dynamic from 'next/dynamic';
 import {
   Badge,
   Button,
   ButtonDropdown,
   Card,
+  Popover,
   Text,
   User,
 } from '@geist-ui/core';
@@ -109,11 +111,22 @@ export const Feedback = ({
               src={avatar}
               name={
                 <Flex css={{ display: 'flex', alignItems: 'center' }}>
-                  {author}
+                  <Text font={.9} span>{author}</Text>
                   {isAdmin && (
-                    <Badge ml={0.4} font=".7rem">
-                      Owner
-                    </Badge>
+                    <Popover
+                      content={
+                        <Text b small px={.3} span>
+                          Owner
+                        </Text>
+                      }
+                      placement='top'
+                      hideArrow
+                      trigger="hover"
+                    >
+                      <Text span margin={0} pl={0.3} font={1.2}>
+                        <RiMedalLine />
+                      </Text>
+                    </Popover>
                   )}
                   {rating && (
                     <>
@@ -264,7 +277,7 @@ export const Feedback = ({
       )}
       {replies.length > 0 && (
         <Flex
-          style={{ marginLeft: '2.5rem', flexDirection: 'column', gap: '1rem' }}
+          style={{ marginLeft: '1.7rem', flexDirection: 'column', gap: '1rem' }}
         >
           {replies.map((reply) => (
             <Feedback
