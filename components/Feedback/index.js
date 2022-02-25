@@ -4,7 +4,6 @@ import { HiReply } from 'react-icons/hi';
 import { RiMedalLine } from 'react-icons/ri';
 import dynamic from 'next/dynamic';
 import {
-  Badge,
   Button,
   ButtonDropdown,
   Card,
@@ -111,11 +110,11 @@ export const Feedback = ({
               src={avatar}
               name={
                 <Flex css={{ display: 'flex', alignItems: 'center' }}>
-                  <Text font={.9} span>{author}</Text>
+                  <Text font={.8} span>{author}</Text>
                   {isAdmin && (
                     <Popover
                       content={
-                        <Text b small px={.3} span>
+                        <Text b font={.7} px={.3} span>
                           Owner
                         </Text>
                       }
@@ -141,7 +140,7 @@ export const Feedback = ({
                           alignItems: 'center',
                         }}
                       >
-                        <Text b font={0.9} my="auto" span>
+                        <Text b font={0.8} my="auto" span>
                           {rating}/5
                         </Text>
                         <AiFillStar size="1.1rem" />

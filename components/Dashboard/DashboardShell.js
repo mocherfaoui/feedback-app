@@ -13,6 +13,9 @@ export default function DashboardShell({ children, pageName, visible }) {
       .resp-table.display .content{
         overflow-x:auto;
       }
+      .resp-table.display .caption{
+        margin:0;
+      }
       `}</style>
       <Container>
         <Flex
@@ -31,7 +34,7 @@ export default function DashboardShell({ children, pageName, visible }) {
             </Button>
           ) : null}
         </Flex>
-        <Display shadow width="100%" className="resp-table">
+        <Display shadow width="100%" className="resp-table" mb={0}>
           {children}
         </Display>
       </Container>

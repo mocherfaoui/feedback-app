@@ -34,6 +34,7 @@ export default function EmbeddedPage({ feedbackPage }) {
   const [ratingValue, setRatingValue] = useState(null);
   const [replyInput, setReplyInput] = useState(null);
   const [markdownPreview, setMarkdownPreview] = useState(null);
+  const isMobile = useMediaQuery('mobile');
   const siteAndRoute = router.query?.site;
   const siteId = siteAndRoute ? siteAndRoute[0] : null;
   const route = siteAndRoute ? siteAndRoute[1] : null;
@@ -53,8 +54,6 @@ export default function EmbeddedPage({ feedbackPage }) {
         (a, b) =>
           new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
       );
-
-  const isMobile = useMediaQuery('mobile');
   const addFeedback = async (e) => {
     e.preventDefault();
     const newFeedback = {
@@ -100,7 +99,11 @@ export default function EmbeddedPage({ feedbackPage }) {
               <style>{`
             .feedback-editor header .scroll-container{
               padding:0;
-            }
+              }
+              .feedback-editor .content textarea:focus + .textarea_footer{
+                border-bottom:1px solid;
+                transition: .3s ease-in-out all;
+              }
             `}</style>
               <form onSubmit={addFeedback}>
                 <FeedbackEditor
@@ -144,7 +147,7 @@ export default function EmbeddedPage({ feedbackPage }) {
                             <Text span>&bull;</Text>
                           </Grid>
                           <Grid xs sm pt={isMobile && 1}>
-                            <Text span ml={isMobile && 'auto'}>
+                            <Text span mx={isMobile && 'auto'}>
                               Logged-in as{' '}
                               <Link
                                 icon
