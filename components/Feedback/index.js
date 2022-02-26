@@ -4,12 +4,12 @@ import { HiReply } from 'react-icons/hi';
 import { RiMedalLine } from 'react-icons/ri';
 import dynamic from 'next/dynamic';
 import {
+  Avatar,
   Button,
   ButtonDropdown,
   Card,
   Popover,
   Text,
-  User,
 } from '@geist-ui/core';
 import { Edit2, MoreVertical, Send, Trash } from '@geist-ui/icons';
 import { format, parseISO } from 'date-fns';
@@ -102,195 +102,209 @@ export const Feedback = ({
   };
   return (
     <>
-      <Card width="100%" mb={0} hoverable id={id} key={id}>
-        <Flex css={{ flexDirection: 'column' }}>
-          <Flex css={{ justifyContent: 'space-between' }}>
-            <User
-              className="w-100"
-              src={avatar}
-              name={
-                <Flex css={{ display: 'flex', alignItems: 'center' }}>
-                  <Text font={.8} span>{author}</Text>
-                  {isAdmin && (
-                    <Popover
-                      content={
-                        <Text b font={.7} px={.3} span>
-                          Owner
-                        </Text>
-                      }
-                      placement='top'
-                      hideArrow
-                      trigger="hover"
-                    >
-                      <Text span margin={0} pl={0.3} font={1.2}>
-                        <RiMedalLine />
-                      </Text>
-                    </Popover>
-                  )}
-                  {rating && (
-                    <>
-                      <Text span px={0.5}>
-                        &bull;
-                      </Text>
-                      <Text
-                        span
-                        style={{
-                          display: 'flex',
-                          gap: '.3rem',
-                          alignItems: 'center',
-                        }}
+      <Flex css={{ gap: '.5rem', alignItems: 'baseline' }}>
+        <Text span small>
+          <Avatar src={avatar} />
+        </Text>
+        <Flex css={{ flexDirection: 'column', gap: '1rem', width: '100%' }}>
+          <Card width="100%" mb={0} hoverable id={id} key={id}>
+            <Flex css={{ flexDirection: 'column' }}>
+              <Flex css={{ justifyContent: 'space-between' }}>
+                <Flex css={{ flexDirection: 'column', gap: '.1rem' }}>
+                  <Flex css={{ display: 'flex', alignItems: 'center' }}>
+                    <Text b font={0.8} span>
+                      {author}
+                    </Text>
+                    {isAdmin && (
+                      <Popover
+                        content={
+                          <Text b font={0.7} px={0.3} span>
+                            Owner
+                          </Text>
+                        }
+                        placement="top"
+                        hideArrow
+                        trigger="hover"
                       >
-                        <Text b font={0.8} my="auto" span>
-                          {rating}/5
+                        <Text span pl={0.2}>
+                          <RiMedalLine size={15} />
                         </Text>
-                        <AiFillStar size="1.1rem" />
-                      </Text>
-                    </>
-                  )}
+                      </Popover>
+                    )}
+                    {rating && (
+                      <>
+                        <Text span px={0.5}>
+                          &bull;
+                        </Text>
+                        <Text
+                          span
+                          style={{
+                            display: 'flex',
+                            gap: '.3rem',
+                            alignItems: 'center',
+                          }}
+                        >
+                          <Text b font={0.8} my="auto" span>
+                            {rating}/5
+                          </Text>
+                          <AiFillStar size="1.1rem" />
+                        </Text>
+                      </>
+                    )}
+                  </Flex>
+                  <Flex>
+                    <Text
+                      span
+                      title={
+                        createdAt && format(parseISO(createdAt), 'E, PPP p O')
+                      }
+                      font={0.6}
+                      type="secondary"
+                    >
+                      {createdAt &&
+                        timeAgo.format(
+                          parseISO(createdAt),
+                          'twitter-minute-now'
+                        )}
+                    </Text>
+                    {updatedAt && (
+                      <>
+                        <Text type="secondary" span px={0.3} font={0.5}>
+                          &bull;
+                        </Text>
+                        <Text
+                          span
+                          type="secondary"
+                          font={0.6}
+                          title={
+                            updatedAt &&
+                            format(parseISO(updatedAt), 'E, PPP p O')
+                          }
+                        >
+                          updated {timeAgo.format(parseISO(updatedAt))}
+                        </Text>
+                      </>
+                    )}
+                  </Flex>
                 </Flex>
-              }
-              px={0}
-            >
-              <Text
-                title={createdAt && format(parseISO(createdAt), 'E, PPP p O')}
-                small
-                type="secondary"
-              >
-                {createdAt &&
-                  timeAgo.format(parseISO(createdAt), 'twitter-minute-now')}
-              </Text>
-              {updatedAt && (
-                <Text
-                  type="secondary"
-                  small
-                  title={updatedAt && format(parseISO(updatedAt), 'E, PPP p O')}
-                >
-                  {' '}
-                  &bull; updated {timeAgo.format(parseISO(updatedAt))}
-                </Text>
-              )}
-            </User>
-            {(isUser || superUser) && (
-              <ButtonDropdown
-                scale={1 / 3}
-                auto
-                icon={<MoreVertical />}
-                style={{ height: 'max-content' }}
-                className="btn-dropdown"
-              >
-                {isUser && (
-                  <ButtonDropdown.Item
-                    type="warning"
-                    onClick={() => setEdit({ ...edit, isEditing: true })}
-                  >
-                    <Edit2 size={15} />
-                  </ButtonDropdown.Item>
-                )}
-                <ButtonDropdown.Item type="error" onClick={onDelete}>
-                  <Trash size={15} />
-                </ButtonDropdown.Item>
-              </ButtonDropdown>
-            )}
-          </Flex>
-          {edit.isEditing ? (
-            <form onSubmit={onUpdate}>
-              <FeedbackEditor
-                onChange={(e) =>
-                  setEdit({ ...edit, editPreview: e.target.value })
-                }
-                defaultValue={edit.editPreview}
-                inputRef={editInputEl}
-                previewSource={edit.editPreview}
-              />
-              <Flex css={{ marginTop: '.5rem', gap: '.5rem' }}>
-                <Button auto scale={2 / 3} type="warning" htmlType="submit">
-                  Update
-                </Button>
-                <Button
-                  auto
-                  scale={2 / 3}
-                  type="abort"
-                  onClick={() => setEdit({ ...edit, isEditing: false })}
-                >
-                  Cancel
-                </Button>
-              </Flex>
-            </form>
-          ) : (
-            <>
-              <MarkdownRender source={text} user={user} />
-              {user && (
-                <Flex>
-                  <Button
-                    icon={<HiReply />}
-                    type="default"
+                {(isUser || superUser) && (
+                  <ButtonDropdown
+                    scale={1 / 3}
                     auto
-                    scale={2 / 3}
-                    onClick={() => setReplyInput({ id: id })}
+                    icon={<MoreVertical />}
+                    style={{ height: 'max-content' }}
+                    className="btn-dropdown"
                   >
-                    Reply
+                    {isUser && (
+                      <ButtonDropdown.Item
+                        type="warning"
+                        onClick={() => setEdit({ ...edit, isEditing: true })}
+                      >
+                        <Edit2 size={15} />
+                      </ButtonDropdown.Item>
+                    )}
+                    <ButtonDropdown.Item type="error" onClick={onDelete}>
+                      <Trash size={15} />
+                    </ButtonDropdown.Item>
+                  </ButtonDropdown>
+                )}
+              </Flex>
+              {edit.isEditing ? (
+                <form onSubmit={onUpdate}>
+                  <FeedbackEditor
+                    onChange={(e) =>
+                      setEdit({ ...edit, editPreview: e.target.value })
+                    }
+                    defaultValue={edit.editPreview}
+                    inputRef={editInputEl}
+                    previewSource={edit.editPreview}
+                  />
+                  <Flex css={{ marginTop: '.5rem', gap: '.5rem' }}>
+                    <Button auto scale={2 / 3} type="warning" htmlType="submit">
+                      Update
+                    </Button>
+                    <Button
+                      auto
+                      scale={2 / 3}
+                      type="abort"
+                      onClick={() => setEdit({ ...edit, isEditing: false })}
+                    >
+                      Cancel
+                    </Button>
+                  </Flex>
+                </form>
+              ) : (
+                <>
+                  <MarkdownRender source={text} user={user} />
+                  {user && (
+                    <Flex>
+                      <Button
+                        icon={<HiReply />}
+                        type="default"
+                        auto
+                        scale={2 / 3}
+                        onClick={() => setReplyInput({ id: id })}
+                      >
+                        Reply
+                      </Button>
+                    </Flex>
+                  )}
+                </>
+              )}
+            </Flex>
+          </Card>
+          {isReplying && (
+            <Card>
+              <form onSubmit={onReply}>
+                <FeedbackEditor
+                  onChange={(e) => setMarkdownPreview(e.target.value)}
+                  inputRef={replyEl}
+                  placeholder="your reply goes here..."
+                  defaultValue={markdownPreview}
+                  previewSource={markdownPreview}
+                />
+                <Flex
+                  css={{
+                    flexDirection: 'row-reverse',
+                    gap: '.5rem',
+                  }}
+                >
+                  <Button
+                    icon={<Send />}
+                    iconRight
+                    auto
+                    htmlType="submit"
+                    type="success"
+                    scale={2 / 3}
+                  >
+                    Post
+                  </Button>
+                  <Button
+                    auto
+                    type="abort"
+                    scale={2 / 3}
+                    onClick={() => setReplyInput(null)}
+                  >
+                    Cancel
                   </Button>
                 </Flex>
-              )}
-            </>
+              </form>
+            </Card>
           )}
+          {replies.length > 0 &&
+            replies.map((reply) => (
+              <Feedback
+                key={reply.id}
+                replies={[]}
+                {...reply}
+                parentId={id}
+                replyInput={replyInput}
+                setReplyInput={setReplyInput}
+                mutate={mutate}
+              />
+            ))}
         </Flex>
-      </Card>
-      {isReplying && (
-        <Card>
-          <form onSubmit={onReply}>
-            <FeedbackEditor
-              onChange={(e) => setMarkdownPreview(e.target.value)}
-              inputRef={replyEl}
-              placeholder="your reply goes here..."
-              defaultValue={markdownPreview}
-              previewSource={markdownPreview}
-            />
-            <Flex
-              css={{
-                flexDirection: 'row-reverse',
-                gap: '.5rem',
-              }}
-            >
-              <Button
-                icon={<Send />}
-                iconRight
-                auto
-                htmlType="submit"
-                type="success"
-                scale={2 / 3}
-              >
-                Post
-              </Button>
-              <Button
-                auto
-                type="abort"
-                scale={2 / 3}
-                onClick={() => setReplyInput(null)}
-              >
-                Cancel
-              </Button>
-            </Flex>
-          </form>
-        </Card>
-      )}
-      {replies.length > 0 && (
-        <Flex
-          style={{ marginLeft: '1.7rem', flexDirection: 'column', gap: '1rem' }}
-        >
-          {replies.map((reply) => (
-            <Feedback
-              key={reply.id}
-              replies={[]}
-              {...reply}
-              parentId={id}
-              replyInput={replyInput}
-              setReplyInput={setReplyInput}
-              mutate={mutate}
-            />
-          ))}
-        </Flex>
-      )}
+      </Flex>
     </>
   );
 };

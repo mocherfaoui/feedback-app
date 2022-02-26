@@ -175,12 +175,6 @@ export default function EmbeddedPage({ feedbackPage }) {
           {rootFeedbacks?.length ? (
             <Flex css={{ flexDirection: 'column', gap: '1rem' }}>
               <style>{`
-                .user.w-100 .names .name{
-                  max-width:100%!important;
-                }
-                .user.w-100 .names{
-                  gap:.3rem;
-                }
                 .img-display .caption{
                     margin-top:1rem;
                   }
