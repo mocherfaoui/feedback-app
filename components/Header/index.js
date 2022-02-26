@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/link-passhref */
 import { useState } from 'react';
 import NextLink from 'next/link';
 import { Avatar, Link, Popover } from '@geist-ui/core';

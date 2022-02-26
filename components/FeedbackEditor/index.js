@@ -22,7 +22,7 @@ export default function FeedbackEditor({
               width: '100%',
               resize: 'none',
               border: 0,
-              margin: '1.5rem 0',
+              marginTop: '1rem',
               padding: 0,
             }}
             minRows={1}
@@ -37,7 +37,7 @@ export default function FeedbackEditor({
               placement="left"
               hideArrow
               content={
-                <Text px={0.5} style={{ display: 'flex' }} b span small>
+                <Text px={0.5} style={{ display: 'flex' }} b span font={0.7}>
                   Supports Markdown
                 </Text>
               }
@@ -62,6 +62,5 @@ export default function FeedbackEditor({
 const TextAreaFooter = styled('div', {
   display: 'flex',
   justifyContent: 'end',
-  marginBottom: '1rem',
   borderBottom: '1px solid #eaeaea',
 });

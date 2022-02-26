@@ -104,6 +104,9 @@ export default function EmbeddedPage({ feedbackPage }) {
                 border-bottom:1px solid;
                 transition: .3s ease-in-out all;
               }
+              .feedback-editor .content{
+                padding:1rem 0;
+              }
             `}</style>
               <form onSubmit={addFeedback}>
                 <FeedbackEditor
@@ -183,6 +186,9 @@ export default function EmbeddedPage({ feedbackPage }) {
                   }
                   .btn-dropdown details{
                     border-radius: 6px;
+                  }
+                  .feedback-card > div{
+                    padding:.5rem 1rem!important;
                   }
                 `}</style>
               {site &&
