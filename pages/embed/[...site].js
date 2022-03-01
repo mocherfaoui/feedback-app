@@ -1,10 +1,12 @@
 import { useRef, useState } from 'react';
+import { AiOutlineSend } from 'react-icons/ai';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import {
+  Avatar,
   Button,
+  Card,
   Grid,
-  Link,
   Rating,
   Spacer,
   Text,
@@ -29,6 +31,7 @@ export default function EmbeddedPage({ feedbackPage }) {
   const { user } = useAuth();
   const inputEl = useRef();
   const router = useRouter();
+  const [feedbackInput, setFeedbackInput] = useState(false);
   const [, setLocked] = useState(false);
   const [ratingValue, setRatingValue] = useState(null);
   const [replyInput, setReplyInput] = useState(null);
@@ -93,8 +96,43 @@ export default function EmbeddedPage({ feedbackPage }) {
         <Text h3>This website was not found. Please reverify the ID.</Text>
       ) : (
         <>
-          <>
-            <style>{`
+          {!feedbackPage && (
+            <Card mb={1}>
+              <Flex
+                css={{ justifyContent: 'space-between', alignItems: 'center' }}
+              >
+                <Text span b>
+                  Feedbacks({rootFeedbacks?.length})
+                </Text>
+                <Grid.Container gap={1} alignItems="center">
+                  <Grid ml="auto" xs={5} sm={4.5}>
+                    <Button
+                      scale={2 / 3}
+                      icon={<Plus />}
+                      iconRight
+                      type="default"
+                      ghost
+                      auto
+                      onClick={() => setFeedbackInput((prev) => !prev)}
+                    >
+                      Add Feedback
+                    </Button>
+                  </Grid>
+                  <Grid xs={2} sm={2}>
+                    <Avatar
+                      ml="auto"
+                      style={{ cursor: 'pointer' }}
+                      onClick={() => window.open('/user/settings')}
+                      src={user?.photoURL}
+                    />
+                  </Grid>
+                </Grid.Container>
+              </Flex>
+            </Card>
+          )}
+          <Card>
+            <>
+              <style>{`
             .feedback-editor header .scroll-container{
               padding:0;
               }
@@ -102,74 +140,78 @@ export default function EmbeddedPage({ feedbackPage }) {
                 border-bottom:1px solid;
                 transition: .3s ease-in-out all;
               }
-              .feedback-editor .content{
+              .feedback-editor > .content{
                 padding:1rem 0;
               }
             `}</style>
-            <form onSubmit={addFeedback}>
-              <FeedbackEditor
-                onChange={(e) => setMarkdownPreview(e.target.value)}
-                inputRef={inputEl}
-                defaultValue={markdownPreview}
-                placeholder="write something..."
-                previewSource={markdownPreview}
-              />
-              {user ? (
-                <Flex css={{ alignItems: 'center' }}>
-                  <Grid.Container direction="row" alignItems="center">
-                    <Grid xs={9} sm={4.5}>
-                      <Button
-                        icon={<Plus />}
-                        auto
-                        scale={0.75}
-                        htmlType="submit"
-                        type="secondary"
+              {feedbackInput && (
+                <form onSubmit={addFeedback}>
+                  <FeedbackEditor
+                    onChange={(e) => setMarkdownPreview(e.target.value)}
+                    inputRef={inputEl}
+                    defaultValue={markdownPreview}
+                    placeholder="write something..."
+                    previewSource={markdownPreview}
+                  />
+                  {user ? (
+                    <Flex css={{ alignItems: 'center' }}>
+                      <Grid.Container
+                        direction="row-reverse"
+                        alignItems="center"
+                        justify="flex-start"
                       >
-                        Add Feedback
-                      </Button>
-                    </Grid>
-                    <Grid ml={isMobile && 'auto'} xs={13} sm={5.5} font="1rem">
-                      <Text span>Rate:</Text>
-                      <Rating
-                        ml={0.5}
-                        value={ratingValue}
-                        onLockedChange={setLocked}
-                        onValueChange={setRatingValue}
-                      />
-                    </Grid>
-                    {!feedbackPage && (
-                      <>
-                        <Grid xs={0} sm={0.7}>
-                          <Text span>&bull;</Text>
-                        </Grid>
-                        <Grid xs sm pt={isMobile && 1}>
-                          <Text span mx={isMobile && 'auto'}>
-                            Logged-in as{' '}
-                            <Link
-                              icon
-                              underline
-                              href="/user/settings"
-                              target="_blank"
+                        <Grid xs sm={4.5} justify="flex-end">
+                          <Grid xs={0} sm>
+                            <Button
+                              auto
+                              scale={0.75}
+                              type="abort"
+                              onClick={() => setFeedbackInput(false)}
                             >
-                              <Text b span>
-                                {user?.name}
-                              </Text>
-                            </Link>
-                          </Text>
+                              Cancel
+                            </Button>
+                          </Grid>
+                          <Grid xs sm>
+                            <Button
+                              ml={isMobile && 'auto'}
+                              icon={<AiOutlineSend />}
+                              iconRight
+                              auto
+                              scale={0.75}
+                              htmlType="submit"
+                              type="success"
+                            >
+                              Post
+                            </Button>
+                          </Grid>
                         </Grid>
-                      </>
-                    )}
-                  </Grid.Container>
-                </Flex>
-              ) : (
-                <LoginButtons />
+                        <Grid
+                          ml="auto"
+                          xs={13.5}
+                          sm={5.5}
+                          mr={isMobile && 'auto'}
+                          font="1rem"
+                        >
+                          <Text span>Rate:</Text>
+                          <Rating
+                            ml={0.5}
+                            value={ratingValue}
+                            onLockedChange={setLocked}
+                            onValueChange={setRatingValue}
+                          />
+                        </Grid>
+                      </Grid.Container>
+                    </Flex>
+                  ) : (
+                    <LoginButtons />
+                  )}
+                  <Spacer />
+                </form>
               )}
-            </form>
-            {rootFeedbacks?.length ? <Spacer /> : null}
-          </>
-          {rootFeedbacks?.length ? (
-            <Flex css={{ flexDirection: 'column', gap: '1rem' }}>
-              <style>{`
+            </>
+            {rootFeedbacks?.length ? (
+              <Flex css={{ flexDirection: 'column', gap: '1rem' }}>
+                <style>{`
                 .img-display .caption{
                     margin-top:1rem;
                   }
@@ -179,34 +221,41 @@ export default function EmbeddedPage({ feedbackPage }) {
                   .btn-dropdown details{
                     border-radius: 6px;
                   }
-                  .feedback- > div{
-                    padding:.5rem 1rem!important;
+                  .feedback-card > div{
+                    padding:.7rem !important;
+                  }
+                  .feedback-content > :first-child{
+                    margin-top:0;
+                  }
+                  .feedback-content > :last-child{
+                    margin-bottom:0;
                   }
                 `}</style>
-              {site &&
-                rootFeedbacks.map((_feedback) => (
-                  <Feedback
-                    key={_feedback.id}
-                    {..._feedback}
-                    feedbackApi={feedbackApi}
-                    mutate={mutate}
-                    replies={getReplies(_feedback.id)}
-                    route={route}
-                    siteId={siteId}
-                    siteAuthorId={site.authorId}
-                    siteURL={site.url}
-                    replyInput={replyInput}
-                    setReplyInput={setReplyInput}
-                  />
-                ))}
-            </Flex>
-          ) : (
-            <Text h5 margin={0} mt={2} style={{ textAlign: 'center' }}>
-              There are no feedbacks to show.
-              <br />
-              Be the first to add one!
-            </Text>
-          )}
+                {site &&
+                  rootFeedbacks.map((_feedback) => (
+                    <Feedback
+                      key={_feedback.id}
+                      {..._feedback}
+                      feedbackApi={feedbackApi}
+                      mutate={mutate}
+                      replies={getReplies(_feedback.id)}
+                      route={route}
+                      siteId={siteId}
+                      siteAuthorId={site.authorId}
+                      siteURL={site.url}
+                      replyInput={replyInput}
+                      setReplyInput={setReplyInput}
+                    />
+                  ))}
+              </Flex>
+            ) : (
+              <Text h5 margin={0} mt={2} style={{ textAlign: 'center' }}>
+                There are no feedbacks to show.
+                <br />
+                Be the first to add one!
+              </Text>
+            )}
+          </Card>
         </>
       )}
     </>

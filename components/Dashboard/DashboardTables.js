@@ -1,4 +1,4 @@
-import { Button, Code, Dot, Link, Popover, Table, Text } from '@geist-ui/core';
+import { Button, Code, Dot, Popover, Table, Text } from '@geist-ui/core';
 import Check from '@geist-ui/icons/check';
 import { format, parseISO } from 'date-fns';
 import { mutate } from 'swr';
@@ -78,25 +78,36 @@ export function FeedbackDashboard({ feedback }) {
       </>
     );
   };
-  const renderRoute = (rowData) => {
-    return <Code>{rowData}</Code>;
-  };
-  const renderURL = (rowData) => {
-    return <Text span>{rowData}</Text>;
-  };
-  const renderAuthor = (rowData) => {
-    return <Text b>{rowData}</Text>;
-  };
+  const renderRoute = (rowData) => <Code>{rowData}</Code>;
+  const renderURL = (rowData) => <Text span>{rowData}</Text>;
+  const renderAuthor = (rowData) => <Text b>{rowData}</Text>;
+  const renderFeedbackText = (rowData) => (
+    <Text title={rowData} span className="text-truncate">
+      {rowData}
+    </Text>
+  );
   return (
     <>
       <style>{`
     .no-wrap .cell{
       flex-flow:row nowrap!important;
     }
+    .text-truncate{
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: normal;
+      -webkit-line-clamp: 1;
+      -webkit-box-orient: vertical;
+      display: -webkit-box;
+    }
     `}</style>
       <Table data={feedback} emptyText="N/A">
         <Table.Column prop="author" label="author" render={renderAuthor} />
-        <Table.Column prop="text" label="feedback" />
+        <Table.Column
+          prop="text"
+          label="feedback"
+          render={renderFeedbackText}
+        />
         <Table.Column prop="siteURL" label="site name" render={renderURL} />
         <Table.Column prop="route" label="route" render={renderRoute} />
         <Table.Column

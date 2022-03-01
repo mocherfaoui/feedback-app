@@ -30,14 +30,22 @@ export function FBActionsArea({ feedbackId, rowIndex }) {
   return (
     <>
       <NextLink
-        href="/site/[rowIndex.siteId]#[feedbackId]"
+        href={`/site/${rowIndex.siteId}#${feedbackId}`}
         as={`/site/${rowIndex.siteId}#${feedbackId}`}
         passHref
       >
-        <Link color block mr="1rem" target="_blank" icon>
+        <Link
+          color
+          block
+          mr="1rem"
+          href={`/site/${rowIndex.siteId}`}
+          target="_blank"
+          icon
+        >
           View Feedback
         </Link>
       </NextLink>
+
       <DeleteButton feedbackId={feedbackId} name="feedback" />
     </>
   );

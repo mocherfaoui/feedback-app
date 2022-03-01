@@ -1,5 +1,3 @@
-import { Card } from '@geist-ui/core';
-
 import { Container } from '@/components/GlobalComponents';
 import Layout from '@/components/Layout';
 
@@ -9,9 +7,7 @@ export default function FeedbackPage() {
   return (
     <Layout>
       <Container css={{ marginTop: '1rem' }}>
-        <Card>
-          <EmbeddedPage feedbackPage />
-        </Card>
+        <EmbeddedPage feedbackPage />
       </Container>
     </Layout>
   );

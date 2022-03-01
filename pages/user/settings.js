@@ -29,7 +29,6 @@ function UserSettings() {
     register,
     handleSubmit,
     reset,
-    formState: { errors },
   } = useForm();
   const oneAuth = user?.providers?.length === 1;
   const isGoogle = user?.providers?.some((el) => el.name === 'google.com');

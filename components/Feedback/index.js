@@ -19,6 +19,8 @@ import en from 'javascript-time-ago/locale/en.json';
 import { useAuth } from '@/lib/auth';
 import { createFeedback, deleteFeedback, updateFeedback } from '@/lib/db';
 
+import { styled } from '@/stitches.config';
+
 import { Flex } from '../GlobalComponents';
 import { MarkdownRender } from '../MarkdownRender';
 
@@ -110,6 +112,7 @@ export const Feedback = ({
         <Flex css={{ flexDirection: 'column', gap: '1rem', width: '100%' }}>
           <Flex
             css={{ flexDirection: 'column' }}
+            id={id}
             className={clsx(parentId && 'feedbacks_replies')}
           >
             <Card
@@ -117,7 +120,6 @@ export const Feedback = ({
               width="100%"
               mb={0}
               hoverable
-              id={id}
               key={id}
             >
               <Flex css={{ flexDirection: 'column' }}>
@@ -253,7 +255,9 @@ export const Feedback = ({
                     </Flex>
                   </form>
                 ) : (
-                  <MarkdownRender source={text} user={user} />
+                  <FeedbackContent className="feedback-content">
+                    <MarkdownRender source={text} user={user} />
+                  </FeedbackContent>
                 )}
               </Flex>
             </Card>
@@ -340,3 +344,11 @@ export const Feedback = ({
     </>
   );
 };
+const FeedbackContent = styled('div', {
+  my: '1rem',
+  overflowWrap: 'break-word',
+  lineHeight: '1rem',
+  maxWidth: '65ch',
+  fontSize: '.95rem',
+  lineHeight: 1.77,
+});
