@@ -3,7 +3,6 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import {
   Button,
-  Card,
   Grid,
   Link,
   Rating,
@@ -93,10 +92,9 @@ export default function EmbeddedPage({ feedbackPage }) {
       {site?.length === 0 ? (
         <Text h3>This website was not found. Please reverify the ID.</Text>
       ) : (
-        <Card>
-          {
-            <>
-              <style>{`
+        <>
+          <>
+            <style>{`
             .feedback-editor header .scroll-container{
               padding:0;
               }
@@ -108,73 +106,67 @@ export default function EmbeddedPage({ feedbackPage }) {
                 padding:1rem 0;
               }
             `}</style>
-              <form onSubmit={addFeedback}>
-                <FeedbackEditor
-                  onChange={(e) => setMarkdownPreview(e.target.value)}
-                  inputRef={inputEl}
-                  defaultValue={markdownPreview}
-                  placeholder="write something..."
-                  previewSource={markdownPreview}
-                />
-                {user ? (
-                  <Flex css={{ alignItems: 'center' }}>
-                    <Grid.Container direction="row" alignItems="center">
-                      <Grid xs={9} sm={4.5}>
-                        <Button
-                          icon={<Plus />}
-                          auto
-                          scale={0.75}
-                          htmlType="submit"
-                          type="secondary"
-                        >
-                          Add Feedback
-                        </Button>
-                      </Grid>
-                      <Grid
-                        ml={isMobile && 'auto'}
-                        xs={13}
-                        sm={5.5}
-                        font="1rem"
+            <form onSubmit={addFeedback}>
+              <FeedbackEditor
+                onChange={(e) => setMarkdownPreview(e.target.value)}
+                inputRef={inputEl}
+                defaultValue={markdownPreview}
+                placeholder="write something..."
+                previewSource={markdownPreview}
+              />
+              {user ? (
+                <Flex css={{ alignItems: 'center' }}>
+                  <Grid.Container direction="row" alignItems="center">
+                    <Grid xs={9} sm={4.5}>
+                      <Button
+                        icon={<Plus />}
+                        auto
+                        scale={0.75}
+                        htmlType="submit"
+                        type="secondary"
                       >
-                        <Text span>Rate:</Text>
-                        <Rating
-                          ml={0.5}
-                          value={ratingValue}
-                          onLockedChange={setLocked}
-                          onValueChange={setRatingValue}
-                        />
-                      </Grid>
-                      {!feedbackPage && (
-                        <>
-                          <Grid xs={0} sm={0.7}>
-                            <Text span>&bull;</Text>
-                          </Grid>
-                          <Grid xs sm pt={isMobile && 1}>
-                            <Text span mx={isMobile && 'auto'}>
-                              Logged-in as{' '}
-                              <Link
-                                icon
-                                underline
-                                href="/user/settings"
-                                target="_blank"
-                              >
-                                <Text b span>
-                                  {user?.name}
-                                </Text>
-                              </Link>
-                            </Text>
-                          </Grid>
-                        </>
-                      )}
-                    </Grid.Container>
-                  </Flex>
-                ) : (
-                  <LoginButtons />
-                )}
-              </form>
-              {rootFeedbacks?.length ? <Spacer /> : null}
-            </>
-          }
+                        Add Feedback
+                      </Button>
+                    </Grid>
+                    <Grid ml={isMobile && 'auto'} xs={13} sm={5.5} font="1rem">
+                      <Text span>Rate:</Text>
+                      <Rating
+                        ml={0.5}
+                        value={ratingValue}
+                        onLockedChange={setLocked}
+                        onValueChange={setRatingValue}
+                      />
+                    </Grid>
+                    {!feedbackPage && (
+                      <>
+                        <Grid xs={0} sm={0.7}>
+                          <Text span>&bull;</Text>
+                        </Grid>
+                        <Grid xs sm pt={isMobile && 1}>
+                          <Text span mx={isMobile && 'auto'}>
+                            Logged-in as{' '}
+                            <Link
+                              icon
+                              underline
+                              href="/user/settings"
+                              target="_blank"
+                            >
+                              <Text b span>
+                                {user?.name}
+                              </Text>
+                            </Link>
+                          </Text>
+                        </Grid>
+                      </>
+                    )}
+                  </Grid.Container>
+                </Flex>
+              ) : (
+                <LoginButtons />
+              )}
+            </form>
+            {rootFeedbacks?.length ? <Spacer /> : null}
+          </>
           {rootFeedbacks?.length ? (
             <Flex css={{ flexDirection: 'column', gap: '1rem' }}>
               <style>{`
@@ -187,7 +179,7 @@ export default function EmbeddedPage({ feedbackPage }) {
                   .btn-dropdown details{
                     border-radius: 6px;
                   }
-                  .feedback-card > div{
+                  .feedback- > div{
                     padding:.5rem 1rem!important;
                   }
                 `}</style>
@@ -215,7 +207,7 @@ export default function EmbeddedPage({ feedbackPage }) {
               Be the first to add one!
             </Text>
           )}
-        </Card>
+        </>
       )}
     </>
   );

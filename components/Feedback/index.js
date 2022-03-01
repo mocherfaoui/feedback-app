@@ -11,6 +11,7 @@ import {
   Text,
 } from '@geist-ui/core';
 import { Edit2, MoreVertical, Trash } from '@geist-ui/icons';
+import clsx from 'clsx';
 import { format, parseISO } from 'date-fns';
 import TimeAgo from 'javascript-time-ago';
 import en from 'javascript-time-ago/locale/en.json';
@@ -107,7 +108,10 @@ export const Feedback = ({
           <Avatar width="30px" height="30px" src={avatar} />
         </Text>
         <Flex css={{ flexDirection: 'column', gap: '1rem', width: '100%' }}>
-          <Flex css={{ flexDirection: 'column' }}>
+          <Flex
+            css={{ flexDirection: 'column' }}
+            className={clsx(parentId && 'feedbacks_replies')}
+          >
             <Card
               className="feedback-card"
               width="100%"
@@ -125,6 +129,7 @@ export const Feedback = ({
                       </Text>
                       {isAdmin && (
                         <Popover
+                          style={{ display: 'inline-flex' }}
                           content={
                             <Text b font={0.7} px={0.3} span>
                               Owner
@@ -134,9 +139,10 @@ export const Feedback = ({
                           hideArrow
                           trigger="hover"
                         >
-                          <Text span pl={0.2}>
-                            <RiMedalLine size={15} />
-                          </Text>
+                          <RiMedalLine
+                            size={23}
+                            style={{ paddingLeft: '.3rem' }}
+                          />
                         </Popover>
                       )}
                       {rating && (
@@ -251,8 +257,8 @@ export const Feedback = ({
                 )}
               </Flex>
             </Card>
-            {user && (
-              <Flex css={{ gap: '1rem' }}>
+            <Flex css={{ gap: '1rem' }}>
+              {user && !edit.isEditing && (
                 <Button
                   padding={0}
                   type="abort"
@@ -262,21 +268,21 @@ export const Feedback = ({
                 >
                   Reply
                 </Button>
-                {!parentId && (
-                  <Button
-                    type="abort"
-                    auto
-                    scale={2 / 3}
-                    padding={0}
-                    onClick={() => setVisibleReplies((prev) => !prev)}
-                  >
-                    {visibleReplies
-                      ? `Hide Replies(${replies.length})`
-                      : `View Replies(${replies.length})`}
-                  </Button>
-                )}
-              </Flex>
-            )}
+              )}
+              {!parentId && (
+                <Button
+                  type="abort"
+                  auto
+                  scale={2 / 3}
+                  padding={0}
+                  onClick={() => setVisibleReplies((prev) => !prev)}
+                >
+                  {visibleReplies
+                    ? `Hide Replies(${replies.length})`
+                    : `View Replies(${replies.length})`}
+                </Button>
+              )}
+            </Flex>
           </Flex>
           {isReplying && (
             <Card className="feedback-card">

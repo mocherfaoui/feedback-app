@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/link-passhref */
 import { useState } from 'react';
 import NextLink from 'next/link';
 import { Avatar, Link, Popover } from '@geist-ui/core';
@@ -36,7 +35,7 @@ export default function Header() {
               <NextLink href="/user/settings" passHref>
                 <MenuLink>Settings</MenuLink>
               </NextLink>
-              <NextLink href="/">
+              <NextLink href="/" passHref>
                 <MenuLink onClick={() => signout()}>Log Out</MenuLink>
               </NextLink>
             </>
@@ -64,7 +63,7 @@ function NavMenu({ isOpen, setOpen }) {
           Settings
         </MenuLink>
       </NextLink>
-      <NextLink href="/">
+      <NextLink href="/" passHref>
         <MenuLink onClick={() => signout()}>
           <LogOut />
           Log Out

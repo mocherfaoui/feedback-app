@@ -8,7 +8,7 @@ export const { styled, getCssText, css, keyframes } = createStitches({
     },
   },
   utils: {
-    juct: (value) => ({
+    justify: (value) => ({
       justifyContent: value,
     }),
   },

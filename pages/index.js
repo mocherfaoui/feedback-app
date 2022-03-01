@@ -6,11 +6,9 @@ import IframeResizer from 'iframe-resizer-react';
 import { useAuth } from '@/lib/auth';
 
 import { Container, Flex } from '@/components/GlobalComponents';
-import Icons from '@/components/Icons';
+import HeroArea from '@/components/HeroArea';
 import Layout from '@/components/Layout';
 import LoginButtons from '@/components/LoginButtons';
-
-import { keyframes, styled } from '@/stitches.config';
 
 export default function Home() {
   const { user } = useAuth();
@@ -18,32 +16,26 @@ export default function Home() {
     process.env.NODE_ENV === 'development'
       ? ''
       : 'https://feedback-app0.vercel.app';
+
+  const scrollTo = () => {
+    const howTo = document.getElementById('how-to-use');
+    howTo.scrollIntoView({ behavior: 'smooth' });
+  };
   return (
     <>
       <Head>
         <title>Feedback App - Homepage</title>
       </Head>
       <Layout>
+        <HeroArea scrollTo={scrollTo} />
         <Container style={{ paddingTop: '2rem' }}>
           <Flex css={{ flexDirection: 'column', gap: '1rem' }}>
-            <Text h2 width="80%">
-              Get instant feedback for your <GradientText>website</GradientText>{' '}
-              or <GradientText>product</GradientText>
-            </Text>
-            <Text span type="secondary">
-              Easily add user feedback to your website in one line of code.
-            </Text>
-            <Text span type="secondary">
-              This website was created using Next.js, Firebase and deployed on
-              Vercel.
-            </Text>
-            <Icons />
             <Text h3>No Trackers. No Ads. Just Feedback.</Text>
             <Text span type="secondary">
               Add feedback to your website without compromising your users'
               privacy.
             </Text>
-            <Text h3 margin={0} mt={1}>
+            <Text h3 margin={0} mt={1} id="how-to-use">
               How To Use
             </Text>
             <ol>
@@ -109,24 +101,3 @@ export default function Home() {
     </>
   );
 }
-
-const animate = keyframes({
-  '0%': {
-    backgroundPosition: '0px 50%',
-  },
-  '50%': {
-    backgroundPosition: '100% 50%',
-  },
-  '100%': {
-    backgroundPosition: '0px 50%',
-  },
-});
-const GradientText = styled('span', {
-  background: 'linear-gradient(to right, #536976, #8d9791, #292e49)',
-  backgroundSize: '300%',
-  WebkitBackgroundClip: 'text',
-  MozBackgroundClip: 'text',
-  WebkitTextFillColor: 'transparent',
-  MozTextFillColor: 'transparent',
-  animation: `${animate} 9s ease-in-out infinite`,
-});
