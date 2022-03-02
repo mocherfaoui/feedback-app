@@ -8,7 +8,6 @@ import {
   Card,
   Grid,
   Rating,
-  Spacer,
   Text,
   useMediaQuery,
 } from '@geist-ui/core';
@@ -33,7 +32,7 @@ export default function EmbeddedPage({ feedbackPage }) {
   const router = useRouter();
   const [feedbackInput, setFeedbackInput] = useState(false);
   const [, setLocked] = useState(false);
-  const [ratingValue, setRatingValue] = useState(null);
+  const [ratingValue, setRatingValue] = useState(0);
   const [replyInput, setReplyInput] = useState(null);
   const [markdownPreview, setMarkdownPreview] = useState(null);
   const isMobile = useMediaQuery('mobile');
@@ -96,29 +95,29 @@ export default function EmbeddedPage({ feedbackPage }) {
         <Text h3>This website was not found. Please reverify the ID.</Text>
       ) : (
         <>
-          {!feedbackPage && (
-            <Card mb={1}>
-              <Flex
-                css={{ justifyContent: 'space-between', alignItems: 'center' }}
-              >
-                <Text span b>
-                  Feedbacks({rootFeedbacks?.length})
-                </Text>
-                <Grid.Container gap={1} alignItems="center">
-                  <Grid ml="auto" xs={5} sm={4.5}>
-                    <Button
-                      scale={2 / 3}
-                      icon={<Plus />}
-                      iconRight
-                      type="default"
-                      ghost
-                      auto
-                      onClick={() => setFeedbackInput((prev) => !prev)}
-                    >
-                      Add Feedback
-                    </Button>
-                  </Grid>
-                  <Grid xs={2} sm={2}>
+          <Card mb={1}>
+            <Flex
+              css={{ justifyContent: 'space-between', alignItems: 'center' }}
+            >
+              <Text span b>
+                Feedbacks({rootFeedbacks?.length})
+              </Text>
+              <Grid.Container gap={1} alignItems="center">
+                <Grid ml="auto" xs={15} sm={4.5}>
+                  <Button
+                    scale={2 / 3}
+                    icon={<Plus />}
+                    iconRight
+                    type="default"
+                    ghost
+                    auto
+                    onClick={() => setFeedbackInput((prev) => !prev)}
+                  >
+                    Add Feedback
+                  </Button>
+                </Grid>
+                {user && !feedbackPage && (
+                  <Grid xs={5} sm={2}>
                     <Avatar
                       ml="auto"
                       style={{ cursor: 'pointer' }}
@@ -126,13 +125,12 @@ export default function EmbeddedPage({ feedbackPage }) {
                       src={user?.photoURL}
                     />
                   </Grid>
-                </Grid.Container>
-              </Flex>
-            </Card>
-          )}
-          <Card>
-            <>
-              <style>{`
+                )}
+              </Grid.Container>
+            </Flex>
+          </Card>
+          <>
+            <style>{`
             .feedback-editor header .scroll-container{
               padding:0;
               }
@@ -144,7 +142,8 @@ export default function EmbeddedPage({ feedbackPage }) {
                 padding:1rem 0;
               }
             `}</style>
-              {feedbackInput && (
+            {feedbackInput && (
+              <Card mb={1}>
                 <form onSubmit={addFeedback}>
                   <FeedbackEditor
                     onChange={(e) => setMarkdownPreview(e.target.value)}
@@ -205,13 +204,13 @@ export default function EmbeddedPage({ feedbackPage }) {
                   ) : (
                     <LoginButtons />
                   )}
-                  <Spacer />
                 </form>
-              )}
-            </>
-            {rootFeedbacks?.length ? (
-              <Flex css={{ flexDirection: 'column', gap: '1rem' }}>
-                <style>{`
+              </Card>
+            )}
+          </>
+          {rootFeedbacks?.length ? (
+            <Flex css={{ flexDirection: 'column', gap: '1rem' }}>
+              <style>{`
                 .img-display .caption{
                     margin-top:1rem;
                   }
@@ -231,31 +230,30 @@ export default function EmbeddedPage({ feedbackPage }) {
                     margin-bottom:0;
                   }
                 `}</style>
-                {site &&
-                  rootFeedbacks.map((_feedback) => (
-                    <Feedback
-                      key={_feedback.id}
-                      {..._feedback}
-                      feedbackApi={feedbackApi}
-                      mutate={mutate}
-                      replies={getReplies(_feedback.id)}
-                      route={route}
-                      siteId={siteId}
-                      siteAuthorId={site.authorId}
-                      siteURL={site.url}
-                      replyInput={replyInput}
-                      setReplyInput={setReplyInput}
-                    />
-                  ))}
-              </Flex>
-            ) : (
-              <Text h5 margin={0} mt={2} style={{ textAlign: 'center' }}>
-                There are no feedbacks to show.
-                <br />
-                Be the first to add one!
-              </Text>
-            )}
-          </Card>
+              {site &&
+                rootFeedbacks.map((_feedback) => (
+                  <Feedback
+                    key={_feedback.id}
+                    {..._feedback}
+                    feedbackApi={feedbackApi}
+                    mutate={mutate}
+                    replies={getReplies(_feedback.id)}
+                    route={route}
+                    siteId={siteId}
+                    siteAuthorId={site.authorId}
+                    siteURL={site.url}
+                    replyInput={replyInput}
+                    setReplyInput={setReplyInput}
+                  />
+                ))}
+            </Flex>
+          ) : (
+            <Text h5 margin={0} mt={2} style={{ textAlign: 'center' }}>
+              There are no feedbacks to show.
+              <br />
+              Be the first to add one!
+            </Text>
+          )}
         </>
       )}
     </>

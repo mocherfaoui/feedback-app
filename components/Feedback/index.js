@@ -73,7 +73,7 @@ export const Feedback = ({
       authorId: user.uid,
       avatar: user.photoURL,
       text: replyEl.current.value,
-      rating: null,
+      rating: 0,
       createdAt: new Date().toISOString(),
       status:
         user.uid === siteAuthorId || siteId === 'ke1irGZRqUrgXa7eqAXL'
@@ -131,6 +131,7 @@ export const Feedback = ({
                       </Text>
                       {isAdmin && (
                         <Popover
+                          py={.6}
                           style={{ display: 'inline-flex' }}
                           content={
                             <Text b font={0.7} px={0.3} span>
@@ -147,7 +148,7 @@ export const Feedback = ({
                           />
                         </Popover>
                       )}
-                      {rating && (
+                      {rating !== 0 && (
                         <>
                           <Text span px={0.5}>
                             &bull;
@@ -273,7 +274,7 @@ export const Feedback = ({
                   Reply
                 </Button>
               )}
-              {!parentId && (
+              {replies?.length > 0 && !parentId && (
                 <Button
                   type="abort"
                   auto
