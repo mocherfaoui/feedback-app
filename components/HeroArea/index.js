@@ -45,6 +45,7 @@ export default function HeroArea({ scrollTo }) {
             >
               {mockdata.slice(0 + 8 * i, 8 + 8 * i).map((u, i) => (
                 <Note
+                  font={1.1}
                   filled
                   mx={0.3}
                   padding={0.5}
@@ -79,17 +80,23 @@ export default function HeroArea({ scrollTo }) {
               backgroundColor: '#17171d',
             }}
           >
-            <Text h2 font={isMobile ? 1.5 : 2}>
+            <Text h2 font={isMobile ? 1.5 : 2.1}>
               Get instant feedback for your{' '}
               <TextLoop>
                 <StyledText>blog</StyledText>
                 <StyledText>store</StyledText>
               </TextLoop>
             </Text>
-            <Text p margin={0} mt={1} font={isMobile ? 0.9 : 1}>
+            <Text p margin={0} my={0.8} font={isMobile ? 0.9 : 1}>
               Easily add user feedback to your website in one line of code.
             </Text>
-            <Button type="success-light" pr={1} mt={1} onClick={scrollTo}>
+            <Button
+              type="default"
+              pr={1}
+              mt={0.5}
+              onClick={scrollTo}
+              style={{ color: '#000' }}
+            >
               Get Started
             </Button>
           </Card>

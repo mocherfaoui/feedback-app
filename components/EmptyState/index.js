@@ -47,7 +47,7 @@ export function FeedbackEmptyState() {
           <Text p margin={0}>
             Add a website{' '}
             <NextLink href="/sites" passHref>
-              <Link underline>here</Link>
+              <Link color underline>here</Link>
             </NextLink>{' '}
             and test it out!
           </Text>

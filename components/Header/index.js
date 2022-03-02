@@ -85,7 +85,7 @@ function NavMenu({ isOpen, setOpen }) {
         }
         `}
       </style>
-      <Flex css={{ gap: '1.5rem' }}>
+      <Flex css={{ gap: '1.5rem', fontSize: '1em' }}>
         <NextLink href="/" passHref>
           <Link>Home</Link>
         </NextLink>

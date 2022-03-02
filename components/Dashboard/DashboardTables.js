@@ -66,6 +66,7 @@ export function FeedbackDashboard({ feedback }) {
           >
             {rowData === 'pending' && (
               <Button
+                scale={2 / 3}
                 type="success"
                 onClick={toggleFeedback}
                 ml={1}
@@ -100,6 +101,9 @@ export function FeedbackDashboard({ feedback }) {
       -webkit-box-orient: vertical;
       display: -webkit-box;
     }
+    .max-width > .cell{
+      width:max-content;
+    }
     `}</style>
       <Table data={feedback} emptyText="N/A">
         <Table.Column prop="author" label="author" render={renderAuthor} />
@@ -109,11 +113,17 @@ export function FeedbackDashboard({ feedback }) {
           render={renderFeedbackText}
         />
         <Table.Column prop="siteURL" label="site name" render={renderURL} />
-        <Table.Column prop="route" label="route" render={renderRoute} />
+        <Table.Column
+          prop="route"
+          label="route"
+          render={renderRoute}
+          className="max-width"
+        />
         <Table.Column
           prop="status"
           render={toggleButton}
           label="Feedback Status"
+          className="max-width"
         />
         <Table.Column
           prop="id"

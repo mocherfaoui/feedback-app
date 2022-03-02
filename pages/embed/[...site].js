@@ -79,7 +79,7 @@ export default function EmbeddedPage({ feedbackPage }) {
     await createFeedback(newFeedback);
     newFeedback.status !== 'pending' && (await mutate());
   };
-  if (!rootFeedbacks) {
+  if (!feedbackData) {
     return <SkeletonFeedback />;
   }
   return (
@@ -103,8 +103,9 @@ export default function EmbeddedPage({ feedbackPage }) {
                 Feedbacks({rootFeedbacks?.length})
               </Text>
               <Grid.Container gap={1} alignItems="center">
-                <Grid ml="auto" xs={15} sm={4.5}>
+                <Grid xs sm={4.5} ml="auto">
                   <Button
+                    ml="auto"
                     scale={2 / 3}
                     icon={<Plus />}
                     iconRight
@@ -117,7 +118,7 @@ export default function EmbeddedPage({ feedbackPage }) {
                   </Button>
                 </Grid>
                 {user && !feedbackPage && (
-                  <Grid xs={5} sm={2}>
+                  <Grid xs={3.8} sm={2}>
                     <Avatar
                       ml="auto"
                       style={{ cursor: 'pointer' }}
@@ -221,13 +222,7 @@ export default function EmbeddedPage({ feedbackPage }) {
                     border-radius: 6px;
                   }
                   .feedback-card > div{
-                    padding:.7rem !important;
-                  }
-                  .feedback-content > :first-child{
-                    margin-top:0;
-                  }
-                  .feedback-content > :last-child{
-                    margin-bottom:0;
+                    padding:.7rem .7rem 0 !important;
                   }
                 `}</style>
               {site &&

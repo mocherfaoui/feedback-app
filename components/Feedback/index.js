@@ -28,12 +28,13 @@ const FeedbackEditor = dynamic(() => import('../FeedbackEditor'));
 
 export const Feedback = ({
   author,
+  authorId,
+  parentId = null,
   avatar,
   text,
   createdAt,
   updatedAt,
   rating,
-  authorId,
   id,
   siteId,
   siteAuthorId,
@@ -41,9 +42,9 @@ export const Feedback = ({
   route,
   mutate,
   replies,
-  parentId = null,
   replyInput,
   setReplyInput,
+  isDeleted,
 }) => {
   const { user } = useAuth();
   const [edit, setEdit] = useState({
@@ -131,7 +132,7 @@ export const Feedback = ({
                       </Text>
                       {isAdmin && (
                         <Popover
-                          py={.6}
+                          py={0.6}
                           style={{ display: 'inline-flex' }}
                           content={
                             <Text b font={0.7} px={0.3} span>
@@ -204,7 +205,7 @@ export const Feedback = ({
                       )}
                     </Flex>
                   </Flex>
-                  {(isUser || superUser) && (
+                  {((!isDeleted && isUser) || superUser) && (
                     <ButtonDropdown
                       scale={1 / 3}
                       auto
@@ -256,7 +257,7 @@ export const Feedback = ({
                     </Flex>
                   </form>
                 ) : (
-                  <FeedbackContent className="feedback-content">
+                  <FeedbackContent>
                     <MarkdownRender source={text} user={user} />
                   </FeedbackContent>
                 )}
@@ -352,4 +353,10 @@ const FeedbackContent = styled('div', {
   maxWidth: '65ch',
   fontSize: '.95rem',
   lineHeight: 1.77,
+  '& > :first-child': {
+    marginTop: 0,
+  },
+  '& > :last-child': {
+    marginBottom: 0,
+  },
 });
