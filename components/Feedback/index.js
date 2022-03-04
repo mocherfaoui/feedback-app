@@ -24,7 +24,9 @@ import { styled } from '@/stitches.config';
 import { Flex } from '../GlobalComponents';
 import { MarkdownRender } from '../MarkdownRender';
 
-const FeedbackEditor = dynamic(() => import('../FeedbackEditor'));
+const FeedbackEditor = dynamic(() => import('../FeedbackEditor'), {
+  ssr: false,
+});
 
 export const Feedback = ({
   author,
@@ -237,7 +239,7 @@ export const Feedback = ({
                       inputRef={editInputEl}
                       previewSource={edit.editPreview}
                     />
-                    <Flex css={{ marginTop: '.5rem', gap: '.5rem' }}>
+                    <Flex css={{ marginBottom: '.7rem', gap: '.5rem' }}>
                       <Button
                         auto
                         scale={2 / 3}
@@ -304,6 +306,7 @@ export const Feedback = ({
                   css={{
                     flexDirection: 'row-reverse',
                     gap: '.5rem',
+                    marginBottom: '.7rem',
                   }}
                 >
                   <Button

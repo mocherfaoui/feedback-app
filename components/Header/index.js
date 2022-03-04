@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import NextLink from 'next/link';
-import { Avatar, Link, Popover } from '@geist-ui/core';
+import { Avatar, Link, Popover, useBodyScroll } from '@geist-ui/core';
 import LogOut from '@geist-ui/icons/logOut';
 import Settings from '@geist-ui/icons/settings';
 import { Cross as Hamburger } from 'hamburger-react';
@@ -15,20 +15,32 @@ import {
   Navbar,
 } from './HeaderStyle';
 import { Container, Flex } from '../GlobalComponents';
+import { useRouter } from 'next/router';
 
 export default function Header() {
   const { user, signout } = useAuth();
   const [isOpen, setOpen] = useState(false);
-
+  const [, setHidden] = useBodyScroll(false);
+  const handleToggle = () => {
+    setOpen((prev) => !prev);
+    setHidden((prev) => !prev);
+  };
+  const router = useRouter();
+  const isHomePage = router.asPath === '/';
   return (
-    <Navbar>
+    <Navbar
+      css={{
+        backgroundColor: !isHomePage && '#f7f7f7',
+        color: !isHomePage && '#000',
+      }}
+    >
       <Container>
         <Flex css={{ justifyContent: 'space-between', alignItems: 'center' }}>
-          <NavMenu isOpen={isOpen} setOpen={setOpen} />
+          <NavMenu isOpen={isOpen} handleToggle={handleToggle} />
         </Flex>
       </Container>
       <MenuWrapper>
-        <MobileMenuItems isOpen={isOpen}>
+        <MobileMenuItems isOpen={isOpen} css={{backgroundColor: !isHomePage &&'#f7f7f7'}}>
           <Menu user={user} />
           {user && (
             <>
@@ -45,9 +57,9 @@ export default function Header() {
     </Navbar>
   );
 }
-function NavMenu({ isOpen, setOpen }) {
+function NavMenu({ isOpen, handleToggle }) {
   const { user, signout } = useAuth();
-  const content = () => (
+  const popOverContent = () => (
     <Flex
       css={{
         flexDirection: 'column',
@@ -85,7 +97,7 @@ function NavMenu({ isOpen, setOpen }) {
         }
         `}
       </style>
-      <Flex css={{ gap: '1.5rem', fontSize: '1em' }}>
+      <Flex css={{ gap: '1.5rem' }}>
         <NextLink href="/" passHref>
           <Link>Home</Link>
         </NextLink>
@@ -95,12 +107,12 @@ function NavMenu({ isOpen, setOpen }) {
       </Flex>
       {user && (
         <DesktopMenuItems>
-          <Popover content={content}>
+          <Popover content={popOverContent}>
             <Avatar src={user?.photoURL} />
           </Popover>
         </DesktopMenuItems>
       )}
-      <Hamburger toggled={isOpen} toggle={setOpen} />
+      <Hamburger toggled={isOpen} toggle={handleToggle} />
     </>
   );
 }

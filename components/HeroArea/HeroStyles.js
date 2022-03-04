@@ -5,7 +5,7 @@ export const HeroContainer = styled('div', {
   overflow: 'hidden',
   maxWidth: '100vw',
   backgroundColor: '#121217',
-  padding: '.8rem 0',
+  paddingBottom: '.8rem',
   '& > div:first-child > :first-child': {
     paddingTop: '0!important',
   },
@@ -23,6 +23,6 @@ export const StyledText = styled('span', {
   whiteSpace: 'nowrap',
   backgroundColor: 'rgb(255, 212, 64)',
   color: '#17171d',
-  padding: '0 .3rem',
-  borderRadius: '8px',
+  padding: '.3rem .4rem',
+  borderRadius: '7px',
 });

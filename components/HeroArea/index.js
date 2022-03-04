@@ -1,6 +1,8 @@
 import { TextLoop } from 'react-text-loop-next';
-import { Button, Card, Note, Text, useMediaQuery } from '@geist-ui/core';
+import { Button, Card, Note, Text } from '@geist-ui/core';
 import { motion } from 'framer-motion';
+
+import { styled } from '@/stitches.config';
 
 import { HeroContainer, HeroCTA, StyledText } from './HeroStyles';
 import { Flex } from '../GlobalComponents';
@@ -12,7 +14,6 @@ function randomIntFromInterval(min, max) {
   return Math.floor(Math.random() * (max - min + 1) + min);
 }
 export default function HeroArea({ scrollTo }) {
-  const isMobile = useMediaQuery('mobile');
   return (
     <HeroContainer>
       {[...Array(7)]
@@ -75,19 +76,19 @@ export default function HeroArea({ scrollTo }) {
             type="dark"
             width="90vw"
             style={{
-              maxWidth: '700px',
+              maxWidth: '630px',
               textAlign: 'center',
               backgroundColor: '#17171d',
             }}
           >
-            <Text h2 font={isMobile ? 1.5 : 2.1}>
+            <HeadingText h2>
               Get instant feedback for your{' '}
               <TextLoop>
                 <StyledText>blog</StyledText>
                 <StyledText>store</StyledText>
               </TextLoop>
-            </Text>
-            <Text p margin={0} my={0.8} font={isMobile ? 0.9 : 1}>
+            </HeadingText>
+            <Text p margin={0} my={0.8}>
               Easily add user feedback to your website in one line of code.
             </Text>
             <Button
@@ -105,3 +106,9 @@ export default function HeroArea({ scrollTo }) {
     </HeroContainer>
   );
 }
+const HeadingText = styled(Text, {
+  fontSize: '2rem',
+  '@sm': {
+    fontSize: '1.6rem',
+  },
+});

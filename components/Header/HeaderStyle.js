@@ -5,7 +5,11 @@ import { styled } from '@/stitches.config';
 export const Navbar = styled('header', {
   display: 'block',
   padding: '1rem 0',
-  backgroundColor: '#f7f7f7',
+  backgroundColor: 'rgb(18, 18, 23)',
+  color: '#fff',
+  '@sm': {
+    fontSize: '1.3rem',
+  },
 });
 
 export const MenuLink = styled(Link, {
@@ -41,11 +45,11 @@ export const MobileMenuItems = styled('div', {
         left: '0',
         right: '0',
         bottom: '0',
-        height: 'max-content',
+        height: '100vh',
         width: 'auto',
-        background: '#f7f7f7',
+        background: 'rgb(18, 18, 23)',
         padding: '1rem',
-        fontSize: '1.1rem',
+        fontSize: '1.3rem',
       },
       false: {
         display: 'none',

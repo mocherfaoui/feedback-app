@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react';
 import { AiOutlineSend } from 'react-icons/ai';
+import dynamic from 'next/dynamic';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import {
@@ -19,12 +20,15 @@ import { useAuth } from '@/lib/auth';
 import { createFeedback } from '@/lib/db';
 
 import { Feedback } from '@/components/Feedback';
-import FeedbackEditor from '@/components/FeedbackEditor';
 import { Flex } from '@/components/GlobalComponents';
 import LoginButtons from '@/components/LoginButtons';
 import SkeletonFeedback from '@/components/SkeletonElements/SkeletonFeedback';
 
 import fetcher from '@/utils/fetcher';
+
+const FeedbackEditor = dynamic(() => import('../../components/FeedbackEditor'), {
+  ssr: false,
+});
 
 export default function EmbeddedPage({ feedbackPage }) {
   const { user } = useAuth();
