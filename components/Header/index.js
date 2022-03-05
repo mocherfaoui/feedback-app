@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import NextLink from 'next/link';
+import { useRouter } from 'next/router';
 import { Avatar, Link, Popover, useBodyScroll } from '@geist-ui/core';
 import LogOut from '@geist-ui/icons/logOut';
 import Settings from '@geist-ui/icons/settings';
@@ -15,7 +16,6 @@ import {
   Navbar,
 } from './HeaderStyle';
 import { Container, Flex } from '../GlobalComponents';
-import { useRouter } from 'next/router';
 
 export default function Header() {
   const { user, signout } = useAuth();
@@ -30,8 +30,8 @@ export default function Header() {
   return (
     <Navbar
       css={{
-        backgroundColor: !isHomePage && '#f7f7f7',
-        color: !isHomePage && '#000',
+        backgroundColor: !isHomePage ? '#f7f7f7' : null,
+        color: !isHomePage ? '#000' : null,
       }}
     >
       <Container>
@@ -40,7 +40,10 @@ export default function Header() {
         </Flex>
       </Container>
       <MenuWrapper>
-        <MobileMenuItems isOpen={isOpen} css={{backgroundColor: !isHomePage &&'#f7f7f7'}}>
+        <MobileMenuItems
+          isOpen={isOpen}
+          css={{ backgroundColor: !isHomePage ? '#f7f7f7' : null }}
+        >
           <Menu user={user} />
           {user && (
             <>

@@ -38,7 +38,6 @@ const MDXComponents = {
       {props.children}
     </Text>
   ),
-  br: ({ node, ...props }) => <Spacer {...props} />,
   hr: ({ node, ...props }) => <Divider {...props} />,
   b: ({ node, ...props }) => (
     <Text b {...props}>
