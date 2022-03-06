@@ -5,10 +5,16 @@ import { styled } from '@/stitches.config';
 export const Navbar = styled('header', {
   display: 'block',
   padding: '1rem 0',
-  backgroundColor: 'rgb(18, 18, 23)',
-  color: '#fff',
   '@sm': {
     fontSize: '1.3rem',
+  },
+  variants: {
+    isOpen: {
+      true: {
+        backgroundColor: 'transparent!important',
+        color:'#fff!important'
+      },
+    },
   },
 });
 
@@ -20,7 +26,7 @@ export const MenuLink = styled(Link, {
 export const MenuWrapper = styled('div', {
   '@sm': {
     position: 'absolute',
-    top: '70px',
+    top: '80px',
     zIndex: '2000',
     width: '100%',
   },
@@ -40,19 +46,38 @@ export const MobileMenuItems = styled('div', {
         display: 'flex',
         flexDirection: 'column',
         gap: '1rem',
-        position: 'absolute',
-        top: '0',
-        left: '0',
-        right: '0',
-        bottom: '0',
+        top: '80px',
+        zIndex: 1000,
         height: '100vh',
         width: 'auto',
-        background: 'rgb(18, 18, 23)',
         padding: '1rem',
         fontSize: '1.3rem',
+        color: '#fff',
       },
       false: {
         display: 'none',
+      },
+    },
+  },
+});
+export const HeaderWrapper = styled('div', {
+  top: 0,
+  zIndex: 1000,
+  width: '100%',
+  variants: {
+    isOpen: {
+      true: {
+        position: 'absolute',
+        '@supports (-webkit-backdrop-filter: none) or (backdrop-filter: none)':
+          {
+            backgroundColor: 'rgba(32, 34, 36, 0.75)!important',
+            backdropFilter: 'saturate(180%) blur(20px)',
+          },
+      },
+    },
+    isHomePage: {
+      true: {
+        position: 'absolute',
       },
     },
   },

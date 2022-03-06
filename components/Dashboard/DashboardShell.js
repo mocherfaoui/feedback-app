@@ -25,7 +25,7 @@ export default function DashboardShell({ children, pageName, visible }) {
             alignItems: 'center',
           }}
         >
-          <Text h2 style={{ margin: 0 }}>
+          <Text h3 margin={0}>
             Manage {pageName}s
           </Text>
           {pageName === 'Site' ? (

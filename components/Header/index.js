@@ -10,6 +10,7 @@ import { useAuth } from '@/lib/auth';
 
 import {
   DesktopMenuItems,
+  HeaderWrapper,
   MenuLink,
   MenuWrapper,
   MobileMenuItems,
@@ -28,36 +29,34 @@ export default function Header() {
   const router = useRouter();
   const isHomePage = router.asPath === '/';
   return (
-    <Navbar
-      css={{
-        backgroundColor: !isHomePage ? '#f7f7f7' : null,
-        color: !isHomePage ? '#000' : null,
-      }}
-    >
-      <Container>
-        <Flex css={{ justifyContent: 'space-between', alignItems: 'center' }}>
-          <NavMenu isOpen={isOpen} handleToggle={handleToggle} />
-        </Flex>
-      </Container>
-      <MenuWrapper>
-        <MobileMenuItems
-          isOpen={isOpen}
-          css={{ backgroundColor: !isHomePage ? '#f7f7f7' : null }}
-        >
-          <Menu user={user} />
-          {user && (
-            <>
-              <NextLink href="/user/settings" passHref>
-                <MenuLink>Settings</MenuLink>
-              </NextLink>
-              <NextLink href="/" passHref>
-                <MenuLink onClick={() => signout()}>Log Out</MenuLink>
-              </NextLink>
-            </>
-          )}
-        </MobileMenuItems>
-      </MenuWrapper>
-    </Navbar>
+    <HeaderWrapper isOpen={isOpen} isHomePage={isHomePage}>
+      <Navbar
+        css={{
+          backgroundColor: !isHomePage ? '#f7f7f7' : 'rgb(18, 18, 23)',
+          color: !isHomePage ? '#000' : '#fff',
+        }}
+        isOpen={isOpen}
+      >
+        <Container>
+          <Flex css={{ justifyContent: 'space-between', alignItems: 'center' }}>
+            <NavMenu isOpen={isOpen} handleToggle={handleToggle} />
+          </Flex>
+        </Container>
+      </Navbar>
+      <MobileMenuItems isOpen={isOpen}>
+        <Menu user={user} />
+        {user && (
+          <>
+            <NextLink href="/user/settings" passHref>
+              <MenuLink>Settings</MenuLink>
+            </NextLink>
+            <NextLink href="/" passHref>
+              <MenuLink onClick={() => signout()}>Log Out</MenuLink>
+            </NextLink>
+          </>
+        )}
+      </MobileMenuItems>
+    </HeaderWrapper>
   );
 }
 function NavMenu({ isOpen, handleToggle }) {
@@ -115,7 +114,7 @@ function NavMenu({ isOpen, handleToggle }) {
           </Popover>
         </DesktopMenuItems>
       )}
-      <Hamburger toggled={isOpen} toggle={handleToggle} />
+      <Hamburger toggled={isOpen} toggle={handleToggle} size={20} />
     </>
   );
 }

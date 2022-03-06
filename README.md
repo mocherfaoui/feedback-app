@@ -9,7 +9,7 @@ A feedback app that can be embedded in any website in order to let users comment
 
 ## Step 1: Setup
 
-Install the dependancies for this project.
+Install the dependencies for this project.
 
 ```sh
 cd feedback-app
