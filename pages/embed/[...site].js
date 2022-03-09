@@ -26,9 +26,12 @@ import SkeletonFeedback from '@/components/SkeletonElements/SkeletonFeedback';
 
 import fetcher from '@/utils/fetcher';
 
-const FeedbackEditor = dynamic(() => import('../../components/FeedbackEditor'), {
-  ssr: false,
-});
+const FeedbackEditor = dynamic(
+  () => import('../../components/FeedbackEditor'),
+  {
+    ssr: false,
+  }
+);
 
 export default function EmbeddedPage({ feedbackPage }) {
   const { user } = useAuth();
@@ -39,6 +42,7 @@ export default function EmbeddedPage({ feedbackPage }) {
   const [ratingValue, setRatingValue] = useState(0);
   const [replyInput, setReplyInput] = useState(null);
   const [markdownPreview, setMarkdownPreview] = useState(null);
+  const [postingFeedback, setPostingFeedback] = useState(false);
   const isMobile = useMediaQuery('mobile');
   const siteAndRoute = router.query?.site;
   const siteId = siteAndRoute ? siteAndRoute[0] : null;
@@ -61,6 +65,7 @@ export default function EmbeddedPage({ feedbackPage }) {
       );
   const addFeedback = async (e) => {
     e.preventDefault();
+    setPostingFeedback(true);
     const newFeedback = {
       siteId,
       siteAuthorId: site.authorId,
@@ -81,7 +86,8 @@ export default function EmbeddedPage({ feedbackPage }) {
     inputEl.current.value = '';
     setRatingValue(null);
     await createFeedback(newFeedback);
-    newFeedback.status !== 'pending' && (await mutate());
+    newFeedback.status !== 'pending' &&
+      (await mutate().then(() => setPostingFeedback(false)));
   };
   if (!feedbackData) {
     return <SkeletonFeedback />;
@@ -184,6 +190,7 @@ export default function EmbeddedPage({ feedbackPage }) {
                               scale={0.75}
                               htmlType="submit"
                               type="success"
+                              loading={postingFeedback}
                             >
                               Post
                             </Button>

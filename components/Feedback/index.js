@@ -55,6 +55,7 @@ export const Feedback = ({
   });
   const [markdownPreview, setMarkdownPreview] = useState(`**@${author}** `);
   const [visibleReplies, setVisibleReplies] = useState(false);
+  const [postingReply, setPostingReply] = useState(false);
   const editInputEl = useRef();
   const replyEl = useRef();
   const isUser = user && user.uid === authorId;
@@ -67,6 +68,7 @@ export const Feedback = ({
 
   const onReply = async (e) => {
     e.preventDefault();
+    setPostingReply(true);
     const newReply = {
       siteId,
       siteAuthorId,
@@ -85,8 +87,10 @@ export const Feedback = ({
       parentId: replyId,
     };
     await createFeedback(newReply);
-    newReply.status !== 'pending' ? await mutate() : null;
+    newReply.status !== 'pending' &&
+      (await mutate().then(() => setPostingReply(false)));
     setReplyInput(null);
+    setVisibleReplies(true);
   };
   const onDelete = async () => {
     await deleteFeedback(id);
@@ -94,17 +98,12 @@ export const Feedback = ({
   };
   const onUpdate = async (e) => {
     e.preventDefault();
-    try {
-      const newValues = {
-        text: editInputEl.current.value,
-        updatedAt: new Date().toISOString(),
-      };
-      await updateFeedback(id, newValues);
-      await mutate();
-    } catch {
-    } finally {
-      setEdit({ ...edit, isEditing: false });
-    }
+    const newValues = {
+      text: editInputEl.current.value,
+      updatedAt: new Date().toISOString(),
+    };
+    await updateFeedback(id, newValues);
+    await mutate().then(() => setEdit({ ...edit, isEditing: false }));
   };
   return (
     <>
@@ -151,7 +150,7 @@ export const Feedback = ({
                           />
                         </Popover>
                       )}
-                      {rating !== 0 && (
+                      {rating !== 0  && (
                         <>
                           <Text span px={0.5}>
                             &bull;
@@ -316,6 +315,7 @@ export const Feedback = ({
                     htmlType="submit"
                     type="success"
                     scale={2 / 3}
+                    loading={postingReply}
                   >
                     Post
                   </Button>
