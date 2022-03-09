@@ -15,12 +15,24 @@ export const Navbar = styled('header', {
         color: '#fff!important',
       },
     },
-    isScrolled: {
-      true: {
-        backgroundColor: 'rgba(32, 34, 36, 0.75)!important',
-      },
-    },
   },
+  defaultVariants: {
+    isHomePage: true,
+    isScrolled: false,
+    isOpen: false,
+  },
+  compoundVariants: [
+    {
+      isHomePage: true,
+      isScrolled: true,
+      css: { backgroundColor: 'rgba(32, 34, 36, 0.75)!important' },
+    },
+    {
+      isHomePage: false,
+      isScrolled: true,
+      css: { color: '#fff' },
+    },
+  ],
 });
 
 export const MenuLink = styled(Link, {
@@ -43,7 +55,6 @@ export const MobileMenuItems = styled('div', {
         display: 'flex',
         flexDirection: 'column',
         gap: '1rem',
-
         zIndex: 1000,
         height: '100vh',
         width: 'auto',

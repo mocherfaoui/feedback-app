@@ -43,6 +43,7 @@ export default function Header() {
         }}
         isOpen={isOpen}
         isScrolled={isScrolled}
+        isHomePage={isHomePage}
       >
         <Container>
           <Flex css={{ justifyContent: 'space-between', alignItems: 'center' }}>
