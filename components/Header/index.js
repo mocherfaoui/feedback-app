@@ -7,12 +7,12 @@ import Settings from '@geist-ui/icons/settings';
 import { Cross as Hamburger } from 'hamburger-react';
 
 import { useAuth } from '@/lib/auth';
+import useScrollingUp from '@/hooks/useScrollingUp';
 
 import {
   DesktopMenuItems,
   HeaderWrapper,
   MenuLink,
-  MenuWrapper,
   MobileMenuItems,
   Navbar,
 } from './HeaderStyle';
@@ -22,20 +22,27 @@ export default function Header() {
   const { user, signout } = useAuth();
   const [isOpen, setOpen] = useState(false);
   const [, setHidden] = useBodyScroll(false);
+  const { scrollingUp: isScrolled, setScrollingUp } = useScrollingUp();
   const handleToggle = () => {
     setOpen((prev) => !prev);
     setHidden((prev) => !prev);
+    setScrollingUp((prev) => !prev);
   };
   const router = useRouter();
   const isHomePage = router.asPath === '/';
   return (
-    <HeaderWrapper isOpen={isOpen} isHomePage={isHomePage}>
+    <HeaderWrapper
+      isOpen={isOpen}
+      isHomePage={isHomePage}
+      isScrolled={isScrolled}
+    >
       <Navbar
         css={{
           backgroundColor: !isHomePage ? '#f7f7f7' : 'rgb(18, 18, 23)',
           color: !isHomePage ? '#000' : '#fff',
         }}
         isOpen={isOpen}
+        isScrolled={isScrolled}
       >
         <Container>
           <Flex css={{ justifyContent: 'space-between', alignItems: 'center' }}>
