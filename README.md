@@ -2,10 +2,10 @@
 
 A feedback app that can be embedded in any website in order to let users comment or give back feedback, made with Next.js and Firebase.
 
-## Prerequisities
+## Prerequisites
 
 - A Firebase database(Firestore).
-- You’ll need to have Node 10.16.0 or later version on your local development machine (but it’s not required on the server). I recommend using the latest LTS version.
+- You’ll need to have Node 10.16.0 or a later version on your local development machine (but it’s not required on the server). I recommend using the latest LTS version.
 
 ## Step 1: Setup
 
@@ -18,7 +18,7 @@ npm install
 
 ## Step 2: Create an .env file
 
-In this step, you will have to create an `.env` file at the root of the directory, so that you can provide your environment variables. You can also rename the `.env.example` to `.env`
+In this step, you will have to create an `.env` file at the root of the directory, so that you can provide your environment variables. You can also rename the `.env.example` to `.env` and fill it with your credentials.
 
 ### Variables
 
