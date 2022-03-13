@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
-import { Avatar, Link, Popover, useBodyScroll } from '@geist-ui/core';
+import { Avatar, Link, Popover, Text, useBodyScroll } from '@geist-ui/core';
 import LogOut from '@geist-ui/icons/logOut';
 import Settings from '@geist-ui/icons/settings';
 import { Cross as Hamburger } from 'hamburger-react';
@@ -69,6 +69,7 @@ export default function Header() {
 }
 function NavMenu({ isOpen, handleToggle }) {
   const { user, signout } = useAuth();
+  const [firstName] = user?.name.split(' ');
   const popOverContent = () => (
     <Flex
       css={{
@@ -117,7 +118,11 @@ function NavMenu({ isOpen, handleToggle }) {
       </Flex>
       {user && (
         <DesktopMenuItems>
-          <Popover content={popOverContent}>
+          <Popover
+            content={popOverContent}
+            style={{ display: 'flex', alignItems: 'center', gap: '.5rem' }}
+          >
+            <Text span>{firstName}</Text>
             <Avatar src={user?.photoURL} />
           </Popover>
         </DesktopMenuItems>

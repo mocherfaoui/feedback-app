@@ -4,13 +4,14 @@ import { Code, Link, Text } from '@geist-ui/core';
 import IframeResizer from 'iframe-resizer-react';
 
 import { useAuth } from '@/lib/auth';
+import { withProtected } from '@/hooks/routes';
 
 import { Container, Flex } from '@/components/GlobalComponents';
 import HeroArea from '@/components/HeroArea';
 import Layout from '@/components/Layout';
 import LoginButtons from '@/components/LoginButtons';
 
-export default function Home() {
+function Home() {
   const { user } = useAuth();
   const HOST =
     process.env.NODE_ENV === 'development'
@@ -101,3 +102,4 @@ export default function Home() {
     </>
   );
 }
+export default withProtected(Home);
