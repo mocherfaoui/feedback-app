@@ -25,25 +25,21 @@ function UserSettings() {
     linkOrUnlinkGithub,
     updateUsername,
   } = useAuth();
-  const {
-    register,
-    handleSubmit,
-    reset,
-  } = useForm();
+  const { register, handleSubmit, reset } = useForm();
   const oneAuth = user?.providers?.length === 1;
   const isGoogle = user?.providers?.some((el) => el.name === 'google.com');
   const isGithub = user?.providers?.some((el) => el.name === 'github.com');
   const onGoogleAuthChange = (e) => {
-    const checked = e.target.checked;
-    linkOrUnlinkGoogle(checked);
+    const isToggled = e.target.checked;
+    linkOrUnlinkGoogle(isToggled);
   };
   const onGithubAuthChange = (e) => {
-    const checked = e.target.checked;
-    linkOrUnlinkGithub(checked);
+    const isToggled = e.target.checked;
+    linkOrUnlinkGithub(isToggled);
   };
-  const onNameChange = async ({ displayName }) => {
-    await updateUsername(displayName);
-    await updateUsernameForFeedbacks(user.uid, displayName);
+  const onNameChange = async ({ newDisplayName }) => {
+    await updateUsername(newDisplayName);
+    await updateUsernameForFeedbacks(user.uid, newDisplayName);
     reset({ displayName: '' });
   };
   return (
