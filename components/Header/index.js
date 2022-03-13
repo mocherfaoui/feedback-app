@@ -69,7 +69,7 @@ export default function Header() {
 }
 function NavMenu({ isOpen, handleToggle }) {
   const { user, signout } = useAuth();
-  const [firstName] = user?.name.split(' ');
+  const [firstName, lastName] = user?.name.split(' ') ?? [];
   const popOverContent = () => (
     <Flex
       css={{
