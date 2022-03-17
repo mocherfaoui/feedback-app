@@ -5,9 +5,8 @@ import { motion } from 'framer-motion';
 import { styled } from '@/stitches.config';
 
 import { HeroContainer, HeroCTA, StyledText } from './HeroStyles';
+import mockData from './mockData';
 import { Flex } from '../GlobalComponents';
-
-const mockData = require('../../public/mockData.json');
 
 function randomIntFromInterval(min, max) {
   // min and max included
