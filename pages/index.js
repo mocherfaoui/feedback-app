@@ -1,9 +1,11 @@
+import { useRef } from 'react';
 import Head from 'next/head';
 import NextLink from 'next/link';
 import { Code, Link, Text } from '@geist-ui/core';
 import IframeResizer from 'iframe-resizer-react';
 
 import { useAuth } from '@/lib/auth';
+import useIsVisible from '@/hooks/useIsVisible';
 
 import { Container, Flex } from '@/components/GlobalComponents';
 import HeroArea from '@/components/HeroArea';
@@ -12,6 +14,8 @@ import LoginButtons from '@/components/LoginButtons';
 
 export default function Home() {
   const { user } = useAuth();
+  const iframeRef = useRef();
+  const isVisible = useIsVisible(iframeRef);
   const HOST =
     process.env.NODE_ENV === 'development'
       ? ''
@@ -86,15 +90,19 @@ export default function Home() {
               Give it a try! If you have any suggestion on what should be added
               or removed just write it away.
             </Text>
-            <IframeResizer
-              checkOrigin={false}
-              title="Comments"
-              src={`${HOST}/embed/ke1irGZRqUrgXa7eqAXL`}
-              style={{
-                width: '1px',
-                minWidth: '100%',
-              }}
-            />
+            <div ref={iframeRef}>
+              {isVisible && (
+                <IframeResizer
+                  checkOrigin={false}
+                  title="Comments"
+                  src={`${HOST}/embed/ke1irGZRqUrgXa7eqAXL`}
+                  style={{
+                    width: '1px',
+                    minWidth: '100%',
+                  }}
+                />
+              )}
+            </div>
           </Flex>
         </Container>
       </Layout>

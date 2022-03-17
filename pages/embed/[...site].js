@@ -8,6 +8,7 @@ import {
   Button,
   Card,
   Grid,
+  Loading,
   Rating,
   Text,
   useMediaQuery,
@@ -26,12 +27,9 @@ import SkeletonFeedback from '@/components/SkeletonElements/SkeletonFeedback';
 
 import fetcher from '@/utils/fetcher';
 
-const FeedbackEditor = dynamic(
-  () => import('../../components/FeedbackEditor'),
-  {
-    ssr: false,
-  }
-);
+const FeedbackEditor = dynamic(() => import('@/components/FeedbackEditor'), {
+  ssr: false,
+});
 
 export default function EmbeddedPage({ feedbackPage }) {
   const { user } = useAuth();
