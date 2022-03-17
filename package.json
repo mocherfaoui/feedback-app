@@ -16,7 +16,7 @@
     "clsx": "^1.1.1",
     "date-fns": "^2.28.0",
     "eslint-plugin-react-hooks": "^4.3.0",
-    "firebase": "^9.6.8",
+    "firebase": "^9.6.9",
     "firebase-admin": "^10.0.2",
     "framer-motion": "^6.2.8",
     "hamburger-react": "^2.4.1",
