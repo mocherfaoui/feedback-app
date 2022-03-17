@@ -7,7 +7,7 @@ import { styled } from '@/stitches.config';
 import { HeroContainer, HeroCTA, StyledText } from './HeroStyles';
 import { Flex } from '../GlobalComponents';
 
-const mockdata = require('../../public/mockdata.json');
+const mockData = require('../../public/mockData.json');
 
 function randomIntFromInterval(min, max) {
   // min and max included
@@ -44,7 +44,7 @@ export default function HeroArea({ scrollTo }) {
                 width: '160vw',
               }}
             >
-              {mockdata.slice(0 + 8 * i, 8 + 8 * i).map((u, i) => (
+              {mockData.slice(0 + 8 * i, 8 + 8 * i).map((u, i) => (
                 <Note
                   font={1.1}
                   filled
