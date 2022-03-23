@@ -8,7 +8,6 @@ import {
   Button,
   Card,
   Grid,
-  Loading,
   Rating,
   Text,
   useMediaQuery,

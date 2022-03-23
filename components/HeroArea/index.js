@@ -20,7 +20,7 @@ export default function HeroArea({ scrollTo }) {
         .map((u, i) => (
           <motion.div
             animate={{
-              x: [-120 + u[0], 0 + u[0]].map((x) =>
+              x: [-120 + u[0], u[0]].map((x) =>
                 i % 2 == 0 ? x : x * -1 - 240 - u[0] * -1
               ),
             }}
