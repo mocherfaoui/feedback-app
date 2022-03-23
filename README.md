@@ -2,6 +2,10 @@
 
 A feedback app that can be embedded in any website in order to let users comment or give back feedback, made with Next.js and Firebase.
 
+## Motivation
+
+This project was created to apply what I've learned about Next.js and how to build a full-stack serverless web application. It is still work in progress but most of the main features are working.
+
 ## Prerequisites
 
 - A Firebase database(Firestore).
