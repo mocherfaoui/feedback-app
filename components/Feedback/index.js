@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react';
-import { AiFillStar, AiOutlineSend } from 'react-icons/ai';
+import { AiOutlineSend } from 'react-icons/ai';
 import { RiMedalLine } from 'react-icons/ri';
 import dynamic from 'next/dynamic';
 import {
@@ -11,7 +11,6 @@ import {
   Text,
 } from '@geist-ui/core';
 import { Edit2, MoreVertical, Trash } from '@geist-ui/icons';
-import clsx from 'clsx';
 import { format, parseISO } from 'date-fns';
 import TimeAgo from 'javascript-time-ago';
 import en from 'javascript-time-ago/locale/en.json';
@@ -112,11 +111,7 @@ export const Feedback = ({
           <Avatar width="30px" height="30px" src={avatar} />
         </Text>
         <Flex css={{ flexDirection: 'column', gap: '1rem', width: '100%' }}>
-          <Flex
-            css={{ flexDirection: 'column' }}
-            id={id}
-            className={clsx(parentId && 'feedbacks_replies')}
-          >
+          <Flex css={{ flexDirection: 'column' }} id={id}>
             <Card
               className="feedback-card"
               width="100%"
@@ -150,9 +145,9 @@ export const Feedback = ({
                           />
                         </Popover>
                       )}
-                      {rating !== 0  && (
+                      {rating !== 0 && (
                         <>
-                          <Text span px={0.5}>
+                          <Text span font={0.7} px={0.4}>
                             &bull;
                           </Text>
                           <Text
@@ -164,9 +159,8 @@ export const Feedback = ({
                             }}
                           >
                             <Text b font={0.8} my="auto" span>
-                              {rating}/5
+                              {`${rating} ${rating > 1 ? 'stars' : 'star'}`}
                             </Text>
-                            <AiFillStar size="1.1rem" />
                           </Text>
                         </>
                       )}
