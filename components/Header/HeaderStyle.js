@@ -17,7 +17,7 @@ export const Navbar = styled('header', {
     },
   },
   defaultVariants: {
-    isHomePage: true,
+    isHomePage: false,
     isScrolled: false,
     isOpen: false,
   },

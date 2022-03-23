@@ -26,7 +26,7 @@ export default function Header() {
   const handleToggle = () => {
     setOpen((prev) => !prev);
     setHidden((prev) => !prev);
-    setScrollingUp((prev) => !prev);
+    setScrollingUp(false);
   };
   const router = useRouter();
   const isHomePage = router.asPath === '/';
