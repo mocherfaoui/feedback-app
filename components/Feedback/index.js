@@ -145,25 +145,29 @@ export const Feedback = ({
                           />
                         </Popover>
                       )}
-                      <Text span type="secondary" font={0.5} px={0.4}>
-                        &bull;
-                      </Text>
-                      <Text
-                        span
-                        style={{
-                          display: 'flex',
-                          gap: '.3rem',
-                          alignItems: 'center',
-                        }}
-                      >
-                        <Text type="secondary" font={0.8} my="auto" span>
-                          {rating !== 0
-                            ? `${rating} ${rating > 1 ? 'stars' : 'star'}`
-                            : 'No rating'}
-                        </Text>
-                      </Text>
+                      {!parentId && (
+                        <>
+                          <Text span type="secondary" font={0.5} px={0.4}>
+                            &bull;
+                          </Text>
+                          <Text
+                            span
+                            style={{
+                              display: 'flex',
+                              gap: '.3rem',
+                              alignItems: 'center',
+                            }}
+                          >
+                            <Text type="secondary" font={0.8} my="auto" span>
+                              {rating !== 0
+                                ? `${rating} ${rating > 1 ? 'stars' : 'star'}`
+                                : 'No rating'}
+                            </Text>
+                          </Text>
+                        </>
+                      )}
                     </Flex>
-                    <Flex css={{fontSize:'$xs'}}>
+                    <Flex css={{ fontSize: '$xs' }}>
                       <Text
                         span
                         title={
