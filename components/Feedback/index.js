@@ -145,33 +145,30 @@ export const Feedback = ({
                           />
                         </Popover>
                       )}
-                      {rating !== 0 && (
-                        <>
-                          <Text span font={0.7} px={0.4}>
-                            &bull;
-                          </Text>
-                          <Text
-                            span
-                            style={{
-                              display: 'flex',
-                              gap: '.3rem',
-                              alignItems: 'center',
-                            }}
-                          >
-                            <Text b font={0.8} my="auto" span>
-                              {`${rating} ${rating > 1 ? 'stars' : 'star'}`}
-                            </Text>
-                          </Text>
-                        </>
-                      )}
+                      <Text span type="secondary" font={0.5} px={0.4}>
+                        &bull;
+                      </Text>
+                      <Text
+                        span
+                        style={{
+                          display: 'flex',
+                          gap: '.3rem',
+                          alignItems: 'center',
+                        }}
+                      >
+                        <Text type="secondary" font={0.8} my="auto" span>
+                          {rating !== 0
+                            ? `${rating} ${rating > 1 ? 'stars' : 'star'}`
+                            : 'No rating'}
+                        </Text>
+                      </Text>
                     </Flex>
-                    <Flex>
+                    <Flex css={{fontSize:'$xs'}}>
                       <Text
                         span
                         title={
                           createdAt && format(parseISO(createdAt), 'E, PPP p O')
                         }
-                        font={0.6}
                         type="secondary"
                       >
                         {createdAt &&
@@ -188,7 +185,6 @@ export const Feedback = ({
                           <Text
                             span
                             type="secondary"
-                            font={0.6}
                             title={
                               updatedAt &&
                               format(parseISO(updatedAt), 'E, PPP p O')
