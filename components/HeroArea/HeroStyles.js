@@ -6,12 +6,8 @@ export const HeroContainer = styled('div', {
   maxWidth: '100vw',
   backgroundColor: '#121217',
   paddingBottom: '.8rem',
-  marginTop: '55px',
   '& > div:first-child > :first-child': {
     paddingTop: '0!important',
-  },
-  '@sm': {
-    marginTop: '80px!important',
   },
 });
 export const HeroCTA = styled('div', {

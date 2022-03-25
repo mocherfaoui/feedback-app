@@ -16,29 +16,11 @@ export const Navbar = styled('header', {
       },
     },
   },
-  defaultVariants: {
-    isHomePage: false,
-    isScrolled: false,
-    isOpen: false,
-  },
-  compoundVariants: [
-    {
-      isHomePage: true,
-      isScrolled: true,
-      css: { backgroundColor: 'rgba(32, 34, 36, 0.75)!important' },
-    },
-    {
-      isHomePage: false,
-      isScrolled: true,
-      css: { color: '#fff' },
-    },
-  ],
 });
 
 export const MenuLink = styled(Link, {
   alignItems: 'center!important',
   gap: '.3rem',
-  /* margin: '0 1rem!important' */
 });
 
 export const DesktopMenuItems = styled('div', {
@@ -69,13 +51,16 @@ export const MobileMenuItems = styled('div', {
   },
 });
 export const HeaderWrapper = styled('div', {
+  position: 'fixed',
   top: 0,
   zIndex: 1000,
   width: '100%',
+  fontWeight:'bold',
   variants: {
     isOpen: {
       true: {
-        position: 'fixed',
+        position:'fixed',
+        top:0,
         '@supports (-webkit-backdrop-filter: none) or (backdrop-filter: none)':
           {
             backgroundColor: 'rgba(32, 34, 36, 0.75)!important',
@@ -83,21 +68,17 @@ export const HeaderWrapper = styled('div', {
           },
       },
     },
-    isHomePage: {
-      true: {
-        position: 'absolute',
-      },
-    },
     isScrolled: {
       true: {
-        position: 'fixed',
+        top: 0,
         '@supports (-webkit-backdrop-filter: none) or (backdrop-filter: none)':
           {
             backgroundColor: 'rgba(32, 34, 36, 0.75)',
             backdropFilter: 'saturate(180%) blur(20px)',
           },
+        transition: 'all 1s ease 0s',
       },
-      false: {},
+      false: { top: '-60px' },
     },
   },
 });

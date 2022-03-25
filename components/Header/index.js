@@ -26,25 +26,19 @@ export default function Header() {
   const handleToggle = () => {
     setOpen((prev) => !prev);
     setHidden((prev) => !prev);
-    setScrollingUp(false);
   };
   const router = useRouter();
   const isHomePage = router.asPath === '/';
   return (
     <HeaderWrapper
       isOpen={isOpen}
-      isHomePage={isHomePage}
       isScrolled={isScrolled}
+      css={{
+        backgroundColor: !isHomePage ? '#f7f7f7' : 'rgb(18, 18, 23)',
+        color: !isHomePage ? '#000' : '#fff',
+      }}
     >
-      <Navbar
-        css={{
-          backgroundColor: !isHomePage ? '#f7f7f7' : 'rgb(18, 18, 23)',
-          color: !isHomePage ? '#000' : '#fff',
-        }}
-        isOpen={isOpen}
-        isScrolled={isScrolled}
-        isHomePage={isHomePage}
-      >
+      <Navbar isOpen={isOpen}>
         <Container>
           <Flex css={{ justifyContent: 'space-between', alignItems: 'center' }}>
             <NavMenu isOpen={isOpen} handleToggle={handleToggle} />
