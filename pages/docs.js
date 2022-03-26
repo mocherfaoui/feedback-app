@@ -1,15 +1,12 @@
 import Head from 'next/head';
-import { Code, Link, Note,Text } from '@geist-ui/core';
+import { Code, Link, Note, Text } from '@geist-ui/core';
 
 import { Container } from '@/components/GlobalComponents';
 import Layout from '@/components/Layout';
 
 export default function DocsPage() {
   return (
-    <Layout>
-      <Head>
-        <title>Documentation</title>
-      </Head>
+    <Layout pageTitle="Documentation">
       <Container css={{ paddingTop: '2rem' }}>
         <Text h3>Getting Started</Text>
         <Text p>

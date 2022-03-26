@@ -1,5 +1,4 @@
 import { useForm } from 'react-hook-form';
-import Head from 'next/head';
 import {
   Avatar,
   Button,
@@ -43,10 +42,7 @@ function UserSettings() {
     reset({ displayName: '' });
   };
   return (
-    <Layout>
-      <Head>
-        <title>Settings</title>
-      </Head>
+    <Layout pageTitle="Settings">
       <Container css={{ marginTop: '1.5rem' }}>
         <Flex
           css={{ alignItems: 'center', flexDirection: 'column', gap: '1rem' }}
