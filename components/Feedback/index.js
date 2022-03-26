@@ -58,8 +58,8 @@ export const Feedback = ({
   const editInputEl = useRef();
   const replyEl = useRef();
   const isUser = user && user.uid === authorId;
-  const isAdmin = authorId === siteAuthorId;
-  const superUser = user && user.uid === siteAuthorId;
+  const ownerBadge = authorId === siteAuthorId;
+  const isSiteAdmin = user && user.uid === siteAuthorId;
   const replyId = parentId ? parentId : id;
   const isReplying = replyInput && replyInput.id === id;
   TimeAgo.addLocale(en);
@@ -126,7 +126,7 @@ export const Feedback = ({
                       <Text b font={0.8} span>
                         {author}
                       </Text>
-                      {isAdmin && (
+                      {ownerBadge && (
                         <Popover
                           py={0.6}
                           style={{ display: 'inline-flex' }}
@@ -200,7 +200,7 @@ export const Feedback = ({
                       )}
                     </Flex>
                   </Flex>
-                  {((!isDeleted && isUser) || superUser) && (
+                  {((!isDeleted && isUser) || isSiteAdmin) && (
                     <ButtonDropdown
                       scale={1 / 3}
                       auto
