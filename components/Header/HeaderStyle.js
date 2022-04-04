@@ -55,12 +55,13 @@ export const HeaderWrapper = styled('div', {
   top: 0,
   zIndex: 1000,
   width: '100%',
-  fontWeight:'bold',
+  fontWeight: 'bold',
+  transition: 'top .25s ease-out',
   variants: {
     isOpen: {
       true: {
-        position:'fixed',
-        top:0,
+        position: 'fixed',
+        top: 0,
         '@supports (-webkit-backdrop-filter: none) or (backdrop-filter: none)':
           {
             backgroundColor: 'rgba(32, 34, 36, 0.75)!important',
@@ -76,9 +77,8 @@ export const HeaderWrapper = styled('div', {
             backgroundColor: 'rgba(32, 34, 36, 0.75)',
             backdropFilter: 'saturate(180%) blur(20px)',
           },
-        transition: 'all 1s ease 0s',
       },
-      false: { top: '-60px' },
+      false: { top: '-80px' },
     },
   },
 });
