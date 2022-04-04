@@ -6,6 +6,6 @@ export default async function handler(req, res){
     const { site } = await getSite(siteId);
     res.status(200).json({ site });
   } catch (error) {
-    res.status(500).json({ error });
+    res.status(404).json({ error });
   }
 };

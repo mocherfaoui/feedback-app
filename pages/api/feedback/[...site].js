@@ -6,6 +6,6 @@ export default async function handler(req, res){
     const { feedback } = await getAllFeedback(siteId, route);
     res.status(200).json({ feedback });
   } catch (error) {
-    res.status(500).json({ error });
+    res.status(404).json({ error });
   }
 };

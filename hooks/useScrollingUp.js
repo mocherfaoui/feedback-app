@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from 'react';
 
 import { off, on } from '@/utils/eventListener';
@@ -6,9 +5,10 @@ import { off, on } from '@/utils/eventListener';
 const useScrollingUp = () => {
   const [prevScroll, setPrevScroll] = useState(0);
   const [scrollingUp, setScrollingUp] = useState(true);
-  //if it is SSR then check you are now on the client and window object is available
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const handleScroll = () => {
     let currScroll;
+    //if it is SSR then check you are now on the client and window object is available
     if (typeof window !== 'undefined') {
       currScroll = window.scrollY;
     }
