@@ -32,7 +32,7 @@ const MDXComponents = {
       {props.children}
     </Text>
   ),
-  p: ({ node, ...props }) => <Text {...props}>{props.children}</Text>,
+  p: ({ node, ...props }) => <Text font={.9} {...props}>{props.children}</Text>,
   em: ({ node, ...props }) => (
     <Text em {...props}>
       {props.children}

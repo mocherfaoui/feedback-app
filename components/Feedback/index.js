@@ -167,7 +167,9 @@ export const Feedback = ({
                         </>
                       )}
                     </Flex>
-                    <Flex css={{ fontSize: '$xs' }}>
+                    <Flex
+                      css={{ fontSize: '$xs', alignItems: 'center', gap: '$1' }}
+                    >
                       <Text
                         span
                         title={
@@ -183,7 +185,7 @@ export const Feedback = ({
                       </Text>
                       {updatedAt && (
                         <>
-                          <Text type="secondary" span px={0.3} font={0.5}>
+                          <Text type="secondary" span font={0.4}>
                             &bull;
                           </Text>
                           <Text
