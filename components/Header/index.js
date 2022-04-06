@@ -12,6 +12,7 @@ import useScrollingUp from '@/hooks/useScrollingUp';
 import {
   DesktopMenuItems,
   HeaderWrapper,
+  LogInButton,
   MenuLink,
   MobileMenuItems,
   Navbar,
@@ -47,7 +48,7 @@ export default function Header() {
       </Navbar>
       <MobileMenuItems isOpen={isOpen}>
         <Menu user={user} />
-        {user && (
+        {user ? (
           <>
             <NextLink href="/user/settings" passHref>
               <MenuLink>Settings</MenuLink>
@@ -56,6 +57,10 @@ export default function Header() {
               <MenuLink onClick={() => signout()}>Log Out</MenuLink>
             </NextLink>
           </>
+        ) : (
+          <NextLink href="/sign-in" passHref>
+            <MenuLink>Log in</MenuLink>
+          </NextLink>
         )}
       </MobileMenuItems>
     </HeaderWrapper>
@@ -63,6 +68,8 @@ export default function Header() {
 }
 function NavMenu({ isOpen, handleToggle }) {
   const { user, signout } = useAuth();
+  const router = useRouter();
+  const isHomePage = router.asPath === '/';
   const [firstName, lastName] = user?.name?.split(' ') ?? [];
   const popOverContent = () => (
     <Flex
@@ -110,7 +117,7 @@ function NavMenu({ isOpen, handleToggle }) {
           <Menu user={user} />
         </DesktopMenuItems>
       </Flex>
-      {user && (
+      {user ? (
         <DesktopMenuItems>
           <Popover
             content={popOverContent}
@@ -120,24 +127,29 @@ function NavMenu({ isOpen, handleToggle }) {
             <Avatar src={user?.photoURL} />
           </Popover>
         </DesktopMenuItems>
+      ) : (
+        <LogInButton
+          onClick={() => router.push('/sign-in')}
+          auto
+          ghost={isHomePage ?? false}
+          type="secondary"
+        >
+          Log in
+        </LogInButton>
       )}
       <Hamburger toggled={isOpen} toggle={handleToggle} size={20} />
     </>
   );
 }
-const Menu = ({ user }) => {
+const Menu = () => {
   return (
     <>
-      {user && (
-        <>
-          <NextLink href="/sites" passHref>
-            <Link>Sites</Link>
-          </NextLink>
-          <NextLink href="/feedback" passHref>
-            <Link>Feedbacks</Link>
-          </NextLink>
-        </>
-      )}
+      <NextLink href="/sites" passHref>
+        <Link>Sites</Link>
+      </NextLink>
+      <NextLink href="/feedback" passHref>
+        <Link>Feedbacks</Link>
+      </NextLink>
       <NextLink href="/docs" passHref>
         <Link>Docs</Link>
       </NextLink>

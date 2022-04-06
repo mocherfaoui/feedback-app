@@ -24,6 +24,7 @@ export default function FeedbackEditor({
               border: 0,
               marginTop: '1rem',
               padding: 0,
+              fontSize:'.9rem'
             }}
             minRows={1}
             onChange={onChange}

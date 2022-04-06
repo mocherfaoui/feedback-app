@@ -95,7 +95,7 @@ export default function HeroArea({ scrollTo }) {
               pr={1}
               mt={0.5}
               onClick={scrollTo}
-              style={{ color: '#000' }}
+              style={{ color: '#000', fontWeight: 'bold' }}
             >
               Get Started
             </Button>

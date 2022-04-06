@@ -16,7 +16,7 @@ export default function Footer() {
             style={{ textAlign: 'center' }}
           >
             <Text b>
-              If you came across any bug click here to open an issue.
+              If you came across any problem click here to open an issue.
             </Text>
           </Link>
         </Flex>

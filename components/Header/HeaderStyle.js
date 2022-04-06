@@ -1,4 +1,4 @@
-import { Link } from '@geist-ui/core';
+import { Button, Link } from '@geist-ui/core';
 
 import { styled } from '@/stitches.config';
 
@@ -81,4 +81,8 @@ export const HeaderWrapper = styled('div', {
       false: { top: '-80px' },
     },
   },
+});
+export const LogInButton = styled(Button, {
+  fontWeight: 'bold!important',
+  '@sm': { display: 'none!important' },
 });

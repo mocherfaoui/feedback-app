@@ -1,6 +1,7 @@
 import { styled } from '@/stitches.config';
 
 export const HeroContainer = styled('div', {
+  paddingTop: '5px',
   position: 'relative',
   overflow: 'hidden',
   maxWidth: '100vw',

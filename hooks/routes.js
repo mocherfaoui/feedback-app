@@ -1,6 +1,5 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect } from 'react';
-import { useRouter } from 'next/router';
+import Router from 'next/router';
 import Cookies from 'js-cookie';
 
 import { useAuth } from '@/lib/auth';
@@ -10,16 +9,11 @@ import LoadingState from '@/components/LoadingState';
 export function withPublic(Component) {
   return function WithPublic(props) {
     const cookie = Cookies.get('feedback-app-cookie');
-    const router = useRouter();
 
-    useEffect(() => {
-      const timeoutId = setTimeout(() => {
-        if (cookie) {
-          router.replace('/sites');
-        }
-      }, 1000);
-      return () => clearTimeout(timeoutId);
-    }, [cookie]);
+    if (cookie) {
+      Router.replace('/sites');
+      return <LoadingState/>;
+    }
     return <Component cookie={cookie} {...props} />;
   };
 }
@@ -27,14 +21,13 @@ export function withProtected(Component) {
   return function WithProtected(props) {
     const cookie = Cookies.get('feedback-app-cookie');
     const auth = useAuth();
-    const router = useRouter();
 
     useEffect(() => {
       const timeoutId = setTimeout(() => {
         if (!cookie) {
-          router.replace('/');
+          Router.replace('/sign-in');
         }
-      }, 1000);
+      }, 3000);
       return () => clearTimeout(timeoutId);
     }, [cookie]);
 

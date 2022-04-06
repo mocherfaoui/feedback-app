@@ -21,7 +21,7 @@ export default function Layout({ children, pageTitle }) {
 }
 const MainContainer = styled('div', {
   main: {
-    pt: '55px',
+    pt: '60px',
     '@sm': { pt: '80px!important' },
   },
 });
