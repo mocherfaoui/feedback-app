@@ -282,7 +282,9 @@ export const Feedback = ({
                 >
                   {visibleReplies
                     ? `Hide Replies(${replies.length})`
-                    : `View Replies(${replies.length})`}
+                    : replies.length > 1
+                    ? `View Replies(${replies.length})`
+                    : 'View Reply'}
                 </Button>
               )}
             </Flex>

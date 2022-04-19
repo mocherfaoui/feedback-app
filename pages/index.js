@@ -1,36 +1,33 @@
-import { useRef } from 'react';
+import { useEffect, useState } from 'react';
+import { useInView } from 'react-intersection-observer';
 import NextLink from 'next/link';
 import { Code, Link, Text } from '@geist-ui/core';
 import IframeResizer from 'iframe-resizer-react';
 
 import { useAuth } from '@/lib/auth';
-import useIsVisible from '@/hooks/useIsVisible';
 
 import { Container, Flex } from '@/components/GlobalComponents';
 import HeroArea from '@/components/HeroArea';
 import Layout from '@/components/Layout';
 import LoginButtons from '@/components/LoginButtons';
-import { useInView } from 'react-intersection-observer';
 
 export default function Home() {
   const { user } = useAuth();
-  //const iframeRef = useRef();
-  //onst isVisible = useIsVisible(iframeRef);
+  const [isSSR, setIsSSR] = useState(true);
   const { ref, inView } = useInView({
     triggerOnce: true,
     root: null,
     rootMargin: '0px 0px 0px 0px',
     threshold: 0,
   });
-  const HOST =
-    process.env.NODE_ENV === 'development'
-      ? ''
-      : 'https://feedback-app0.vercel.app';
-
   const scrollTo = () => {
     const howTo = document.getElementById('how-to-use');
     howTo.scrollIntoView({ behavior: 'smooth' });
   };
+
+  useEffect(() => {
+    setIsSSR(false);
+  }, []);
   return (
     <Layout pageTitle="Feedback App - Homepage">
       <HeroArea scrollTo={scrollTo} />
@@ -93,17 +90,17 @@ export default function Home() {
             removed just write it away.
           </Text>
           <div ref={ref}>
-            {inView ? (
+            {inView && !isSSR && (
               <IframeResizer
                 checkOrigin={false}
                 title="Comments"
-                src={`${HOST}/embed/ke1irGZRqUrgXa7eqAXL`}
+                src={`/embed/ke1irGZRqUrgXa7eqAXL`}
                 style={{
                   width: '1px',
                   minWidth: '100%',
                 }}
               />
-            ) : null}
+            )}
           </div>
         </Flex>
       </Container>
