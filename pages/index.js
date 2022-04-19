@@ -1,5 +1,4 @@
 import { useRef } from 'react';
-import Head from 'next/head';
 import NextLink from 'next/link';
 import { Code, Link, Text } from '@geist-ui/core';
 import IframeResizer from 'iframe-resizer-react';

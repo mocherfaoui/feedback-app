@@ -8,7 +8,7 @@ import LoginButtons from '@/components/LoginButtons';
 
 function SignInPage() {
   return (
-    <Layout>
+    <Layout pageTitle="Log-in">
       <Container css={{ marginTop: '2rem' }}>
         <Grid.Container mx="auto" xs={24} sm={10} font="1rem">
           <Grid xs={24} my={1}>

@@ -58,7 +58,7 @@ export default function Header() {
             </NextLink>
           </>
         ) : (
-          <NextLink href="/sign-in" passHref>
+          <NextLink href="/log-in" passHref>
             <MenuLink>Log in</MenuLink>
           </NextLink>
         )}
@@ -67,7 +67,7 @@ export default function Header() {
   );
 }
 function NavMenu({ isOpen, handleToggle }) {
-  const { user, signout } = useAuth();
+  const { user, signout, loading } = useAuth();
   const router = useRouter();
   const isHomePage = router.asPath === '/';
   const [firstName, lastName] = user?.name?.split(' ') ?? [];
@@ -117,7 +117,16 @@ function NavMenu({ isOpen, handleToggle }) {
           <Menu user={user} />
         </DesktopMenuItems>
       </Flex>
-      {user ? (
+      {!user && !loading ? (
+        <LogInButton
+          onClick={() => router.push('/log-in')}
+          auto
+          ghost={isHomePage ?? false}
+          type="secondary"
+        >
+          Log in
+        </LogInButton>
+      ) : (
         <DesktopMenuItems>
           <Popover
             content={popOverContent}
@@ -127,15 +136,6 @@ function NavMenu({ isOpen, handleToggle }) {
             <Avatar src={user?.photoURL} />
           </Popover>
         </DesktopMenuItems>
-      ) : (
-        <LogInButton
-          onClick={() => router.push('/sign-in')}
-          auto
-          ghost={isHomePage ?? false}
-          type="secondary"
-        >
-          Log in
-        </LogInButton>
       )}
       <Hamburger toggled={isOpen} toggle={handleToggle} size={20} />
     </>
