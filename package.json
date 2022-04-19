@@ -29,6 +29,7 @@
     "react-dom": "18.0.0",
     "react-hook-form": "^7.30.0",
     "react-icons": "^4.3.1",
+    "react-intersection-observer": "^8.34.0",
     "react-loading-skeleton": "^3.1.0",
     "react-markdown": "^8.0.2",
     "react-text-loop-next": "^0.0.3",

@@ -10,11 +10,18 @@ import { Container, Flex } from '@/components/GlobalComponents';
 import HeroArea from '@/components/HeroArea';
 import Layout from '@/components/Layout';
 import LoginButtons from '@/components/LoginButtons';
+import { useInView } from 'react-intersection-observer';
 
 export default function Home() {
   const { user } = useAuth();
-  const iframeRef = useRef();
-  const isVisible = useIsVisible(iframeRef);
+  //const iframeRef = useRef();
+  //onst isVisible = useIsVisible(iframeRef);
+  const { ref, inView } = useInView({
+    triggerOnce: true,
+    root: null,
+    rootMargin: '0px 0px 0px 0px',
+    threshold: 0,
+  });
   const HOST =
     process.env.NODE_ENV === 'development'
       ? ''
@@ -85,8 +92,8 @@ export default function Home() {
             Give it a try! If you have any suggestion on what should be added or
             removed just write it away.
           </Text>
-          <div ref={iframeRef}>
-            {isVisible && (
+          <div ref={ref}>
+            {inView ? (
               <IframeResizer
                 checkOrigin={false}
                 title="Comments"
@@ -96,7 +103,7 @@ export default function Home() {
                   minWidth: '100%',
                 }}
               />
-            )}
+            ) : null}
           </div>
         </Flex>
       </Container>
