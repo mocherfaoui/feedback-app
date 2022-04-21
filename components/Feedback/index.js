@@ -281,7 +281,9 @@ export const Feedback = ({
                   onClick={() => setVisibleReplies((prev) => !prev)}
                 >
                   {visibleReplies
-                    ? `Hide Replies(${replies.length})`
+                    ? replies.length > 1
+                    : `Hide Replies(${replies.length})`
+                    ? 'Hide Reply'
                     : replies.length > 1
                     ? `View Replies(${replies.length})`
                     : 'View Reply'}

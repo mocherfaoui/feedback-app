@@ -25,7 +25,7 @@ export function withProtected(Component) {
     useEffect(() => {
       const timeoutId = setTimeout(() => {
         if (!cookie) {
-          Router.replace('/sign-in');
+          Router.replace('/log-in');
         }
       }, 3000);
       return () => clearTimeout(timeoutId);
