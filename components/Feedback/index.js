@@ -282,8 +282,8 @@ export const Feedback = ({
                 >
                   {visibleReplies
                     ? replies.length > 1
-                    : `Hide Replies(${replies.length})`
-                    ? 'Hide Reply'
+                      ? `Hide Replies(${replies.length})`
+                      : 'Hide Reply'
                     : replies.length > 1
                     ? `View Replies(${replies.length})`
                     : 'View Reply'}
