@@ -76,7 +76,7 @@ export default function HeroArea({ scrollTo }) {
             type="dark"
             width="90vw"
             style={{
-              maxWidth: '690px',
+              maxWidth: '710px',
               textAlign: 'center',
               backgroundColor: '#17171d',
             }}
