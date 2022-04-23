@@ -4,9 +4,9 @@ import { motion } from 'framer-motion';
 
 import { styled } from '@/stitches.config';
 
-import { HeroContainer, HeroCTA, StyledText } from './HeroStyles';
+import { HeroContainer, HeroCTA } from './HeroStyles';
 import mockData from './mockData';
-import { Flex } from '../GlobalComponents';
+import { Flex, StyledText } from '../GlobalComponents';
 
 function randomIntFromInterval(min, max) {
   // min and max included
@@ -56,6 +56,7 @@ export default function HeroArea({ scrollTo }) {
                     flexShrink: 0,
                     opacity: 0.3,
                     boxSizing: 'border-box',
+                    maxWidth: 'fit-content',
                   }}
                 >
                   {u.feedback}
@@ -71,23 +72,23 @@ export default function HeroArea({ scrollTo }) {
           }}
         >
           <Card
-            py={0.6}
+            py={0.5}
             type="dark"
             width="90vw"
             style={{
-              maxWidth: '630px',
+              maxWidth: '690px',
               textAlign: 'center',
               backgroundColor: '#17171d',
             }}
           >
-            <HeadingText h2>
+            <HeadingText h1 mb={1.5} mt={0}>
               Get instant feedback for your{' '}
               <TextLoop>
                 <StyledText>blog</StyledText>
                 <StyledText>store</StyledText>
               </TextLoop>
             </HeadingText>
-            <Text p margin={0} my={0.8}>
+            <Text p margin={0} my={0.8} font={1.1}>
               Easily add user feedback to your website in one line of code.
             </Text>
             <Button
@@ -95,7 +96,7 @@ export default function HeroArea({ scrollTo }) {
               pr={1}
               mt={0.5}
               onClick={scrollTo}
-              style={{ color: '#000', fontWeight: 'bold' }}
+              style={{ color: '#000', fontWeight: 'bold', fontSize: '1rem' }}
             >
               Get Started
             </Button>
@@ -106,7 +107,7 @@ export default function HeroArea({ scrollTo }) {
   );
 }
 const HeadingText = styled(Text, {
-  fontSize: '2rem',
+  fontSize: '2.5rem',
   '@sm': {
     fontSize: '1.6rem',
   },

@@ -20,10 +20,3 @@ export const HeroCTA = styled('div', {
   height: '100%',
   width: '100%',
 });
-export const StyledText = styled('span', {
-  whiteSpace: 'nowrap',
-  backgroundColor: 'rgb(255, 212, 64)',
-  color: '#17171d',
-  padding: '.3rem .4rem',
-  borderRadius: '7px',
-});

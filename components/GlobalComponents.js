@@ -15,3 +15,18 @@ export const FormError = styled(Note, {
   margin: '.3rem 0!important',
   textAlign: 'start',
 });
+export const StyledText = styled('span', {
+  whiteSpace: 'nowrap',
+  backgroundColor: 'rgb(255, 212, 64)',
+  color: '#17171d',
+  padding: '.3rem .4rem',
+  borderRadius: '7px',
+});
+export const HeadingText = styled('h2', {
+  fontSize: '2rem',
+  marginBottom: '$8',
+  textAlign: 'center',
+  '@sm': {
+    fontSize: '1.5rem',
+  },
+});

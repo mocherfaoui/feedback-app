@@ -4,18 +4,11 @@ import 'react-loading-skeleton/dist/skeleton.css';
 
 const SkeletonRow = ({ width }) => (
   <tr>
-    <td>
-      <Skeleton inline={false} width={width} />
-    </td>
-    <td>
-      <Skeleton inline={false} width={width} />
-    </td>
-    <td>
-      <Skeleton inline={false} width={width} />
-    </td>
-    <td>
-      <Skeleton inline={false} width={width} />
-    </td>
+    {[...Array(4)].map((i) => (
+      <td key={i}>
+        <Skeleton inline={false} width={width} />
+      </td>
+    ))}
   </tr>
 );
 
@@ -40,11 +33,9 @@ export function SkeletonTable() {
           </tr>
         </thead>
         <tbody>
-          <SkeletonRow width={90} />
-          <SkeletonRow width={90} />
-          <SkeletonRow width={90} />
-          <SkeletonRow width={90} />
-          <SkeletonRow width={90} />
+          {[...Array(5)].map((i) => (
+            <SkeletonRow key={i} width={90} />
+          ))}
         </tbody>
       </table>
     </>
