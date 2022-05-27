@@ -32,7 +32,7 @@ export default function Home() {
         <HowToUse />
         <Features />
         <Flex css={{ flexDirection: 'column', gap: '1rem' }}>
-          <Text h3 margin={0} mt={2}>Demo</Text>
+          <Text h3 margin={0} mt={1}>Demo</Text>
           <Text span>
             This is how the embed will look like.
             <br />
