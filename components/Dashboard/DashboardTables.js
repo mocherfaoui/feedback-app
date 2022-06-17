@@ -12,8 +12,8 @@ export function SitesDashboard({ sites }) {
   const createdAt = (rowData) => {
     return <Text>{format(parseISO(rowData), 'PP p')}</Text>;
   };
-  const ActionsArea = (rowData) => {
-    return <STActionsArea siteId={rowData} />;
+  const ActionsArea = (rowData, rowIndex) => {
+    return <STActionsArea siteId={rowData} siteName={rowIndex?.name} />;
   };
   return (
     <>
