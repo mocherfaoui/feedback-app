@@ -1,7 +1,8 @@
-import { useEffect, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { Text } from '@geist-ui/core';
 import IframeResizer from 'iframe-resizer-react';
+
+import { useAuth } from '@/lib/auth';
 
 import Features from '@/components/Features';
 import { Container, Flex } from '@/components/GlobalComponents';
@@ -10,7 +11,7 @@ import HowToUse from '@/components/HowToUse';
 import Layout from '@/components/Layout';
 
 export default function Home() {
-  const [isSSR, setIsSSR] = useState(true);
+  const { loading } = useAuth();
   const { ref, inView } = useInView({
     triggerOnce: true,
     root: null,
@@ -22,9 +23,9 @@ export default function Home() {
     howTo.scrollIntoView({ behavior: 'smooth' });
   };
 
-  useEffect(() => {
-    setIsSSR(false);
-  }, []);
+  if (loading) {
+    return;
+  }
   return (
     <Layout pageTitle="Feedback App - Homepage">
       <HeroArea scrollTo={scrollTo} />
@@ -32,15 +33,17 @@ export default function Home() {
         <HowToUse />
         <Features />
         <Flex css={{ flexDirection: 'column', gap: '1rem' }}>
-          <Text h3 margin={0} mt={1}>Demo</Text>
+          <Text h3 margin={0} mt={1}>
+            Demo
+          </Text>
           <Text span>
             This is how the embed will look like.
             <br />
             Give it a try! If you have any suggestion on what should be added or
             removed just write it away.
           </Text>
-          <div ref={ref}>
-            {inView && !isSSR && (
+          <div ref={ref} style={{ minHeight: '200px' }}>
+            {inView && (
               <IframeResizer
                 checkOrigin={false}
                 title="Comments"

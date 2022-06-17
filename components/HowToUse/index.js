@@ -48,10 +48,10 @@ export default function HowToUse() {
                 <RoundedNumber>2</RoundedNumber>
               </RoundedNumberContainer>
               <Text p>
-                Get your site ID from the dashboard.
+                Get your snippet.
                 <br />
-                Site ID looks like this: <Code>ke1irABCqUrgXa7eqDM5</Code> you
-                can find it in the sites dashboard.
+                You can find it in the same sites dashboard by clicking{' '}
+                <b>View Snippet</b>.
                 <br />
               </Text>
             </StepContainer>
@@ -64,16 +64,10 @@ export default function HowToUse() {
                 <RoundedNumber>3</RoundedNumber>
               </RoundedNumberContainer>
               <Text p mb={0}>
-                Put this iframe anywhere in your website:
+                Put the snippet anywhere in your website.
               </Text>
-              <Snippet
-                my={0.5}
-                symbol=""
-                text='<iframe src="https://feedback-app0.vercel.app/embed/SITE_ID" />'
-                width="auto"
-              />
               <Text span>
-                If you want to add the iframe to multiple routes or make it
+                If you want to make it work with multiple routes or to be
                 resizable see the full docs{' '}
                 <NextLink href="/docs" passHref>
                   <Link underline color>
