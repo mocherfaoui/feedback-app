@@ -25,7 +25,7 @@ export const MenuLink = styled(Link, {
 
 export const DesktopMenuItems = styled('div', {
   display: 'flex',
-  gap: '1rem',
+  gap: '1.8rem',
   cursor: 'pointer',
   '@sm': { display: 'none' },
 });

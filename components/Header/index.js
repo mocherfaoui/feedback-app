@@ -42,6 +42,9 @@ export default function Header() {
       <Navbar isOpen={isOpen}>
         <Container>
           <Flex css={{ justifyContent: 'space-between', alignItems: 'center' }}>
+            <NextLink href="/" passHref>
+              <Link>Home</Link>
+            </NextLink>
             <NavMenu isOpen={isOpen} handleToggle={handleToggle} />
           </Flex>
         </Container>
@@ -110,9 +113,6 @@ function NavMenu({ isOpen, handleToggle }) {
         `}
       </style>
       <Flex css={{ gap: '1.5rem' }}>
-        <NextLink href="/" passHref>
-          <Link>Home</Link>
-        </NextLink>
         <DesktopMenuItems>
           <Menu user={user} />
         </DesktopMenuItems>
