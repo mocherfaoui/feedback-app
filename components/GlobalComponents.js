@@ -30,3 +30,9 @@ export const HeadingText = styled('h2', {
     fontSize: '1.5rem',
   },
 });
+export const VerticalLine = styled('div', {
+  '&::before': {
+    content: '',
+    borderRight: '1px solid #eaeaea',
+  },
+});

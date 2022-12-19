@@ -20,7 +20,8 @@ import { createFeedback, deleteFeedback, updateFeedback } from '@/lib/db';
 
 import { styled } from '@/stitches.config';
 
-import { Flex } from '../GlobalComponents';
+import Reactions from './Reactions';
+import { Flex, VerticalLine } from '../GlobalComponents';
 import { MarkdownRender } from '../MarkdownRender';
 
 const FeedbackEditor = dynamic(() => import('../FeedbackEditor'), {
@@ -46,6 +47,8 @@ export const Feedback = ({
   replyInput,
   setReplyInput,
   isDeleted,
+  likes,
+  dislikes,
 }) => {
   const { user } = useAuth();
   const [edit, setEdit] = useState({
@@ -112,13 +115,7 @@ export const Feedback = ({
         </Text>
         <Flex css={{ flexDirection: 'column', gap: '1rem', width: '100%' }}>
           <Flex css={{ flexDirection: 'column' }} id={id}>
-            <Card
-              className="feedback-card"
-              width="100%"
-              mb={0}
-              hoverable
-              key={id}
-            >
+            <Card className="feedback-card" width="100%" mb={0} key={id}>
               <Flex css={{ flexDirection: 'column' }}>
                 <Flex css={{ justifyContent: 'space-between' }}>
                   <Flex css={{ flexDirection: 'column', gap: '.1rem' }}>
@@ -168,7 +165,11 @@ export const Feedback = ({
                       )}
                     </Flex>
                     <Flex
-                      css={{ fontSize: '$xs', alignItems: 'center', gap: '$1' }}
+                      css={{
+                        fontSize: '$xs',
+                        alignItems: 'center',
+                        gap: '$1',
+                      }}
                     >
                       <Text
                         span
@@ -260,36 +261,46 @@ export const Feedback = ({
                 )}
               </Flex>
             </Card>
-            <Flex css={{ gap: '1rem' }}>
-              {user && !edit.isEditing && (
-                <Button
-                  padding={0}
-                  type="abort"
-                  auto
-                  scale={2 / 3}
-                  onClick={() => setReplyInput({ id: id })}
-                >
-                  Reply
-                </Button>
-              )}
-              {replies?.length > 0 && !parentId && (
-                <Button
-                  type="abort"
-                  auto
-                  scale={2 / 3}
-                  padding={0}
-                  onClick={() => setVisibleReplies((prev) => !prev)}
-                >
-                  {visibleReplies
-                    ? replies.length > 1
-                      ? `Hide Replies(${replies.length})`
-                      : 'Hide Reply'
-                    : replies.length > 1
-                    ? `View Replies(${replies.length})`
-                    : 'View Reply'}
-                </Button>
-              )}
-            </Flex>
+            {!edit.isEditing && (
+              <Flex css={{ gap: '1rem', alignItems: 'center' }}>
+                {user && (
+                  <>
+                    <Reactions
+                      feedbackId={id}
+                      mutateFeedback={mutate}
+                      reactions={{ likes, dislikes }}
+                    />
+                    <VerticalLine />
+                    <Button
+                      padding={0}
+                      type="abort"
+                      auto
+                      scale={2 / 3}
+                      onClick={() => setReplyInput({ id: id })}
+                    >
+                      Reply
+                    </Button>
+                  </>
+                )}
+                {replies?.length > 0 && !parentId && (
+                  <Button
+                    type="abort"
+                    auto
+                    scale={2 / 3}
+                    padding={0}
+                    onClick={() => setVisibleReplies((prev) => !prev)}
+                  >
+                    {visibleReplies
+                      ? replies.length > 1
+                        ? `Hide Replies(${replies.length})`
+                        : 'Hide Reply'
+                      : replies.length > 1
+                      ? `View Replies(${replies.length})`
+                      : 'View Reply'}
+                  </Button>
+                )}
+              </Flex>
+            )}
           </Flex>
           {isReplying && (
             <Card className="feedback-card">
