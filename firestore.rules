@@ -10,7 +10,7 @@ service cloud.firestore {
     match /feedback/{uid} {
       allow read: if true;
       allow delete: if isOwner() || isSiteOwner();
-      allow update: if isOwner() && willBeOwner() || isSiteOwner() && willBeSiteOwner();
+      allow update: if isOwner() && willBeOwner() || isSiteOwner() && willBeSiteOwner() || (request.resource.data.diff(resource.data).affectedKeys().hasAny(['likes', 'dislikes']));
       allow create: if willBeOwner();
     }
     
