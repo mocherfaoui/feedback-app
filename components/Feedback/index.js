@@ -81,6 +81,8 @@ export const Feedback = ({
       avatar: user.photoURL,
       text: replyEl.current.value,
       rating: 0,
+      likes: [],
+      dislikes: [],
       createdAt: new Date().toISOString(),
       status:
         user.uid === siteAuthorId || siteId === 'ke1irGZRqUrgXa7eqAXL'

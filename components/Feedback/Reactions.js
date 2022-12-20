@@ -75,7 +75,7 @@ export default function Reactions({ feedbackId, mutateFeedback, reactions }) {
             type="abort"
             onClick={handleLike}
           />
-          <Counter>{reactions.likes.length}</Counter>
+          <Counter>{reactions.likes?.length ?? 0}</Counter>
         </ReactionContainer>
         <ReactionContainer>
           <Button
@@ -91,7 +91,7 @@ export default function Reactions({ feedbackId, mutateFeedback, reactions }) {
             type="abort"
             onClick={handleDislike}
           />
-          <Counter>{reactions.dislikes.length}</Counter>
+          <Counter>{reactions.dislikes?.length ?? 0}</Counter>
         </ReactionContainer>
       </Flex>
     </Flex>
