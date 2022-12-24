@@ -4,20 +4,23 @@ import Github from '@geist-ui/icons/github';
 
 import { useAuth } from '@/lib/auth';
 
-export default function LoginButtons({ direction, scale, logInPage }) {
+export default function LoginButtons({
+  direction,
+  scale,
+  logInPage,
+  hideIcon = false,
+  size = { xs: 24, sm: 12, md: 9 },
+}) {
   const auth = useAuth();
   return (
-    <Grid.Container
-      gap={1}
-      direction={direction ? direction : 'row'}
-    >
-      <Grid xs={24} sm={12} md={logInPage ? 24 : 9}>
+    <Grid.Container gap={1} direction={direction ? direction : 'row'}>
+      <Grid xs={size.xs} sm={size.sm} md={logInPage ? 24 : size.md}>
         <Button
           loading={auth.loading}
           width="100%"
           scale={scale ?? 1}
           type="secondary"
-          icon={<Github />}
+          icon={hideIcon ? '' : <Github />}
           onClick={() => auth.signinWithGithub()}
         >
           Continue with Github
@@ -30,14 +33,14 @@ export default function LoginButtons({ direction, scale, logInPage }) {
           </Divider>
         </Grid>
       )}
-      <Grid xs sm md={logInPage ? 24 : 9}>
+      <Grid xs={size.xs} sm={size.sm} md={logInPage ? 24 : size.md}>
         <Button
           loading={auth.loading}
           width="100%"
           type="secondary"
           ghost
           scale={scale ?? 1}
-          icon={<SiGoogle />}
+          icon={hideIcon ? '' : <SiGoogle />}
           onClick={() => auth.signinWithGoogle()}
         >
           Continue with Google
