@@ -15,6 +15,11 @@ export default function FeedbackEditor({
 }) {
   return (
     <>
+      <style>{`
+      .feedback-editor > header, .feedback-editor > .content {
+        padding-left: .7rem;
+      }
+    `}</style>
       <Tabs hideDivider initialValue="1" className="feedback-editor">
         <Tabs.Item label="Edit" value="1">
           <TextareaAutosize
@@ -24,7 +29,7 @@ export default function FeedbackEditor({
               border: 0,
               marginTop: '1rem',
               padding: 0,
-              fontSize:'.9rem'
+              fontSize: '.9rem',
             }}
             minRows={1}
             onChange={onChange}
@@ -55,6 +60,13 @@ export default function FeedbackEditor({
         </Tabs.Item>
         <Tabs.Item label="Preview" value="2">
           <MarkdownRender source={previewSource} />
+          <TextareaAutosize
+            style={{
+              display: 'none',
+            }}
+            defaultValue={defaultValue}
+            ref={inputRef}
+          />
         </Tabs.Item>
       </Tabs>
     </>
