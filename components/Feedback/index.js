@@ -5,12 +5,11 @@ import dynamic from 'next/dynamic';
 import {
   Avatar,
   Button,
-  ButtonDropdown,
   Card,
   Popover,
   Text,
 } from '@geist-ui/core';
-import { Edit2, MoreVertical, Trash } from '@geist-ui/icons';
+import { Edit2, Trash } from '@geist-ui/icons';
 import { format, parseISO } from 'date-fns';
 import TimeAgo from 'javascript-time-ago';
 import en from 'javascript-time-ago/locale/en.json';
@@ -20,6 +19,7 @@ import { createFeedback, deleteFeedback, updateFeedback } from '@/lib/db';
 
 import { styled } from '@/stitches.config';
 
+import DropdownMenu from './DropdownMenu';
 import Reactions from './Reactions';
 import { Flex, VerticalLine } from '../GlobalComponents';
 import LoginButtons from '../LoginButtons';
@@ -61,7 +61,7 @@ export const Feedback = ({
   const [postingReply, setPostingReply] = useState(false);
   const editInputEl = useRef();
   const replyEl = useRef();
-  const isUser = user && user.uid === authorId;
+  const isAuthor = user && user.uid === authorId;
   const ownerBadge = authorId === siteAuthorId;
   const isSiteAdmin = user && user.uid === siteAuthorId;
   const replyId = parentId ? parentId : id;
@@ -110,6 +110,28 @@ export const Feedback = ({
     await updateFeedback(id, newValues);
     await mutate().then(() => setEdit({ ...edit, isEditing: false }));
   };
+
+  const dropdownActions = [
+    {
+      id: 'edit',
+      label: 'Edit',
+      icon: <Edit2 size={15} />,
+      color: 'secondary',
+      onClick: () => setEdit({ ...edit, isEditing: true }),
+    },
+    {
+      id: 'delete',
+      label: 'Delete',
+      icon: <Trash size={20} />,
+      color: 'error',
+      onClick: onDelete,
+    },
+  ];
+
+  if (!isAuthor) {
+    dropdownActions = dropdownActions.filter((action) => action.id !== 'edit');
+  }
+
   return (
     <>
       <Flex css={{ gap: '.5rem', alignItems: 'baseline' }}>
@@ -206,26 +228,8 @@ export const Feedback = ({
                       )}
                     </Flex>
                   </Flex>
-                  {((!isDeleted && isUser) || isSiteAdmin) && (
-                    <ButtonDropdown
-                      scale={1 / 3}
-                      auto
-                      icon={<MoreVertical />}
-                      style={{ height: 'max-content' }}
-                      className="btn-dropdown"
-                    >
-                      {isUser && (
-                        <ButtonDropdown.Item
-                          type="warning"
-                          onClick={() => setEdit({ ...edit, isEditing: true })}
-                        >
-                          <Edit2 size={15} />
-                        </ButtonDropdown.Item>
-                      )}
-                      <ButtonDropdown.Item type="error" onClick={onDelete}>
-                        <Trash size={15} />
-                      </ButtonDropdown.Item>
-                    </ButtonDropdown>
+                  {((!isDeleted && isAuthor) || isSiteAdmin) && (
+                    <DropdownMenu actions={dropdownActions} />
                   )}
                 </Flex>
                 {edit.isEditing ? (
