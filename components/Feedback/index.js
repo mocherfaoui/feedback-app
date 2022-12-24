@@ -22,6 +22,7 @@ import { styled } from '@/stitches.config';
 
 import Reactions from './Reactions';
 import { Flex, VerticalLine } from '../GlobalComponents';
+import LoginButtons from '../LoginButtons';
 import { MarkdownRender } from '../MarkdownRender';
 
 const FeedbackEditor = dynamic(() => import('../FeedbackEditor'), {
@@ -265,25 +266,27 @@ export const Feedback = ({
             </Card>
             {!edit.isEditing && (
               <Flex css={{ gap: '1rem', alignItems: 'center' }}>
-                {user && (
-                  <>
-                    <Reactions
-                      feedbackId={id}
-                      mutateFeedback={mutate}
-                      reactions={{ likes, dislikes }}
-                    />
-                    <VerticalLine />
-                    <Button
-                      padding={0}
-                      type="abort"
-                      auto
-                      scale={2 / 3}
-                      onClick={() => setReplyInput({ id: id })}
-                    >
-                      Reply
-                    </Button>
-                  </>
-                )}
+                <Reactions
+                  feedbackId={id}
+                  mutateFeedback={mutate}
+                  reactions={{ likes, dislikes }}
+                />
+                <VerticalLine />
+                <Button
+                  padding={0}
+                  type="abort"
+                  auto
+                  scale={2 / 3}
+                  onClick={() => {
+                    if (replyInput) {
+                      setReplyInput(null);
+                    } else {
+                      setReplyInput({ id: id });
+                    }
+                  }}
+                >
+                  Reply
+                </Button>
                 {replies?.length > 0 && !parentId && (
                   <Button
                     type="abort"
@@ -305,44 +308,68 @@ export const Feedback = ({
             )}
           </Flex>
           {isReplying && (
-            <Card className="feedback-card">
-              <form onSubmit={onReply}>
-                <FeedbackEditor
-                  onChange={(e) => setMarkdownPreview(e.target.value)}
-                  inputRef={replyEl}
-                  placeholder="your reply goes here..."
-                  defaultValue={markdownPreview}
-                  previewSource={markdownPreview}
-                />
-                <Flex
-                  css={{
-                    flexDirection: 'row-reverse',
-                    gap: '.5rem',
-                    marginBottom: '.7rem',
-                  }}
-                >
-                  <Button
-                    icon={<AiOutlineSend />}
-                    iconRight
-                    auto
-                    htmlType="submit"
-                    type="success"
-                    scale={2 / 3}
-                    loading={postingReply}
+            <>
+              <style>
+                {`
+              .reply-card > div { 
+                padding: .7rem .7rem 0 0 !important;
+              }
+              `}
+              </style>
+              <Card
+                className="reply-card"
+                style={{
+                  borderColor: '#D7DBDF',
+                }}
+              >
+                <form onSubmit={onReply}>
+                  <FeedbackEditor
+                    onChange={(e) => setMarkdownPreview(e.target.value)}
+                    inputRef={replyEl}
+                    placeholder="your reply goes here..."
+                    defaultValue={markdownPreview}
+                    previewSource={markdownPreview}
+                  />
+                  <Flex
+                    css={{
+                      flexDirection: 'row-reverse',
+                      gap: '.5rem',
+                      marginBottom: '.7rem',
+                    }}
                   >
-                    Post
-                  </Button>
-                  <Button
-                    auto
-                    type="abort"
-                    scale={2 / 3}
-                    onClick={() => setReplyInput(null)}
-                  >
-                    Cancel
-                  </Button>
-                </Flex>
-              </form>
-            </Card>
+                    {user ? (
+                      <>
+                        <Button
+                          icon={<AiOutlineSend />}
+                          iconRight
+                          auto
+                          htmlType="submit"
+                          type="success"
+                          scale={2 / 3}
+                          loading={postingReply}
+                        >
+                          Post
+                        </Button>
+                        <Button
+                          auto
+                          type="abort"
+                          scale={2 / 3}
+                          onClick={() => setReplyInput(null)}
+                        >
+                          Cancel
+                        </Button>
+                      </>
+                    ) : (
+                      <LoginButtons
+                        scale={2 / 3}
+                        size={{ xs: 24, sm: 8, md: 8 }}
+                        direction="row-reverse"
+                      />
+                    )}
+                  </Flex>
+                </form>
+              </Card>
+            </>
           )}
           {replies.length > 0 &&
             visibleReplies &&
