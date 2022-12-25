@@ -2,14 +2,8 @@ import { useRef, useState } from 'react';
 import { AiOutlineSend } from 'react-icons/ai';
 import { RiMedalLine } from 'react-icons/ri';
 import dynamic from 'next/dynamic';
-import {
-  Avatar,
-  Button,
-  Card,
-  Popover,
-  Text,
-} from '@geist-ui/core';
-import { Edit2, Trash } from '@geist-ui/icons';
+import { Avatar, Button, Card, Popover, Text } from '@geist-ui/core';
+import { Edit2, Star, Trash } from '@geist-ui/icons';
 import { format, parseISO } from 'date-fns';
 import TimeAgo from 'javascript-time-ago';
 import en from 'javascript-time-ago/locale/en.json';
@@ -143,8 +137,14 @@ export const Feedback = ({
             <Card className="feedback-card" width="100%" mb={0} key={id}>
               <Flex css={{ flexDirection: 'column' }}>
                 <Flex css={{ justifyContent: 'space-between' }}>
-                  <Flex css={{ flexDirection: 'column', gap: '.1rem' }}>
-                    <Flex css={{ display: 'flex', alignItems: 'center' }}>
+                  <Flex css={{ flexDirection: 'column', gap: '.3rem' }}>
+                    <Flex
+                      css={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        flexWrap: 'wrap',
+                      }}
+                    >
                       <Text b font={0.8} span>
                         {author}
                       </Text>
@@ -167,66 +167,67 @@ export const Feedback = ({
                           />
                         </Popover>
                       )}
-                      {!parentId && (
-                        <>
-                          <Text span type="secondary" font={0.5} px={0.4}>
-                            &bull;
-                          </Text>
+                      <>
+                        <Text span type="secondary" font={0.5} px={0.4}>
+                          &bull;
+                        </Text>
+                        <Flex
+                          css={{
+                            fontSize: '.7rem',
+                            alignItems: 'center',
+                            gap: '$1',
+                          }}
+                        >
                           <Text
                             span
-                            style={{
-                              display: 'flex',
-                              gap: '.3rem',
-                              alignItems: 'center',
-                            }}
-                          >
-                            <Text type="secondary" font={0.8} my="auto" span>
-                              {rating !== 0
-                                ? `${rating} ${rating > 1 ? 'stars' : 'star'}`
-                                : 'No rating'}
-                            </Text>
-                          </Text>
-                        </>
-                      )}
-                    </Flex>
-                    <Flex
-                      css={{
-                        fontSize: '$xs',
-                        alignItems: 'center',
-                        gap: '$1',
-                      }}
-                    >
-                      <Text
-                        span
-                        title={
-                          createdAt && format(parseISO(createdAt), 'E, PPP p O')
-                        }
-                        type="secondary"
-                      >
-                        {createdAt &&
-                          timeAgo.format(
-                            parseISO(createdAt),
-                            'twitter-minute-now'
-                          )}
-                      </Text>
-                      {updatedAt && (
-                        <>
-                          <Text type="secondary" span font={0.4}>
-                            &bull;
-                          </Text>
-                          <Text
-                            span
-                            type="secondary"
                             title={
-                              updatedAt &&
-                              format(parseISO(updatedAt), 'E, PPP p O')
+                              createdAt &&
+                              format(parseISO(createdAt), 'E, PPP p O')
                             }
+                            type="secondary"
                           >
-                            updated {timeAgo.format(parseISO(updatedAt))}
+                            {createdAt &&
+                              timeAgo.format(
+                                parseISO(createdAt),
+                                'twitter-minute-now'
+                              )}
                           </Text>
-                        </>
-                      )}
+                          {updatedAt && !parentId && (
+                            <>
+                              <Text type="secondary" span font={0.4}>
+                                &bull;
+                              </Text>
+                              <Text
+                                span
+                                type="secondary"
+                                title={
+                                  updatedAt &&
+                                  format(parseISO(updatedAt), 'E, PPP p O')
+                                }
+                              >
+                                updated
+                              </Text>
+                            </>
+                          )}
+                        </Flex>
+                      </>
                     </Flex>
+                    {!!rating && !parentId && (
+                      <Flex
+                        style={{
+                          gap: '.3rem',
+                          alignItems: 'center',
+                        }}
+                      >
+                        {[...Array(5)].map((_, index) => (
+                          <Star
+                            key={index}
+                            size={16}
+                            fill={index <= rating - 1 ? '#000' : 'none'}
+                          />
+                        ))}
+                      </Flex>
+                    )}
                   </Flex>
                   {((!isDeleted && isAuthor) || isSiteAdmin) && (
                     <DropdownMenu actions={dropdownActions} />
