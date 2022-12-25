@@ -7,29 +7,59 @@ import {
   Snippet,
   Text,
   Tooltip,
+  useTheme,
   useToasts,
 } from '@geist-ui/core';
+import { Code, MoreVertical } from '@geist-ui/icons';
 import Trash from '@geist-ui/icons/trash';
 import { mutate } from 'swr';
 
 import { useAuth } from '@/lib/auth';
 import { deleteFeedback, deleteSiteAndFeedbacks } from '@/lib/db';
 
+import DropdownMenu from '../Feedback/DropdownMenu';
 import { Flex } from '../GlobalComponents';
 
 export function STActionsArea({ siteId, siteName }) {
   const [snippetModal, setSnippetModal] = useState(false);
+  const [deleteModal, setDeleteModal] = useState(false);
+
+  const closeDeleteModal = () => setDeleteModal(false);
   const closeSnippetModal = () => setSnippetModal(false);
+
+  const dropdownActions = [
+    {
+      id: 'view-snippet',
+      label: 'View Snippet',
+      icon: <Code size={15} />,
+      color: 'secondary',
+      onClick: () => setSnippetModal(true),
+    },
+    {
+      id: 'delete',
+      label: 'Delete',
+      icon: <Trash size={20} />,
+      color: 'error',
+      onClick: () => setDeleteModal(true),
+    },
+  ];
+
   return (
-    <Flex css={{ gap: '1rem', alignItems: 'center' }}>
-      <NextLink href="/site/[siteId]" as={`/site/${siteId}`} passHref>
-        <Link target="_blank" color icon underline block>
+    <>
+      <Flex>
+        <Button
+          onClick={() => window.open(`/site/${siteId}`)}
+          style={{ borderTopRightRadius: 0, borderBottomRightRadius: 0 }}
+          type=""
+        >
           View Feedbacks
-        </Link>
-      </NextLink>
-      <Button type="secondary" ghost auto onClick={() => setSnippetModal(true)}>
-        View Snippet
-      </Button>
+        </Button>
+        <DropdownMenu
+          trigger={<Trigger />}
+          actions={dropdownActions}
+          dropdownOffset={4}
+        />
+      </Flex>
       <Modal
         visible={snippetModal}
         onClose={closeSnippetModal}
@@ -72,41 +102,65 @@ export function STActionsArea({ siteId, siteName }) {
           </Text>
         </Modal.Content>
       </Modal>
-      <DeleteButton siteId={siteId} name="site" />
-    </Flex>
-  );
-}
-export function FBActionsArea({ feedbackId, rowIndex }) {
-  return (
-    <>
-      <NextLink
-        href={`/site/${rowIndex.siteId}#${feedbackId}`}
-        as={`/site/${rowIndex.siteId}#${feedbackId}`}
-        passHref
-      >
-        <Link
-          color
-          block
-          mr="1rem"
-          href={`/site/${rowIndex.siteId}`}
-          target="_blank"
-          icon
-        >
-          View Feedback
-        </Link>
-      </NextLink>
-
-      <DeleteButton feedbackId={feedbackId} name="feedback" />
+      <DeleteModal
+        id={siteId}
+        type="site"
+        visible={deleteModal}
+        onClose={closeDeleteModal}
+      />
     </>
   );
 }
-function DeleteButton({ siteId, feedbackId, name }) {
+
+const Trigger = () => (
+  <Button
+    auto
+    icon={<MoreVertical size={15} />}
+    style={{ borderTopLeftRadius: 0, borderBottomLeftRadius: 0 }}
+  />
+);
+
+export function FBActionsArea({ feedbackId, rowIndex }) {
+  const [deleteModal, setDeleteModal] = useState(false);
+
+  const closeDeleteModal = () => setDeleteModal(false);
+
+  return (
+    <>
+      <Flex>
+        <Button
+          onClick={() => window.open(`/site/${rowIndex.siteId}`)}
+          style={{ borderTopRightRadius: 0, borderBottomRightRadius: 0 }}
+          type=""
+        >
+          View Feedback
+        </Button>
+        <Button
+          type="error"
+          icon={<Trash />}
+          auto
+          ghost
+          style={{ borderTopLeftRadius: 0, borderBottomLeftRadius: 0 }}
+          onClick={() => setDeleteModal(true)}
+        />
+      </Flex>
+      <DeleteModal
+        id={feedbackId}
+        type="feedback"
+        visible={deleteModal}
+        onClose={closeDeleteModal}
+      />
+    </>
+  );
+}
+function DeleteModal({ id, type, visible, onClose }) {
   const auth = useAuth();
-  const path = siteId ? 'sites' : feedbackId ? 'feedback' : null;
-  const id = siteId ? siteId : feedbackId ? feedbackId : null;
+  const { palette } = useTheme();
+  const isSite = type === 'site';
+  const path = isSite ? 'sites' : 'feedback';
   const { setToast } = useToasts();
   const onDelete = () => {
-    if (path === 'sites') {
+    if (isSite) {
       deleteSiteAndFeedbacks(id);
     } else {
       deleteFeedback(id);
@@ -114,26 +168,37 @@ function DeleteButton({ siteId, feedbackId, name }) {
     mutate(
       [`/api/${path}`, auth.user.token],
       async (data) => {
-        return siteId
-          ? { sites: data.sites.filter((site) => site.id !== siteId) }
+        return isSite
+          ? { sites: data.sites.filter((site) => site.id !== id) }
           : {
-              feedback: data.feedback.filter(
-                (feedback) => feedback.id !== feedbackId
-              ),
+              feedback: data.feedback.filter((feedback) => feedback.id !== id),
             };
       },
       false
     );
+    onClose();
     setToast({
-      text: `The ${name} was removed successfully!`,
+      text: `The ${type} was removed successfully!`,
       type: 'error',
     });
   };
   return (
-    <>
-      <Tooltip text={`Delete ${name}?`} hideArrow placement="top">
-        <Button auto type="error" icon={<Trash />} onClick={onDelete}></Button>
-      </Tooltip>
-    </>
+    <Modal visible={visible} onClose={onClose}>
+      <Modal.Title>Delete {type}</Modal.Title>
+      <Modal.Content>
+        <Text style={{ textAlign: 'center' }}>
+          Are you sure you want to delete this {type}?
+        </Text>
+      </Modal.Content>
+      <Modal.Action passive onClick={onClose}>
+        Cancel
+      </Modal.Action>
+      <Modal.Action
+        onClick={onDelete}
+        style={{ background: palette.error, color: '#fff' }}
+      >
+        Delete
+      </Modal.Action>
+    </Modal>
   );
 }

@@ -24,7 +24,7 @@ export function SitesDashboard({ sites }) {
     `}</style>
       <Table data={sites}>
         <Table.Column prop="name" label="Name" />
-        <Table.Column prop="url" label="Site Link" />
+        <Table.Column prop="url" label="Link" />
         <Table.Column
           prop="createdAt"
           label="Date Added"
@@ -109,7 +109,7 @@ export function FeedbackDashboard({ feedback }) {
         <Table.Column prop="author" label="author" render={renderAuthor} />
         <Table.Column
           prop="text"
-          label="feedback"
+          label="content"
           render={renderFeedbackText}
         />
         <Table.Column prop="siteURL" label="site name" render={renderURL} />
@@ -122,7 +122,7 @@ export function FeedbackDashboard({ feedback }) {
         <Table.Column
           prop="status"
           render={toggleButton}
-          label="Feedback Status"
+          label="Status"
           className="max-width"
         />
         <Table.Column

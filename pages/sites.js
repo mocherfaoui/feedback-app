@@ -90,6 +90,7 @@ function Sites() {
               />
               <Modal.Content>
                 <Input
+                  width="100%"
                   placeholder="My Site"
                   {...register('name', {
                     required: 'The name field is required',
@@ -101,6 +102,7 @@ function Sites() {
                 </Input>
                 <Spacer />
                 <Input
+                  width="100%"
                   placeholder="www.example.com"
                   {...register('url', {
                     required: 'The link field is required',
