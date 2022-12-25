@@ -103,11 +103,11 @@ export default function EmbeddedPage({ feedbackPage }) {
       ) : (
         <>
           <Card mb={1}>
-            <Card.Content padding={isMobile ? .5 : .7}>
+            <Card.Content padding={isMobile ? 0.5 : 0.8}>
               <Flex
                 css={{ justifyContent: 'space-between', alignItems: 'center' }}
               >
-                <Text span b font={isMobile ? .9 : 1}>
+                <Text span b font={isMobile ? 0.9 : 1}>
                   Feedbacks({rootFeedbacks?.length})
                 </Text>
                 <Grid.Container gap={1} alignItems="center">
@@ -154,68 +154,70 @@ export default function EmbeddedPage({ feedbackPage }) {
             `}</style>
             {feedbackInput && (
               <Card mb={1}>
-                <form onSubmit={addFeedback}>
-                  <FeedbackEditor
-                    onChange={(e) => setMarkdownPreview(e.target.value)}
-                    inputRef={inputEl}
-                    defaultValue={markdownPreview}
-                    placeholder="write something..."
-                    previewSource={markdownPreview}
-                  />
-                  {user ? (
-                    <Flex css={{ alignItems: 'center' }}>
-                      <Grid.Container
-                        direction="row-reverse"
-                        alignItems="center"
-                        justify="flex-start"
-                      >
-                        <Grid xs sm={4.5} justify="flex-end">
-                          <Grid xs={0} sm>
-                            <Button
-                              auto
-                              scale={0.75}
-                              type="abort"
-                              onClick={() => setFeedbackInput(false)}
-                            >
-                              Cancel
-                            </Button>
-                          </Grid>
-                          <Grid xs sm>
-                            <Button
-                              ml={isMobile && 'auto'}
-                              icon={<AiOutlineSend />}
-                              iconRight
-                              auto
-                              scale={0.75}
-                              htmlType="submit"
-                              type="success"
-                              loading={postingFeedback}
-                            >
-                              Post
-                            </Button>
-                          </Grid>
-                        </Grid>
-                        <Grid
-                          ml="auto"
-                          xs={13.5}
-                          sm={5.5}
-                          mr={isMobile && 'auto'}
-                          font="1rem"
+                <Card.Content padding={0} style={{ padding: '.7rem .7rem .7rem .3rem' }}>
+                  <form onSubmit={addFeedback}>
+                    <FeedbackEditor
+                      onChange={(e) => setMarkdownPreview(e.target.value)}
+                      inputRef={inputEl}
+                      defaultValue={markdownPreview}
+                      placeholder="write something..."
+                      previewSource={markdownPreview}
+                    />
+                    {user ? (
+                      <Flex css={{ alignItems: 'center' }}>
+                        <Grid.Container
+                          direction="row-reverse"
+                          alignItems="center"
+                          justify="flex-start"
                         >
-                          <Text span>Rate:</Text>
-                          <Rating
-                            ml={0.5}
-                            value={ratingValue}
-                            onLockedChange={setLocked}
-                            onValueChange={setRatingValue}
-                          />
-                        </Grid>
-                      </Grid.Container>
-                    </Flex>
-                  ) : (
-                    <LoginButtons />
-                  )}
-                </form>
+                          <Grid xs sm={4.5} justify="flex-end">
+                            <Grid xs={0} sm>
+                              <Button
+                                auto
+                                scale={0.75}
+                                type="abort"
+                                onClick={() => setFeedbackInput(false)}
+                              >
+                                Cancel
+                              </Button>
+                            </Grid>
+                            <Grid xs sm>
+                              <Button
+                                ml={isMobile && 'auto'}
+                                icon={<AiOutlineSend />}
+                                iconRight
+                                auto
+                                scale={0.75}
+                                htmlType="submit"
+                                type="success"
+                                loading={postingFeedback}
+                              >
+                                Post
+                              </Button>
+                            </Grid>
+                          </Grid>
+                          <Grid
+                            ml="auto"
+                            xs={13.5}
+                            sm={5.5}
+                            mr={isMobile && 'auto'}
+                            font="1rem"
+                          >
+                            <Text span>Rate:</Text>
+                            <Rating
+                              ml={0.5}
+                              value={ratingValue}
+                              onLockedChange={setLocked}
+                              onValueChange={setRatingValue}
+                            />
+                          </Grid>
+                        </Grid.Container>
+                      </Flex>
+                    ) : (
+                      <LoginButtons />
+                    )}
+                  </form>
+                </Card.Content>
               </Card>
             )}
           </>
