@@ -39,8 +39,14 @@ export default function DropdownMenu({ actions }) {
           auto
           ghost
           type="secondary"
-          style={{ border: 0, borderRadius: '50%' }}
-          padding={.7}
+          style={{
+            border: 0,
+            borderRadius: '50%',
+            position: 'absolute',
+            top: '5px',
+            right: '5px',
+          }}
+          padding={0.6}
         />
       </Popover>
     </>
