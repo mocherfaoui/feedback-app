@@ -3,7 +3,7 @@ import { AiOutlineSend } from 'react-icons/ai';
 import { RiMedalLine } from 'react-icons/ri';
 import dynamic from 'next/dynamic';
 import { Avatar, Button, Card, Popover, Text } from '@geist-ui/core';
-import { Edit2, Star, Trash } from '@geist-ui/icons';
+import { Edit2, MoreHorizontal, Star, Trash } from '@geist-ui/icons';
 import { format, parseISO } from 'date-fns';
 import TimeAgo from 'javascript-time-ago';
 import en from 'javascript-time-ago/locale/en.json';
@@ -129,7 +129,7 @@ export const Feedback = ({
   return (
     <>
       <Flex css={{ gap: '.5rem' }}>
-        <Text span small mt={.3}>
+        <Text span small mt={0.3}>
           <Avatar width="30px" height="30px" src={avatar} />
         </Text>
         <Flex css={{ flexDirection: 'column', gap: '1rem', width: '100%' }}>
@@ -138,7 +138,11 @@ export const Feedback = ({
               <Flex css={{ flexDirection: 'column' }}>
                 {((!isDeleted && isAuthor) || isSiteAdmin) && (
                   <Flex css={{ flexDirection: 'row-reverse' }}>
-                    <DropdownMenu actions={dropdownActions} />
+                    <DropdownMenu
+                      actions={dropdownActions}
+                      trigger={<DropdownTrigger />}
+                      dropdownOffset={30}
+                    />
                   </Flex>
                 )}
                 <Flex css={{ justifyContent: 'space-between' }}>
@@ -396,6 +400,25 @@ export const Feedback = ({
     </>
   );
 };
+
+const DropdownTrigger = () => (
+  <Button
+    icon={<MoreHorizontal />}
+    scale={2 / 3}
+    auto
+    ghost
+    type="secondary"
+    style={{
+      border: 0,
+      borderRadius: '50%',
+      position: 'absolute',
+      top: '5px',
+      right: '5px',
+    }}
+    padding={0.6}
+  />
+);
+
 const FeedbackContent = styled('div', {
   my: '1rem',
   overflowWrap: 'break-word',
