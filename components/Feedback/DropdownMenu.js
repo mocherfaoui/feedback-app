@@ -32,7 +32,7 @@ export default function DropdownMenu({ actions }) {
         hideArrow
         placement="bottomEnd"
         portalClassName="feedback-dropdown"
-        offset={2}
+        offset={30}
       >
         <Button
           icon={<MoreHorizontal />}

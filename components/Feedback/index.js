@@ -128,14 +128,19 @@ export const Feedback = ({
 
   return (
     <>
-      <Flex css={{ gap: '.5rem', alignItems: 'baseline' }}>
-        <Text span small>
+      <Flex css={{ gap: '.5rem' }}>
+        <Text span small mt={.3}>
           <Avatar width="30px" height="30px" src={avatar} />
         </Text>
         <Flex css={{ flexDirection: 'column', gap: '1rem', width: '100%' }}>
           <Flex css={{ flexDirection: 'column' }} id={id}>
             <Card className="feedback-card" width="100%" mb={0} key={id}>
               <Flex css={{ flexDirection: 'column' }}>
+                {((!isDeleted && isAuthor) || isSiteAdmin) && (
+                  <Flex css={{ flexDirection: 'row-reverse' }}>
+                    <DropdownMenu actions={dropdownActions} />
+                  </Flex>
+                )}
                 <Flex css={{ justifyContent: 'space-between' }}>
                   <Flex css={{ flexDirection: 'column', gap: '.3rem' }}>
                     <Flex
@@ -229,9 +234,6 @@ export const Feedback = ({
                       </Flex>
                     )}
                   </Flex>
-                  {((!isDeleted && isAuthor) || isSiteAdmin) && (
-                    <DropdownMenu actions={dropdownActions} />
-                  )}
                 </Flex>
                 {edit.isEditing ? (
                   <form onSubmit={onUpdate}>
