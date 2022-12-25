@@ -103,39 +103,41 @@ export default function EmbeddedPage({ feedbackPage }) {
       ) : (
         <>
           <Card mb={1}>
-            <Flex
-              css={{ justifyContent: 'space-between', alignItems: 'center' }}
-            >
-              <Text span b>
-                Feedbacks({rootFeedbacks?.length})
-              </Text>
-              <Grid.Container gap={1} alignItems="center">
-                <Grid xs sm={4.5} ml="auto">
-                  <Button
-                    ml="auto"
-                    scale={2 / 3}
-                    icon={<Plus />}
-                    iconRight
-                    type="default"
-                    ghost
-                    auto
-                    onClick={() => setFeedbackInput((prev) => !prev)}
-                  >
-                    Add Feedback
-                  </Button>
-                </Grid>
-                {user && !feedbackPage && (
-                  <Grid xs={3.8} sm={2}>
-                    <Avatar
+            <Card.Content padding={isMobile ? .5 : .7}>
+              <Flex
+                css={{ justifyContent: 'space-between', alignItems: 'center' }}
+              >
+                <Text span b font={isMobile ? .9 : 1}>
+                  Feedbacks({rootFeedbacks?.length})
+                </Text>
+                <Grid.Container gap={1} alignItems="center">
+                  <Grid xs sm={4.5} ml="auto">
+                    <Button
                       ml="auto"
-                      style={{ cursor: 'pointer' }}
-                      onClick={() => window.open('/user/settings')}
-                      src={user?.photoURL}
-                    />
+                      scale={2 / 3}
+                      icon={<Plus />}
+                      iconRight
+                      type="default"
+                      ghost
+                      auto
+                      onClick={() => setFeedbackInput((prev) => !prev)}
+                    >
+                      Add Feedback
+                    </Button>
                   </Grid>
-                )}
-              </Grid.Container>
-            </Flex>
+                  {user && !feedbackPage && (
+                    <Grid xs={4} sm={1.5}>
+                      <Avatar
+                        ml="auto"
+                        style={{ cursor: 'pointer' }}
+                        onClick={() => window.open('/user/settings')}
+                        src={user?.photoURL}
+                      />
+                    </Grid>
+                  )}
+                </Grid.Container>
+              </Flex>
+            </Card.Content>
           </Card>
           <>
             <style>{`
@@ -231,6 +233,9 @@ export default function EmbeddedPage({ feedbackPage }) {
                   }
                   .feedback-card > div{
                     padding:.7rem .7rem 0 !important;
+                  }
+                  .feedback-card {
+                    position: relative;
                   }
                 `}</style>
               {site &&
