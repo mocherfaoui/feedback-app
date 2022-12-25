@@ -154,7 +154,10 @@ export default function EmbeddedPage({ feedbackPage }) {
             `}</style>
             {feedbackInput && (
               <Card mb={1}>
-                <Card.Content padding={0} style={{ padding: '.7rem .7rem .7rem .3rem' }}>
+                <Card.Content
+                  padding={0}
+                  style={{ padding: '.7rem .7rem .7rem 0' }}
+                >
                   <form onSubmit={addFeedback}>
                     <FeedbackEditor
                       onChange={(e) => setMarkdownPreview(e.target.value)}
@@ -164,7 +167,7 @@ export default function EmbeddedPage({ feedbackPage }) {
                       previewSource={markdownPreview}
                     />
                     {user ? (
-                      <Flex css={{ alignItems: 'center' }}>
+                      <Flex css={{ alignItems: 'center', pl: '.7rem' }}>
                         <Grid.Container
                           direction="row-reverse"
                           alignItems="center"
@@ -214,7 +217,9 @@ export default function EmbeddedPage({ feedbackPage }) {
                         </Grid.Container>
                       </Flex>
                     ) : (
-                      <LoginButtons />
+                      <div style={{ paddingLeft: '0.7rem' }}>
+                        <LoginButtons />
+                      </div>
                     )}
                   </form>
                 </Card.Content>
