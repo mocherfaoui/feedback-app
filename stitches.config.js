@@ -324,11 +324,6 @@ export const { styled, getCssText, css, keyframes } = createStitches({
   },
 });
 export const globalStyles = globalCss({
-  '#__next': {
-    display: 'flex',
-    flexDirection: 'column',
-    minHeight: '100vh',
-  },
   iframe: {
     border: 0,
   },

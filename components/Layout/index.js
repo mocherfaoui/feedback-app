@@ -11,15 +11,18 @@ export default function Layout({ children, pageTitle }) {
       <Head>
         <title>{pageTitle}</title>
       </Head>
-      <Header />
-      <MainContainer>
+      <Container>
+        <Header />
         <main>{children}</main>
-      </MainContainer>
-      <Footer />
+        <Footer />
+      </Container>
     </>
   );
 }
-const MainContainer = styled('div', {
+const Container = styled('div', {
+  display: 'flex',
+  flexDirection: 'column',
+  minHeight: '100vh',
   main: {
     pt: '60px',
     '@sm': { pt: '80px!important' },
