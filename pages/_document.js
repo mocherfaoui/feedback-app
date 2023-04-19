@@ -30,7 +30,7 @@ class MyDocument extends Document {
             async
             defer
             data-website-id="89efe7c0-8da1-4cc6-a24a-3d80f2a18197"
-            src="https://umami.cherfaoui.dev/umami.js"
+            src="https://umami.cherfaoui.dev/script.js"
           />
         </Head>
         <body>
